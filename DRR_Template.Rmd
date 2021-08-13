@@ -1,17 +1,10 @@
 ---
 params:
-  projectDir: "N:/IMD_DRR_Template"                       # You will have to update this directory to match your project directory before knitting.
+  projectDir: "C:/Users/jbailard/Documents/R/mojn-stlk-drr"   # You will have to update this directory to match your project directory before knitting.
   reportNumber: "REPORT NUMBER"                           # Optional. Only include this if publishing in the semi-official Data Release Report Series. Contact Joe if you are.
   reportRefID: 123456                                     # This should match the Data Store Reference ID for this report.
   packageAbstract: >-
-    Abstract Should go here.
-    Multiple Lines are okay; it'll format correctly.
-    Do not put the abstract in the text section below; this will allow
-    For reuse of the abtract in all associated products.
-    </br> </br> 
-    The Abstract should succinctly describe the study, the assay(s) performed, 
-    the resulting data, and their reuse potential, but should not make any 
-    claims regarding new scientific findings. No references are allowed in this section. 
+    This report summarizes data quality evaluations on discrete data collected for the Mojave Desert Network Inventory and Monitoring Program (MOJN I&M) Streams and Lakes (STLK) monitoring protocol from 2009 to 2019. Data collected includes lake level surveys, water quality measurements, water chemistry samples, and benthic macroinvertebrate assemblages.
   dataPackage1RefID: 2272463                              # Data Store reference ID for data set associated with this report. You must have at least one.
   dataPackage1Title: "Dataset 1 FULL TITLE"               # Should match title in data store.
   dataPackage1Description: "SHORT TITLE FOR DATASET 1"  
@@ -19,20 +12,16 @@ params:
   dataPackage2Title: "Dataset 2 FULL TITLE"               # Should match title in data store.
   dataPackage2Description: "SHORT TITLE FOR DATASET 1"  
       
-title: "REPORT TITLE"
+title: "Mojave Desert Network Streams and Lakes Protocol 2009-2019"
 subtitle: |
   | Data Release Report `r params$reportNumber` 
 author:
   - name: "Author 1"                                      # Add or remove authors as appropriate.
     affiliation: |
-      | NPS Inventory & Monitoring Division 
-      | 1201 Oakridge, Suite 150
-      | Fort Collins, Colorado
-  - name: "Author 2"
-    affiliation: |
-      | Managed Business Solutions (MBS), a Sealaska Company  
-      | Contractor to National Park Service  
-      | Natural Resource Stewardship and Science
+      | Mojave Desert Network
+      | Inventory and Monitoring Program 
+      | 101 Katzenbach Drive
+      | Boulder City, Nevada
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 abstract: "`r params$packageAbstract`"
 editor_options:
@@ -102,7 +91,6 @@ if (length(RRpackages[!inst]) > 0) {
 }
 lapply(RRpackages, library, character.only = TRUE)
 
-# __________________________________
 # Now repeat for packages used in the analyses
 pkgList <- c("devtools",        # tends to be needed/useful
              "RODBC",           # for connection to a database. 
@@ -110,7 +98,11 @@ pkgList <- c("devtools",        # tends to be needed/useful
              "kableExtra",      # added features for table formatting. 
              "english",         # converts numbers into english. Good for all that English stuff.
              "remotes",         # for install_github()
-             "dplyr")           # useful
+             "tidyverse",       # useful
+             "magrittr",
+             "plotly",
+             "svglite",
+             "streamsandlakes")
 
 inst <- pkgList %in% installed.packages()
 if (length(pkgList[!inst]) > 0) {
@@ -130,7 +122,7 @@ pkgBibTex <- lapply(c("base", pkgList, RRpackages), citation)
 
 knitr::opts_chunk$set(
    root.dir = params$projectDir,  # from YAML parameter, knitr instead of setwd()
-   echo = TRUE,
+   echo = FALSE,
    comment = " ",
    dev = "svg",
    fig.path = "figures/",
@@ -146,6 +138,8 @@ setwd(params$projectDir)
 
 # Write YAML parameters to file for consistent reuse across report and data packages
 save(params,file="data/temp/reportParameters.RData")
+
+conn <- OpenDatabaseConnection()
 ```
 
 ```{r LoadData, include=FALSE}
@@ -160,28 +154,53 @@ if (file.exists(file="data/temp/projectMetadata.RData")) {
 
 <hr>
 # Background & Introduction
-The Background & Summary should provide an overview of the study design, the assay(s) performed, and the data generated, including any background information needed to put this study in the context of previous work and the literature, and should reference literature as needed. The section should also briefly outline the broader goals that motivated collection of the data, as well as their potential reuse value. We also encourage authors to include a figure that provides a schematic overview of the study and assay(s) design. 
+## Significance
+Streams and lakes in Great Basin National Park (GRBA) provide habitat for aquatic and terrestrial organisms, contribute to local water supplies, and serve as popular visitor destinations. Aquatic and riparian habitats are important compared to their relatively small land cover because they often host endemic biota and support higher levels of biodiversity. Up to 80% of all vertebrates in the western United States depend on riparian habitats for at least part of their life cycles, and more than half are completely dependent on riparian habitats. Recently, the regionally-endemic Bonneville cutthroat trout has been reintroduced to streams and lakes in the park.
 
-# Methods
-The Methods should include detailed text describing any steps or procedures used in producing the data, including full descriptions of the experimental design, data acquisition assays, and any computational processing (e.g. normalization, image feature extraction). See the detailed section in our submission guidelines for advice on writing a transparent and reproducible methods section. Related methods should be grouped under corresponding subheadings where possible, and methods should be described in enough detail to allow other researchers to interpret and repeat, if required, the full study. Specific data outputs should be explicitly referenced via data citation (see Data Records and Citing Data, below).
+## Threats and Stressors
+Climate change poses the main threat to surface water resources in GRBA. Climate change affects precipitation and snowmelt patterns, which control stream flow regime--the amount and variability in discharge--as well as lake hydrology and physical limnology. Flow regime is the key driver of ecosystem processes in streams. In addition, climate change affects water temperatures and thermal regimes, which are also important determinants of biotic communities and ecosystem processes in streams and lakes.
 
-Authors should cite previous descriptions of the methods under use, but ideally the method descriptions should be complete enough for others to understand and reproduce the methods and processing steps without referring to associated publications. There is no limit to the length of the Methods section.
+Other potential threats include groundwater pumping in valleys adjacent to GRBA, cultural eutrophication, sedimentation, acid rain, input of contaminants, fishing, and the introduction of non-native species. Cultural eutrophication through the atmospheric deposition of anthropogenic nitrogen and phosphorus may lead to changes in food webs and fisheries and can exacerbate hypoxia events in lakes. Acid rain may decrease pH and alter the nutrient status of lakes. Lakes such as those at GRBA with low natural buffering capacity are particularly vulnerable to the effects of acidification. The combined effects of invasive grasses, past fire suppression, and climate change may result in large and catastrophic fires within the park. Large fires, particularly those burning entire watersheds, could be major disturbances for aquatic biota in streams and lakes.
 
-Authors are encouraged to consider creating a figure that outlines the experimental workflow(s) used to generate and analyse the data output(s) (Figure 1).
+## Sample Design
+The Mojave Desert Network Inventory and Monitoring Program (MOJN I&M) monitors nine perennial streams and six subalpine lakes in GRBA as part of the Streams and Lakes protocol (Figure 1).
 
+All nine streams are visited annually in August to collect water quality channel cross sections, water chemistry samples, and benthic macroinvertebrate samples. In addition, five permanent gaging stations on four of the streams are visited biweekly throughout the summer to calibrate sondes that record continuous water quality during the period of high flow. Four of these permanent gaging stations also have pressure transducers that record continuous stage, which is later converted to discharge through a rating curve.
 
-```{r figure1, echo=FALSE, fig.align="center", fig.cap="**Figure 1.** Example general workflow to include in the methods section."}
-include_graphics("figures/ProcessingWorkflow.png")
+The lakes are visited annually in September to collect water quality depth profiles, water chemistry samples, water clarity through Secchi depth measurements, and water surface elevations through digital level surveys. These water surface elevations are tied to continuous lake level recorded by pressure transducers.
 
+``` {r figure1, echo = FALSE, fig.align = "left", fig.cap = "**Figure 1.** Streams and lakes monitoring locations, Great Basin National Park."}
+include_graphics("figures/grba_stlk_map.jpg")
 ```
 
+## Monitoring Questions
+The goal of this protocol is to gather information that will aid in the assessment, conservation, and restoration of these surface water resources. To achieve this goal, MOJN I&M collects data to address the following monitoring questions.
 
+**Streams:**
+1) Are the amount or seasonal patterns of discharge changing over time?
+2) What is the status of and what are the trends in water chemistry?
+3) What is the status of and what are the trends in benthic macroinvertebrate assemblages? 
+
+**Lakes:**
+1) Are water levels or the lake ice-free season changing over time?
+2) What is the status of and what are the trends in water chemistry?
+
+# Methods
 
 ## Data Collection and Sample Processing Methods (optional)
-Include a description of field methods and sample processing 
+Field methods used are described in *Mojave Desert Network Inventory and Monitoring Streams and Lakes Protocol: Standard Operating Procedures and Supplementary Materials Version 1.0* (Natural Resource Report NPS/MOJN/NRR—2012/593.1), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190896. Specific methods include SOP 6: Handheld Water Quality Instruments, SOP 7: Sample Handling, Storage, and Shipping, SOP 9: Stream Discharge, SOP 10: Lakes Field Procedures, SOP 11: Continuous Water Quality Sonde, and SOP 12: Stream Chemistry and BMI Sampling.
+
+Water chemistry samples were analyzed by the Oregon State University Cooperative Chemical Analytical Laboratory (CCAL). Their laboratory methods can be found here: http://ccal.oregonstate.edu/sops, and their QA/QC measures can be found here: http://ccal.oregonstate.edu/qaqc.
+
+Benthic macroinvertebrate samples were analyzed by the Utah State University BugLab. Their laboratory methods can be found here: https://www.usu.edu/buglab/SampleProcessing/LaboratoryProcedures/, and their QA/QC measures can be found here: https://www.usu.edu/buglab/SampleProcessing/QualityStandards/.
+
+Summaries of these laboratory methods are also described in *Mojave Desert Network Inventory and Monitoring Streams and Lakes Protocol: Standard Operating Procedures and Supplementary Materials Version 1.0* (Natural Resource Report NPS/MOJN/NRR—2012/593.1), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190896. Specific methods include SOP 13: Laboratory Analysis of BMI and SOP 14: Laboratory Analysis of Water Chemistry.
 
 ## Additional Data Sources (optional)
 Provide descriptions (with citations) of other data sources used.
+
+- USGS Lehman flow
+- NWS Wheeler precip
 
 ## Data Processing (required if done)
 Summarize process and results of any QC processes done that manipulate, change, or qualify data.
@@ -218,56 +237,290 @@ Two datasets were generated as a part of this effort (Table 2):
 
 See Appendix for additional notes and examples.
 
-# Data Quality Evaluation (required)
-The Data Quality Evaluation section should present any analyses that are needed
-to support the technical quality of the dataset. This section may be supported
-by figures and tables, as needed. *This is a required section*; authors must
-provide information to justify the reliability of their data. Wherever possible
-& appropriate, data quality evaluation should be presented in the context of
-data standards and quality control procedures as prescribed in the project’s
-quality assurance planning documentation.
+# Data Quality Evaluation
 
-**Required elements for this section**
+The data within the data records listed above have been reviewed by staff in the NPS Inventory and Monitoring Division to ensure accuracy, completeness, and consistency with documented data quality standards, as well as for usability and reproducibility. The *`r params$dataPackage2Title `* is suitable for its intended use as of the date of processing (`r Sys.Date()`). For additional information on data quality standards for this protocol, refer to *Mojave Desert Network Inventory and Monitoring Streams and Lakes Protocol: Standard Operating Procedures and Supplementary Materials Version 1.0* (Natural Resource Report NPS/MOJN/NRR—2012/593.1), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190896. Specific methods include SOP 15: Quality Assurance Project Plan (QAPP) and SOP 16: Cumulative Measurement Bias.
 
-*Stock Text to include:*
+## Sites not visited {.tabset}
+This is a list of sites that were not visited for annual monitoring during a field season. Stream sampling moved from GRBA_S_BAKR2 (South Fork) to GRBA_S_BAKR3 (Main Stem) in 2011. Brown Lake and Dead Lake were not monitored during the pilot field season in 2009. Dead Lake and Johnson Lake were not monitored in 2013 due to the lapse in federal appropriations.
+``` {r no.visits}
+no.visits <- qcNoAnnualVisit(conn)
 
-The data within the data records listed above have been reviewed by staff in the NPS Inventory and Monitoring Division to ensure accuracy, completeness, and consistency with documented data quality standards, as well as for usability and reproducibility. The *`r params$dataPackage2Title `* is suitable for its intended use as of the date of processing (`r Sys.Date()`).
+no.visits %>%
+  dplyr::select(-c(VisitDate, Park, SiteShort)) %>%
+  DT::datatable()
+```
 
-*Required Table*
+## Lake level and benchmark elevations {.tabset}
+### Benchmark elevations
+These are the mean values and standard deviations of final corrected elevations for each benchmark across all field seasons. Digital level readings began in 2018.
+``` {r benchmark.elevations}
+benchmark.elevations <- SurveyPointElevation(conn)
 
-Summary of any data qualification codes used, their definitions, and the fields to which they apply.
+benchmark.elevations$ClosureError_ft <- round(benchmark.elevations$ClosureError_ft, 4)
+benchmark.elevations$FinalCorrectedElevation_ft <- round(benchmark.elevations$FinalCorrectedElevation_ft, 4)
+
+benchmark.elevations %>%
+  dplyr::select(-c(Park, SiteShort, DPL, VisitType)) %>%
+  DT::datatable(filter = "top")
+```
+
+### String survey heights
+These are the mean values and standard deviations of string survey heights for each benchmark for each field season. The height of the benchmark above the water surface was typically measured seven times during the string survey. String surveys ended in 2018 and were replaced by digit level readings during that same field season, which have higher accuracy and precision.
+``` {r string.heights}
+string.heights <- qcStringSurveyHeights(conn)
+
+string.heights$MeanHeight_ft <- round(string.heights$MeanHeight_ft, 4)
+string.heights$StDevHeight_ft <- round(string.heights$StDevHeight_ft, 4)
+
+string.heights %>%
+  dplyr::select(-c(Park, SiteShort, VisitType)) %>%
+  dplyr::ungroup() %>%
+  DT::datatable(filter = "top")
+```
+
+### String survey elevations
+These are the mean values and standard deviations of string survey lake level elevations for each field season. The reference mark designated Benchmark 1 was typically used to calculate the final lake level at each lake. String surveys ended in 2018 and were replaced by digit level readings during that same field season, which have higher accuracy and precision.
+``` {r string.elevations}
+string.elevations <- qcStringSurveyElevations(conn)
+
+string.elevations$MeanFinalElevation_ft <- round(string.elevations$MeanFinalElevation_ft, 4)
+string.elevations$StDevFinalElevation_ft <- round(string.elevations$StDevFinalElevation_ft, 4)
+
+string.elevations %>%
+  dplyr::select(-c(Park, SiteShort, VisitType)) %>%
+  DT::datatable(filter = "top")
+```
+
+### Benchmark plots
+This is a plot of the final corrected elevations for each benchmark for each field season. Consistent upward or downward trends in the elevation of a benchmark may indicate that the benchmark is unstable. An abrupt change in the elevation of a benchmark may indicate disturbance at the location of the benchmark. Only digital level readings are included, which began in 2018.
+``` {r benchmark.plots}
+benchmark.plots <- PlotBenchmarkElevation(conn)
+
+benchmark.plots
+```
 
 
-Possible content **strongly Suggested to Include**
+## Lake water clarity (Secchi depth) {.tabset}
+### Depths exceed lake
+This is a list of records where Secchi depth measurements are greater than the lake depth entered during the visit.
+``` {r depths.exceed.lake}
+depths.exceed.lake <- qcSecchiGTDepth(conn)
 
--   Occurrence rates or patterns in data that do not meet established standards
-    or data quality objectives.
+depths.exceed.lake %>%
+  dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
+  DT::datatable(filter = "top")
+```
 
-Possible content **may include:**
+There are `r nrow(depths.exceed.lake)` records with this inconsistency.
 
--   experiments that support or validate the data-collection procedure(s) (e.g.
-    negative controls, or an analysis of standards to confirm measurement
-    linearity)
+### Lake dry, depths exist
+This is a list of records where the lake **is** dry and clarity data or Secchi depth measurements exist.
+``` {r lake.dry.depths.exist}
+lake.dry.depths.exist <- qcLakeDryMeasurementsExist(conn)
 
--   statistical analyses of experimental error and variation
+lake.dry.depths.exist %>%
+  dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(lake.dry.depths.exist)` records with this inconsistency.
 
--   general discussions of any procedures used to ensure reliable and unbiased
-    data production, such as chain of custody procedures, blinding and
-    randomization, sample tracking systems, etc.
+### Lake not dry, no clarity
+This is a list of records where the lake **is not** dry and calmness, on bottom, or depth to bottom data **do not** exist.
+``` {r lake.not.dry.no.clarity}
+lake.not.dry.no.clarity <- qcLakeNotDryMeasurementsMissing(conn)
 
--   any other information needed for assessment of technical rigor by
-    reviewers/users
+lake.not.dry.no.clarity %>%
+  dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(lake.not.dry.no.clarity)` records with missing data.
 
-Generally, this **should not include:**
+### Lake not dry, no depths
+This is a list of records where the Secchi disk **is not** visible on the bottom of the lake and Secchi depth measurements **do not** exist.
+``` {r lake.not.dry.no.depths}
+lake.not.dry.no.depths <- qcSecchiDepthMissing(conn)
 
--   follow-up experiments aimed at testing or supporting an interpretation of
-    the data
+lake.not.dry.no.depths %>%
+  dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
+  DT::datatable(filter = "top")
+```
+ There are `r nrow(lake.not.dry.no.depths)` records with missing data.
 
--   statistical hypothesis testing (e.g. tests of statistical significance,
-    identifying differentially expressed genes, trend analysis, etc.)
+## Discrete water quality {.tabset}
+### Stream sanity check
+These are stream water quality values that fall above or below the ranges that we typically see in subalpine lake and stream systems. These data are not necessarily incorrect, but they are outliers that should be evaluated using data quality flags and field notes. Wildly impossible values may be the result of instrument malfunction, improper callibration, or typos during data entry. The following records are included in the list below: temperature values greater than 20 C, pH values greater than 10 and less than 6, specific conductance values greater than 1000 uS/cm, dissolved oxygen percent values greater than 110%, and dissolved oxygen concentration values greater than 12 mg/L.
+``` {r wq.stream.sanity}
+wq.stream.sanity <- qcStreamWqSanity(conn)
 
--   exploratory computational analyses like clustering and annotation enrichment
-    (e.g. GO analysis).
+wq.stream.sanity %>%
+  dplyr::select(-c(Park, SiteType, VisitType)) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(wq.stream.sanity)` measurements outside of expected ranges.
+
+### Lake sanity check
+These are lake water quality values that fall above or below the ranges that we typically see in subalpine lake and stream systems. These data are not necessarily incorrect, but they are outliers that should be evaluated using data quality flags and field notes. Wildly impossible values may be the result of instrument malfunction, improper callibration, or typos during data entry. The following records are included in the list below: temperature values greater than 20 C, pH values greater than 10 and less than 6, specific conductance values greater than 1000 uS/cm, dissolved oxygen percent values greater than 110%, and dissolved oxygen concentration values greater than 12 mg/L.
+``` {r wq.lake.sanity}
+wq.lake.sanity <- qcLakeWqSanity(conn)
+
+wq.lake.sanity %>%
+  dplyr::select(-c(Park, SiteType, VisitType)) %>%
+  dplyr::relocate(MeasurementDepth_m, .after = VisitDate) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(wq.lake.sanity)` measurements outside of expected ranges.
+
+### Stream data quality flags
+These are stream water quality values that have data quality flags. I = Information: These data do not have any suspected problems, but there may be information regarding the equipment or conditions in which they were collected that could inform their interpretation. W = Warning: These data are suspected to have problems and should only be used after careful assessment of instrument and environmental factors. C = Critical: These data are suspected to have serious problems and are likely unusable.
+``` {r wq.stream.flags}
+wq.stream.flags <- qcStreamWqFlags(conn)
+
+wq.stream.flags %>%
+  dplyr::select(-c(Park, SiteType, VisitType)) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(wq.stream.flags)` flagged measurements.
+
+### Lake data quality flags
+These are lake water quality values that have data quality flags. I = Information: These data do not have any suspected problems, but there may be information regarding the equipment or conditions in which they were collected that could inform their interpretation. W = Warning: These data are suspected to have problems and should only be used after careful assessment of instrument and environmental factors. C = Critical: These data are suspected to have serious problems and are likely unusable.
+``` {r wq.lake.flags}
+wq.lake.flags <- qcLakeWqFlags(conn)
+
+wq.lake.flags %>%
+  dplyr::select(-c(Park, SiteType, VisitType)) %>%
+  dplyr::relocate(MeasurementDepth_m, .after = VisitDate) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(wq.lake.flags)` flagged measurements.
+
+## Water chemistry {.tabset}
+### Data quality flags
+These are water chemistry values that have data quality flags. I = Information: These data do not have any suspected problems, but there may be information regarding the equipment or conditions in which they were collected that could inform their interpretation. W = Warning: These data are suspected to have problems and should only be used after careful assessment of instrument and environmental factors. C = Critical: These data are suspected to have serious problems and are likely unusable.
+``` {r chem.flags}
+chem.flags <- qcChemFlags(conn)
+
+chem.flags %>%
+  dplyr::select(-c(SampleFrame)) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(chem.flags)` flagged analytes.
+
+### Lab duplicates
+Laboratory duplicates and triplicates are re-analyses of an analyte from the same sample. These duplicates and triplicates can be used to confirm or replace a suspicious initial result. This is a list of the relative percent difference (RPD) values for laboratory duplicates and triplicates. Results that exceed the 30% method quality objective (MQO) threshold are flagged.
+``` {r lab.dupes}
+lab.dupes <- qcChemLabDupes(conn)
+
+lab.dupes %>%
+  dplyr::select(-c(SampleFrame)) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(lab.dupes %>% filter(RPD > 30))` duplicates with RPD values above the 30% MQO threshold.
+
+### Field duplicates
+Field duplicates are additional samples collected from the same location at approximately the same time and using the same methods as the primary sample. These duplicates can help to detect inconsistency in collection methods or variability in water chemistry at a location. This is a list of the relative percent difference (RPD) values for field duplicates and triplicates. Results that exceed the 30% method quality objective (MQO) threshold are flagged.
+``` {r field.dupes}
+field.dupes <- qcChemFieldDupes(conn)
+
+field.dupes %>%
+  dplyr::select(-c(SampleFrame)) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(field.dupes %>% filter(RPD > 30))` duplicates with RPD values above the 30% MQO threshold.
+
+### Field blanks
+Field blanks are bottles filled with distilled water as opposed to water sampled at the location. They are handled the same way as primary samples in the field and can help to detect and identify sources of contamination during sampling. This is a list of analyte concentrations that exceed the method detection limit (MDL) for that analyte.
+``` {r field.blanks}
+field.blanks <- qcChemFieldBlanks(conn)
+
+field.blanks %>%
+  dplyr::select(-c(SampleFrame)) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(field.blanks)` analytes from blanks with concentrations greater than the MDL for that analyte.
+
+### Dissolved nitrogen
+These are the records where the concentration of total dissolved nitrogen (TDN) exceeds total nitrogen (UTN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample.
+``` {r chem.TDN}
+chem.TDN <- qcChemTDN(conn)
+
+chem.TDN %>%
+  dplyr::select(-c(SampleFrame)) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(chem.TDN %>% filter(TDNvUTN >= 0.02))` records where the concentration of dissolved nitrogen is greater than the total nitrogen concentration and the difference is outside the normal limits of variability.
+
+### Nitrate and nitrite
+These are the records where the concentration of nitrate (NO3) and nitrite (NO2) exceeds either total nitrogen (UTN) or total dissolved nitrogen (TDN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen or dissolved nitrogen is in the form of nitrate and nitrite, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample.
+``` {r chem.NO3NO2}
+chem.NO3NO2 <- qcChemNO3NO2(conn)
+
+chem.NO3NO2 %>%
+  dplyr::select(-c(SampleFrame)) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(chem.NO3NO2)` records where the concentration of nitrate and nitrate is greater than the concentration of either total nitrogen or total dissolved nitrogen.
+
+### Dissolved phosphorus
+These are the records where the concentration of total dissolved phosphorus exceeds total phosphorus. If the discrepancy falls within precision limits, this indicates that nearly all of the phosphorus is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample.
+``` {r chem.TDP}
+chem.TDP <- qcChemTDP(conn)
+
+chem.TDP %>%
+  dplyr::select(-c(SampleFrame)) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(chem.TDP %>% filter(TDPvUTP >= 0.003))` records where the concentration of dissolved phosphorus is greater than the total phosphorus concentration and the difference is outside the normal limits of variability.
+
+### MDL
+Minimum detection level (MDL) is defined by the EPA as the "minimum concentration of a substance that can be measured and reported with 99% confidence that the analyte concentration is greater than zero." Below this concentration, presence of the analyte cannot be confirmed. These are the records where the concentration of a certain analyte was less than or equal to the MDL for that analyte.
+``` {r chem.MDL}
+lookup <- getMDLLookup()
+chem.MDL <- qcChemMDL(conn)
+
+chem.MDL %>%
+  dplyr::select(-c(SampleFrame)) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(chem.MDL)` analytes with concentrations less than or equal to the MDL.
+
+### ML
+Minimum level of quantification (ML) is defined as the "concentration at which the analytical system gives a recognizable signal and acceptable calibration point for the analyte." Below this concentration, the analyte may be detected (if greater than the MDL) but not measured at a known level of confidence. These are the records where the concentration of a certain analyte was less than or equal to the ML for that analyte.
+``` {r chem.ML}
+lookup <- getMDLLookup()
+chem.ML <- qcChemML(conn)
+
+chem.ML %>%
+  dplyr::select(-c(SampleFrame)) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(chem.ML)` analytes with concentrations less than or equal to the ML.
+
+## Benthic macroinvertebrates {.tabset}
+### Discrepancies
+These are records with discrepancies between taxa group count (number of taxa within a functional group) and taxa group abundance (abundance of individuals within those taxa). Discrepancies include situations where the taxa count is non-zero but abundance is zero and where abundance is non-zero and taxa count is zero. These situations may arise from the standardization of richness-based (taxa group count) metrics to Operational Taxonomic Units (OTUs), while density-based (taxa group abundance) metrics are based on the raw taxa list.
+``` {r bmi.discrepancies}
+bmi.discrepancies <- qcBMIDiscrepancies(conn)
+
+bmi.discrepancies %>%
+  dplyr::select(-c(Park, SiteShort, VisitType)) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  DT::datatable(filter = "top")
+```
+There are `r nrow(bmi.discrepancies)` metrics with discrepancies between taxa group count and taxa group abundance.
 
 # Usage Notes (required)
 The Usage Notes should contain brief instructions to assist other researchers
@@ -282,11 +535,8 @@ this section should describe in detail these controls, including how authors can
 apply to access the data, what criteria will be used to determine who may access
 the data, and any limitations on data use.
 
-# Acknowledgements (optional)
-The Acknowledgements should contain text acknowledging non-author contributors.
-Acknowledgements should be brief, and should not include thanks to anonymous
-referees and editors or effusive comments. Grant or contribution numbers may be
-acknowledged.
+# Acknowledgements
+The authors would like to acknowledge Geoff Moret and Chris Caudill, who designed and wrote the Streams and Lakes protocol and set in motion over a decade of surface water resource monitoring in GRBA.
 
 # References (required)
 Bibliographic information for any works cited in the above sections, using the
