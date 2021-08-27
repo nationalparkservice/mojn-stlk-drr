@@ -4,7 +4,7 @@ params:
   reportNumber: "REPORT NUMBER"                           # Optional. Only include this if publishing in the semi-official Data Release Report Series. Contact Joe if you are.
   reportRefID: 123456                                     # This should match the Data Store Reference ID for this report.
   packageAbstract: >-
-    This report summarizes data quality evaluations on discrete data collected for the Mojave Desert Network Inventory and Monitoring Program (MOJN I&M) Streams and Lakes (STLK) monitoring protocol from 2009 to 2019. Data collected includes lake level surveys, water quality measurements, water chemistry samples, and benthic macroinvertebrate assemblages.
+    This report summarizes data quality evaluations of discrete data collected for the Mojave Desert Network Inventory and Monitoring Program (MOJN I&M) Streams and Lakes (STLK) monitoring protocol from 2009 to 2020. This protocol is designed to monitor the ecosystem health of nine streams and six subalpine lakes in Great Basin National Park (GRBA) and to identify and assess the effects of stressors such as climate change, groundwater withdrawal, and atmospheric nutrient deposition. Data collected include lake level surveys, water quality measurements, water chemistry samples, and benthic macroinvertebrate assemblages.
   dataPackage1RefID: 2272463                              # Data Store reference ID for data set associated with this report. You must have at least one.
   dataPackage1Title: "Dataset 1 FULL TITLE"               # Should match title in data store.
   dataPackage1Description: "SHORT TITLE FOR DATASET 1"  
@@ -12,11 +12,17 @@ params:
   dataPackage2Title: "Dataset 2 FULL TITLE"               # Should match title in data store.
   dataPackage2Description: "SHORT TITLE FOR DATASET 1"  
       
-title: "Mojave Desert Network Streams and Lakes Protocol 2009-2019"
+title: "Mojave Desert Network Streams and Lakes Protocol 2009-2020"
 subtitle: |
   | Data Release Report `r params$reportNumber` 
 author:
-  - name: "Author 1"                                      # Add or remove authors as appropriate.
+  - name: "Jennifer Bailard"                                      # Add or remove authors as appropriate.
+    affiliation: |
+      | Mojave Desert Network
+      | Inventory and Monitoring Program 
+      | 101 Katzenbach Drive
+      | Boulder City, Nevada
+  - name: "Mark Lehman"                                      # Add or remove authors as appropriate.
     affiliation: |
       | Mojave Desert Network
       | Inventory and Monitoring Program 
@@ -102,6 +108,7 @@ pkgList <- c("devtools",        # tends to be needed/useful
              "magrittr",
              "plotly",
              "svglite",
+             "scales",
              "streamsandlakes")
 
 inst <- pkgList %in% installed.packages()
@@ -174,7 +181,7 @@ include_graphics("figures/grba_stlk_map.jpg")
 ```
 
 ## Monitoring Questions
-The goal of this protocol is to gather information that will aid in the assessment, conservation, and restoration of these surface water resources. To achieve this goal, MOJN I&M collects data to address the following monitoring questions.
+The goal of this protocol is to gather information that will aid in the assessment, conservation, and restoration of these surface water resources. To achieve this goal, MOJN I&M collects data to address the following monitoring questions:
 
 **Streams:**
 1) Are the amount or seasonal patterns of discharge changing over time?
@@ -187,28 +194,27 @@ The goal of this protocol is to gather information that will aid in the assessme
 
 # Methods
 
-## Data Collection and Sample Processing Methods (optional)
+## Data Collection and Sample Processing Methods
 Field methods used are described in *Mojave Desert Network Inventory and Monitoring Streams and Lakes Protocol: Standard Operating Procedures and Supplementary Materials Version 1.0* (Natural Resource Report NPS/MOJN/NRR—2012/593.1), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190896. Specific methods include SOP 6: Handheld Water Quality Instruments, SOP 7: Sample Handling, Storage, and Shipping, SOP 9: Stream Discharge, SOP 10: Lakes Field Procedures, SOP 11: Continuous Water Quality Sonde, and SOP 12: Stream Chemistry and BMI Sampling.
 
 Water chemistry samples were analyzed by the Oregon State University Cooperative Chemical Analytical Laboratory (CCAL). Their laboratory methods can be found here: http://ccal.oregonstate.edu/sops, and their QA/QC measures can be found here: http://ccal.oregonstate.edu/qaqc.
 
-Benthic macroinvertebrate samples were analyzed by the Utah State University BugLab. Their laboratory methods can be found here: https://www.usu.edu/buglab/SampleProcessing/LaboratoryProcedures/, and their QA/QC measures can be found here: https://www.usu.edu/buglab/SampleProcessing/QualityStandards/.
+Benthic macroinvertebrate samples were analyzed by the Utah State University BugLab. Their laboratory methods can be found here: https://www.usu.edu/buglab/SampleProcessing/LaboratoryProcedures/, and their QA/QC measures can be found here: https://www.usu.edu/buglab/SampleProcessing/QualityStandards/. These samples are stored by the BugLab at their facility in Logan, UT.
 
 Summaries of these laboratory methods are also described in *Mojave Desert Network Inventory and Monitoring Streams and Lakes Protocol: Standard Operating Procedures and Supplementary Materials Version 1.0* (Natural Resource Report NPS/MOJN/NRR—2012/593.1), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190896. Specific methods include SOP 13: Laboratory Analysis of BMI and SOP 14: Laboratory Analysis of Water Chemistry.
 
-## Additional Data Sources (optional)
+## Additional Data Sources
 Provide descriptions (with citations) of other data sources used.
 
-- USGS Lehman flow
-- NWS Wheeler precip
+**Not applicable to this release.**
 
-## Data Processing (required if done)
+## Data Processing
 Summarize process and results of any QC processes done that manipulate, change, or qualify data.
 
-## Code Availability (required)
+## Code Availability
 For all studies using custom code in the generation or processing of datasets, a statement must be included in the Methods section, under the subheading "Code availability", indicating whether and how the code can be accessed, including any restrictions to access. This section should also include information on the versions of any software used, if relevant, and any specific variables or parameters used to generate, test, or process the current dataset. Actual analytical code should be provided in Appendices.
 
-# Data Records (required)
+# Data Records
 The Data Records section should be used to explain each data record associated
 with this work, including the repository where this information is stored, and
 to provide an overview of the data files and their formats. Each external data
@@ -241,8 +247,19 @@ See Appendix for additional notes and examples.
 
 The data within the data records listed above have been reviewed by staff in the NPS Inventory and Monitoring Division to ensure accuracy, completeness, and consistency with documented data quality standards, as well as for usability and reproducibility. The *`r params$dataPackage2Title `* is suitable for its intended use as of the date of processing (`r Sys.Date()`). For additional information on data quality standards for this protocol, refer to *Mojave Desert Network Inventory and Monitoring Streams and Lakes Protocol: Standard Operating Procedures and Supplementary Materials Version 1.0* (Natural Resource Report NPS/MOJN/NRR—2012/593.1), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190896. Specific methods include SOP 15: Quality Assurance Project Plan (QAPP) and SOP 16: Cumulative Measurement Bias.
 
+## Advice and Caveats
+- In 2009, Brown Lake and Dead Lake were not monitored as part of the pilot field season. 
+- In 2009, no comparable lake level data were collected due to different reference marks used during the pilot field season. 
+- In 2009, no channel characteristics or water quality cross-section data were collected at the streams as part of the pilot field season. 
+- In 2009 and 2010, Baker Creek was monitored on the south fork (BAKR2). From 2011 onward, Baker Creek was monitored on the main stem (BAKR3). 
+- In 2013, Johnson Lake and Dead Lake were not monitored due to the lapse in federal appropriations. 
+- In 2015, no data were collected at Dead Lake because the lake was entirely dry.
+- In 2016, no water chemistry data are available for Baker Creek because the wrong location was sampled accidentally.
+- In 2017, no water quality data were collected at Baker Lake due to leaking waders. 
+- In 2018, the method for determining benchmark and lake level elevations transitioned from string surveys to digit level surveys.
+
 ## Sites not visited {.tabset}
-This is a list of sites that were not visited for annual monitoring during a field season. Stream sampling moved from GRBA_S_BAKR2 (South Fork) to GRBA_S_BAKR3 (Main Stem) in 2011. Brown Lake and Dead Lake were not monitored during the pilot field season in 2009. Dead Lake and Johnson Lake were not monitored in 2013 due to the lapse in federal appropriations.
+This is a list of sites that were not visited for annual monitoring during a field season. Stream sampling moved from Baker Creek South Fork (GRBA_S_BAKR2) to Baker Creek Main Stem (GRBA_S_BAKR3) in 2011. Brown Lake and Dead Lake were not monitored during the pilot field season in 2009. Dead Lake and Johnson Lake were not monitored in 2013 due to the lapse in federal appropriations. While Dead Lake was monitored in 2015, no data were collected because the lake was entirely dry.
 ``` {r no.visits}
 no.visits <- qcNoAnnualVisit(conn)
 
@@ -250,6 +267,17 @@ no.visits %>%
   dplyr::select(-c(VisitDate, Park, SiteShort)) %>%
   DT::datatable()
 ```
+
+## Data processing levels {.tabset}
+This is a list of site visits that have any data categorized as "Raw" or "Provisional." These data need to be reviewed and moved to "Accepted" status before publication of the dataset.
+``` {r dpl.check, echo = FALSE, message = FALSE}
+dpl.check <- qcDPLCheck(conn)
+
+dpl.check %>%
+  DT::datatable()
+```
+`r if(nrow(dpl.check) == 0){"All records have been accepted."}`
+`r if(nrow(dpl.check) > 0){"The above records need to be reviewed and accepted before publication."}`
 
 ## Lake level and benchmark elevations {.tabset}
 ### Benchmark elevations
@@ -266,7 +294,7 @@ benchmark.elevations %>%
 ```
 
 ### String survey heights
-These are the mean values and standard deviations of string survey heights for each benchmark for each field season. The height of the benchmark above the water surface was typically measured seven times during the string survey. String surveys ended in 2018 and were replaced by digit level readings during that same field season, which have higher accuracy and precision.
+These are the mean values and standard deviations of string survey heights for each benchmark for each field season. The height of the benchmark above the water surface was typically measured seven times during the string survey. String surveys ended in 2018 and were replaced by digit level readings during that same field season, which have higher accuracy and precision. No comparable lake level data were collected in 2009 due to different reference marks used during the pilot field season.
 ``` {r string.heights}
 string.heights <- qcStringSurveyHeights(conn)
 
@@ -300,7 +328,6 @@ benchmark.plots <- PlotBenchmarkElevation(conn)
 benchmark.plots
 ```
 
-
 ## Lake water clarity (Secchi depth) {.tabset}
 ### Depths exceed lake
 This is a list of records where Secchi depth measurements are greater than the lake depth entered during the visit.
@@ -311,7 +338,6 @@ depths.exceed.lake %>%
   dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
   DT::datatable(filter = "top")
 ```
-
 There are `r nrow(depths.exceed.lake)` records with this inconsistency.
 
 ### Lake dry, depths exist
@@ -354,7 +380,7 @@ These are stream water quality values that fall above or below the ranges that w
 wq.stream.sanity <- qcStreamWqSanity(conn)
 
 wq.stream.sanity %>%
-  dplyr::select(-c(Park, SiteType, VisitType)) %>%
+  dplyr::select(-c(Park, SampleFrame, VisitType)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate) %>%
   DT::datatable(filter = "top")
 ```
@@ -366,7 +392,7 @@ These are lake water quality values that fall above or below the ranges that we 
 wq.lake.sanity <- qcLakeWqSanity(conn)
 
 wq.lake.sanity %>%
-  dplyr::select(-c(Park, SiteType, VisitType)) %>%
+  dplyr::select(-c(Park, SampleFrame, VisitType)) %>%
   dplyr::relocate(MeasurementDepth_m, .after = VisitDate) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate) %>%
   DT::datatable(filter = "top")
@@ -379,7 +405,7 @@ These are stream water quality values that have data quality flags. I = Informat
 wq.stream.flags <- qcStreamWqFlags(conn)
 
 wq.stream.flags %>%
-  dplyr::select(-c(Park, SiteType, VisitType)) %>%
+  dplyr::select(-c(Park, SampleFrame, VisitType)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate) %>%
   DT::datatable(filter = "top")
 ```
@@ -391,7 +417,7 @@ These are lake water quality values that have data quality flags. I = Informatio
 wq.lake.flags <- qcLakeWqFlags(conn)
 
 wq.lake.flags %>%
-  dplyr::select(-c(Park, SiteType, VisitType)) %>%
+  dplyr::select(-c(Park, SampleFrame, VisitType)) %>%
   dplyr::relocate(MeasurementDepth_m, .after = VisitDate) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate) %>%
   DT::datatable(filter = "top")
@@ -509,9 +535,61 @@ chem.ML %>%
 ```
 There are `r nrow(chem.ML)` analytes with concentrations less than or equal to the ML.
 
+### Stream nutrients plot
+This is a plot of nutrient concentrations for each stream for each field season. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Dissolved organic carbon (DOC) is analyzed occasionally as funding allows.
+``` {r chem.stream.nutrient.plot, warning = FALSE}
+chem.stream.nutrient.plot <- ChemStreamNutrientPlot(conn)
+
+chem.stream.nutrient.plot
+```
+
+### Stream nutrients bar plot
+This is a bar plot of nutrient concentrations for each stream for each field season. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Total and dissolved concentrations are plotted on the same graph to show the relative contributions from each form.
+``` {r chem.stream.nutrient.bar.plot, warning = FALSE}
+chem.stream.nutrient.bar.plot <- ChemStreamNutrientBarPlot(conn)
+
+chem.stream.nutrient.bar.plot
+```
+
+### Stream ions plot
+This is a plot of ion concentrations for each stream for each field season. Ion concentrations include sodium (Na), magnesium (Mg), potassium (K), calcium (Ca), sulfate as sulfur (SO4-S), and chloride (Cl). Alkalinity (ALK2) is also analyzed.
+
+Alkalinity is a property of water defined by the USGS as "the buffering capacity of a water body; a measure of the ability of the water body to neutralize acids and bases and thus maintain a fairly stable pH level." As alkalinity decreases, the sensitivity of a water body to acidification increases. Alkalinity is expressed as mg-CaCO3/L. In 2009, the laboratory measured alkalinity as HCO3. From 2010 to the present, the laboratory measured alkalinity as CaCO3. The alkalinity values from 2009 were recalculated to match the method from 2010 onward. Due to an error in laboratory software programming, ALK2 values analyzed in 2014 and earlier that are less than 20 mg/L may be overestimated (typically 1.5 to 2.5 mg/L, up to 35% difference), with the discrepancy increasing closer to 0 mg/L.
+``` {r chem.stream.ion.plot, warning = FALSE}
+chem.stream.ion.plot <- ChemStreamIonPlot(conn)
+
+chem.stream.ion.plot
+```
+
+### Lake nutrients plot
+This is a plot of nutrient concentrations for each lake for each field season. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Dissolved organic carbon (DOC) is analyzed occasionally as funding allows.
+``` {r chem.lake.nutrient.plot, warning = FALSE}
+chem.lake.nutrient.plot <- ChemLakeNutrientPlot(conn)
+
+chem.lake.nutrient.plot
+```
+
+### Lake nutrients bar plot
+This is a bar plot of nutrient concentrations for each lake for each field season. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Total and dissolved concentrations are plotted on the same graph to show the relative contributions from each form.
+``` {r chem.lake.nutrient.bar.plot, warning = FALSE}
+chem.lake.nutrient.bar.plot <- ChemLakeNutrientBarPlot(conn)
+
+chem.lake.nutrient.bar.plot
+```
+
+### Lake ions plot
+This is a plot of ion concentrations for each lake for each field season. Ion concentrations include sodium (Na), magnesium (Mg), potassium (K), calcium (Ca), sulfate as sulfur (SO4-S), and chloride (Cl). Alkalinity (ALK2) is also analyzed.
+
+Alkalinity is a property of water defined by the USGS as "the buffering capacity of a water body; a measure of the ability of the water body to neutralize acids and bases and thus maintain a fairly stable pH level." As alkalinity decreases, the sensitivity of a water body to acidification increases. Alkalinity is expressed as mg-CaCO3/L. In 2009, the laboratory measured alkalinity as HCO3. From 2010 to the present, the laboratory measured alkalinity as CaCO3. The alkalinity values from 2009 were recalculated to match the method from 2010 onward. Due to an error in laboratory software programming, ALK2 values analyzed in 2014 and earlier that are less than 20 mg/L may be overestimated (typically 1.5 to 2.5 mg/L, up to 35% difference), with the discrepancy increasing closer to 0 mg/L.
+``` {r chem.lake.ion.plot, warning = FALSE}
+chem.lake.ion.plot <- ChemLakeIonPlot(conn)
+
+chem.lake.ion.plot
+```
+
 ## Benthic macroinvertebrates {.tabset}
 ### Discrepancies
-These are records with discrepancies between taxa group count (number of taxa within a functional group) and taxa group abundance (abundance of individuals within those taxa). Discrepancies include situations where the taxa count is non-zero but abundance is zero and where abundance is non-zero and taxa count is zero. These situations may arise from the standardization of richness-based (taxa group count) metrics to Operational Taxonomic Units (OTUs), while density-based (taxa group abundance) metrics are based on the raw taxa list.
+These are stream BMI records with discrepancies between taxa group count (or richness; number of taxa within a group) and taxa group abundance (number of individuals per m2 within a group). Discrepancies include situations where the taxa count is non-zero but abundance is zero and where abundance is non-zero and taxa count is zero. These situations may arise from the standardization of richness-based (taxa group count) metrics to Operational Taxonomic Units (OTUs), while density-based (taxa group abundance) metrics are based on the raw taxa list.
 ``` {r bmi.discrepancies}
 bmi.discrepancies <- qcBMIDiscrepancies(conn)
 
@@ -521,6 +599,53 @@ bmi.discrepancies %>%
   DT::datatable(filter = "top")
 ```
 There are `r nrow(bmi.discrepancies)` metrics with discrepancies between taxa group count and taxa group abundance.
+
+### General metrics plot
+This plot shows total richness (number of unique taxa within a sample) and total abundance (number of individuals per m2 within a sample) for stream BMI samples. Richness metrics are standardized to Operational Taxonomic Units (OTUs), which abundance metrics are based on the raw taxa list.
+``` {r bmi.gen.plot, warning = FALSE}
+bmi.gen.plot <- BMIGeneralMetricsPlot(conn)
+
+bmi.gen.plot
+```
+
+### Diversity metrics plot
+This plot shows various diversity metrics and indices for stream BMI samples. Shannon's Diversity is the measure of richness and evenness (based on relative abundance of each species) weighted toward rare species. Simpson's Diversity is the measure of richness and evenness (based on relative abundance of each species) weighted toward common species. Evenness is the measure of relative abundance indicative of taxa dominance. The Hilsenhoff Biotic Index (HBI) is the abundance-weighted average of family-level pollution tolerances.
+``` {r bmi.div.plot, warning = FALSE}
+bmi.div.plot <- BMIDiversityMetricsPlot(conn)
+
+bmi.div.plot
+```
+
+### Tolerance metrics plot
+This plot shows richness (number of taxa within a group) and abundance (number of individuals within a group) for stream BMI samples. Richness metrics are standardized to Operational Taxonomic Units (OTUs), which abundance metrics are based on the raw taxa list.
+
+Groups are based on tolerance to disturbance or pollution. The Hilsenhoff Biotic Index (HBI) is the abundance-weighted average of family-level pollution tolerances, and is plotted in the diversity metrics section. Tolerant taxa have an HBI score >=8 and are able to withstand disturbance and poor water quality. Intolerant taxa have an BMI score <=2 and are not as able to withstand disturbance and poor water quality. EPT refers to the insect orders Ephemeroptera (mayflies), Plecoptera (stoneflies), and Tricoptera (caddisflies), which are sensitive to disturbance and can indicate good water quality. Long-lived taxa have 2- to 3-year life cycles can indicate habitat stability and persistent good water quality in their habitat. Clinger taxa have fixed retreats or other strategies for clinging to rocks and are vulnerable to the deposition of fine sediments.
+``` {r bmi.tol.plot, warning = FALSE}
+bmi.tol.plot <- BMIToleranceMetricsPlot(conn)
+
+bmi.tol.plot
+```
+
+### Functional feeding group metrics plot
+This plot shows richness (number of taxa within a group) and abundance (number of individuals within a group) for stream BMI samples. Richness metrics are standardized to Operational Taxonomic Units (OTUs), which abundance metrics are based on the raw taxa list.
+
+Groups are based on functional feeding groups, which refer to the type of food resource that species utilize in the stream. Shredder taxa consume living or decomposing vascular plant tissue and coarse particulate organic matter (CPOM). Scraper taxa consume periphyton, particularly algae and diatoms. Collector-filterer taxa consume fine particulate organic matter (FPOM) in the water column. Collector-gatherer taxa consume FPOM from benthic deposits. Predator taxa consume living animal tissue, usually other BMI, but occasionally small amphibians and other vertebrates. They can indicate that a habitat supports higher trophic complexity.
+``` {r bmi.fun.plot, warning = FALSE}
+bmi.fun.plot <- BMIFunctionalMetricsPlot(conn)
+
+bmi.fun.plot
+```
+
+### Taxonomic metrics plot
+This plot shows richness (number of taxa within a group) and abundance (number of individuals within a group) for stream BMI samples. Richness metrics are standardized to Operational Taxonomic Units (OTUs), which abundance metrics are based on the raw taxa list.
+
+Groups are based on taxonomic levels. Insecta is a class of six-legged invertebrates within the arthropod phylum. Coloeptera is an order of insects that includes beetles. Diptera is an order of insects that includes flies and midges. Megaloptera is an order of insects that includes dobsonflies. Plecoptera is an order of insects that includes stoneflies. Chironomidae is a family within Diptera that includes non-biting midges. Elmidae is a family within Coleoptera that includes riffle beetles. Non-insects include all individuals not within the class Insecta. Mollusca is a phylum that includes gastropods (e.g., snails and slugs), cephalopods (e.g., octopus and squids), and bivalves (e.g., clams). Crustacea is another class of invertebrates within the arthropod phylum that includes crabs, lobsters, crayfish, barnacles, and copepods. Oligochaeta is is a subclass of segmented worms within the annelid phylum that includes earthworms.
+
+``` {r bmi.tax.plot, warning = FALSE}
+bmi.tax.plot <- BMITaxonomicMetricsPlot(conn)
+
+bmi.tax.plot
+```
 
 # Usage Notes (required)
 The Usage Notes should contain brief instructions to assist other researchers
@@ -536,7 +661,7 @@ apply to access the data, what criteria will be used to determine who may access
 the data, and any limitations on data use.
 
 # Acknowledgements
-The authors would like to acknowledge Geoff Moret and Chris Caudill, who designed and wrote the Streams and Lakes protocol and set in motion over a decade of surface water resource monitoring in GRBA.
+The authors would like to acknowledge Geoff Moret, who wrote the Streams and Lakes protocol and set in motion over a decade of surface water resource monitoring in Great Basin National Park.
 
 # References (required)
 Bibliographic information for any works cited in the above sections, using the
