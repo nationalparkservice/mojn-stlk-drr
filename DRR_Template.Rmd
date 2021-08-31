@@ -327,7 +327,7 @@ This is a plot of the final corrected elevations for each benchmark for each fie
 ``` {r benchmark.plots, warning = FALSE}
 benchmark.plots <- PlotBenchmarkElevation(conn)
 
-benchmark.plots
+ggplotly(benchmark.plots)
 ```
 
 ### Lake surface elevations
@@ -346,7 +346,7 @@ This is a plot of the final calculated water surface elevations for each lake ac
 ``` {r lake.elev.plots, warning = FALSE}
 lake.elev.plots <- PlotLakeSurfaceElevation(conn)
 
-lake.elev.plots
+ggplotly(lake.elev.plots)
 ```
 
 ## Lake water clarity (Secchi depth) {.tabset}
@@ -450,7 +450,7 @@ This is a plot of temperature depth profiles in units of C for each lake and fie
 ``` {r temp.dp.plot, warning = FALSE}
 temp.dp.plot <- WqPlotTemperatureDepthProfile(conn)
 
-temp.dp.plot
+ggplotly(temp.dp.plot)
 ```
 
 ### Lake pH depth profiles
@@ -458,7 +458,7 @@ This is a plot of pH depth profiles for each lake and field season. Depth profil
 ``` {r ph.dp.plot, warning = FALSE}
 ph.dp.plot <- WqPlotPHDepthProfile(conn)
 
-ph.dp.plot
+ggplotly(ph.dp.plot)
 ```
 
 ### Lake specific conductance depth profiles
@@ -466,7 +466,7 @@ This is a plot of specific conductance depth profiles in units of uS/cm for each
 ``` {r sc.dp.plot, warning = FALSE}
 sc.dp.plot <- WqPlotSpCondDepthProfile(conn)
 
-sc.dp.plot
+ggplotly(sc.dp.plot)
 ```
 
 ### Lake dissolved oxygen depth profiles
@@ -474,7 +474,7 @@ This is a plot of dissolved oxygen depth profiles in units of mg/L for each lake
 ``` {r do.dp.plot, warning = FALSE}
 do.dp.plot <- WqPlotDODepthProfile(conn)
 
-do.dp.plot
+ggplotly(do.dp.plot)
 ```
 
 ## Water chemistry {.tabset}
@@ -593,7 +593,7 @@ This is a plot of nutrient concentrations for each stream for each field season.
 ``` {r chem.stream.nutrient.plot, warning = FALSE}
 chem.stream.nutrient.plot <- ChemStreamNutrientPlot(conn)
 
-chem.stream.nutrient.plot
+ggplotly(chem.stream.nutrient.plot)
 ```
 
 ### Stream nutrients bar plot
@@ -601,7 +601,7 @@ This is a bar plot of nutrient concentrations for each stream for each field sea
 ``` {r chem.stream.nutrient.bar.plot, warning = FALSE}
 chem.stream.nutrient.bar.plot <- ChemStreamNutrientBarPlot(conn)
 
-chem.stream.nutrient.bar.plot
+ggplotly(chem.stream.nutrient.bar.plot)
 ```
 
 ### Stream ions plot
@@ -611,7 +611,7 @@ Alkalinity is a property of water defined by the USGS as "the buffering capacity
 ``` {r chem.stream.ion.plot, warning = FALSE}
 chem.stream.ion.plot <- ChemStreamIonPlot(conn)
 
-chem.stream.ion.plot
+ggplotly(chem.stream.ion.plot)
 ```
 
 ### Lake nutrients plot
@@ -619,7 +619,7 @@ This is a plot of nutrient concentrations for each lake for each field season. N
 ``` {r chem.lake.nutrient.plot, warning = FALSE}
 chem.lake.nutrient.plot <- ChemLakeNutrientPlot(conn)
 
-chem.lake.nutrient.plot
+ggplotly(chem.lake.nutrient.plot)
 ```
 
 ### Lake nutrients bar plot
@@ -627,7 +627,7 @@ This is a bar plot of nutrient concentrations for each lake for each field seaso
 ``` {r chem.lake.nutrient.bar.plot, warning = FALSE}
 chem.lake.nutrient.bar.plot <- ChemLakeNutrientBarPlot(conn)
 
-chem.lake.nutrient.bar.plot
+ggplotly(chem.lake.nutrient.bar.plot)
 ```
 
 ### Lake ions plot
@@ -637,7 +637,7 @@ Alkalinity is a property of water defined by the USGS as "the buffering capacity
 ``` {r chem.lake.ion.plot, warning = FALSE}
 chem.lake.ion.plot <- ChemLakeIonPlot(conn)
 
-chem.lake.ion.plot
+ggplotly(chem.lake.ion.plot)
 ```
 
 ## Benthic macroinvertebrates {.tabset}
@@ -658,7 +658,7 @@ This plot shows total richness (number of unique taxa within a sample) and total
 ``` {r bmi.gen.plot, warning = FALSE}
 bmi.gen.plot <- BMIGeneralMetricsPlot(conn)
 
-bmi.gen.plot
+ggplotly(bmi.gen.plot)
 ```
 
 ### Diversity metrics plot
@@ -666,7 +666,7 @@ This plot shows various diversity metrics and indices for stream BMI samples. Sh
 ``` {r bmi.div.plot, warning = FALSE}
 bmi.div.plot <- BMIDiversityMetricsPlot(conn)
 
-bmi.div.plot
+ggplotly(bmi.div.plot)
 ```
 
 ### Tolerance metrics plot
@@ -676,7 +676,7 @@ Groups are based on tolerance to disturbance or pollution. The Hilsenhoff Biotic
 ``` {r bmi.tol.plot, warning = FALSE}
 bmi.tol.plot <- BMIToleranceMetricsPlot(conn)
 
-bmi.tol.plot
+ggplotly(bmi.tol.plot)
 ```
 
 ### Functional feeding group metrics plot
@@ -686,7 +686,7 @@ Groups are based on functional feeding groups, which refer to the type of food r
 ``` {r bmi.fun.plot, warning = FALSE}
 bmi.fun.plot <- BMIFunctionalMetricsPlot(conn)
 
-bmi.fun.plot
+ggplotly(bmi.fun.plot)
 ```
 
 ### Taxonomic metrics plot
@@ -697,7 +697,7 @@ Groups are based on taxonomic levels. Insecta is a class of six-legged invertebr
 ``` {r bmi.tax.plot, warning = FALSE}
 bmi.tax.plot <- BMITaxonomicMetricsPlot(conn)
 
-bmi.tax.plot
+ggplotly(bmi.tax.plot)
 ```
 
 # Usage Notes (required)
@@ -848,3 +848,6 @@ kable(Table,
 
 ```
 
+``` {r close.db}
+CloseDatabaseConnection(conn)
+```
