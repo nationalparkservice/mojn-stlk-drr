@@ -281,7 +281,7 @@ dpl.check %>%
 `r if(nrow(dpl.check) == 0){"All records have been accepted."}`
 `r if(nrow(dpl.check) > 0){"The above records need to be reviewed and accepted before publication."}`
 
-## Lake level and benchmark elevations {.tabset}
+## Lake surface and benchmark elevations {.tabset}
 ### Benchmark elevations
 These are the mean values and standard deviations of final corrected elevations for each benchmark across all field seasons. Digital level readings began in 2018.
 ``` {r benchmark.elevations}
