@@ -177,7 +177,7 @@ All nine streams are visited annually in August to collect water quality channel
 The lakes are visited annually in September to collect water quality depth profiles, water chemistry samples, water clarity through Secchi depth measurements, and water surface elevations through digital level surveys. These water surface elevations are tied to continuous lake level recorded by pressure transducers.
 
 ``` {r figure1, echo = FALSE, fig.align = "left", fig.cap = "**Figure 1.** Streams and lakes monitoring locations, Great Basin National Park."}
-include_graphics("figures/grba_stlk_map.jpg")
+include_graphics("figures/STLK Map 600DPI.jpg")
 ```
 
 ## Monitoring Questions
@@ -324,7 +324,7 @@ string.elevations %>%
 
 ### Benchmark elevation plots
 This is a plot of the final corrected elevations for each benchmark for each field season. Consistent upward or downward trends in the elevation of a benchmark may indicate that the benchmark is unstable. An abrupt change in the elevation of a benchmark may indicate disturbance at the location of the benchmark. Only digital level readings are included, which began in 2018.
-``` {r benchmark.plots}
+``` {r benchmark.plots, warning = FALSE}
 benchmark.plots <- PlotBenchmarkElevation(conn)
 
 benchmark.plots
@@ -343,7 +343,7 @@ lake.elevations %>%
 
 ### Lake surface elevation plots
 This is a plot of the final calculated water surface elevations for each lake across all field seasons. Digital level readings began in 2018. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015.
-``` {r lake.elev.plots}
+``` {r lake.elev.plots, warning = FALSE}
 lake.elev.plots <- PlotLakeSurfaceElevation(conn)
 
 lake.elev.plots
@@ -446,35 +446,35 @@ wq.lake.flags %>%
 There are `r nrow(wq.lake.flags)` flagged measurements.
 
 ### Lake temperature depth profiles
-This is a plot of temperature depth profiles in units of C for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015.
-``` {r temp.dp.plot}
+This is a plot of temperature depth profiles in units of C for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015. Baker Lake water qualtiy data were not collected in 2017 due to leaky waders and frigid temperatures.
+``` {r temp.dp.plot, warning = FALSE}
 temp.dp.plot <- WqPlotTemperatureDepthProfile(conn)
 
 temp.dp.plot
 ```
 
 ### Lake pH depth profiles
-This is a plot of pH depth profiles for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015.
-``` {r ph.dp.plot}
+This is a plot of pH depth profiles for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015. Baker Lake water qualtiy data were not collected in 2017 due to leaky waders and frigid temperatures.
+``` {r ph.dp.plot, warning = FALSE}
 ph.dp.plot <- WqPlotPHDepthProfile(conn)
 
 ph.dp.plot
 ```
 
 ### Lake specific conductance depth profiles
-This is a plot of specific conductance depth profiles in units of uS/cm for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015.
-``` {r sc.dp.plot}
+This is a plot of specific conductance depth profiles in units of uS/cm for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015. Baker Lake water qualtiy data were not collected in 2017 due to leaky waders and frigid temperatures.
+``` {r sc.dp.plot, warning = FALSE}
 sc.dp.plot <- WqPlotSpCondDepthProfile(conn)
 
 sc.dp.plot
 ```
 
 ### Lake dissolved oxygen depth profiles
-This is a plot of dissolved oxygen depth profiles in units of mg/L for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015.
-``` {r do.dp.plot}
-sc.dp.plot <- WqPlotSpCondDepthProfile(conn)
+This is a plot of dissolved oxygen depth profiles in units of mg/L for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015. Baker Lake water qualtiy data were not collected in 2017 due to leaky waders and frigid temperatures.
+``` {r do.dp.plot, warning = FALSE}
+do.dp.plot <- WqPlotDODepthProfile(conn)
 
-sc.dp.plot
+do.dp.plot
 ```
 
 ## Water chemistry {.tabset}
