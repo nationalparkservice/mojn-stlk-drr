@@ -1,6 +1,5 @@
 ---
 params:
-  projectDir: "C:/Users/jbailard/Documents/R/mojn-stlk-drr"   # You will have to update this directory to match your project directory before knitting.
   reportNumber: "REPORT NUMBER"                           # Optional. Only include this if publishing in the semi-official Data Release Report Series. Contact Joe if you are.
   reportRefID: 123456                                     # This should match the Data Store Reference ID for this report.
   packageAbstract: >-
@@ -43,22 +42,22 @@ output:
     keep_md: yes
     smart: no
     theme: journal
-    css: "common/journalnps.min.css"
+    css: !expr here::here('common', 'journalnps.min.css')
     toc: yes
     toc_float: true
     number_sections: true
     includes:
         before_body:
-          - "common/header.html"
+          - !expr here::here('common', 'header.html')
         after_body: 
-          - "common/footer.html"
+          - !expr here::here('common', 'footer.html')
   word_document:
     df_print: kable
     fig_caption: yes
     fig_height: 5
     fig_width: 5
     highlight: haddock
-    reference_docx: "common/DRR Word Template.docx"
+    reference_docx: !expr here::here('common', 'DRR Word Template.docx')
 ---
 
 ```{r setup, include=FALSE}
@@ -88,7 +87,8 @@ RRpackages <- c('markdown',     # links to Sundown rendering library
                 'htmltools',    #
                 "bibtex",
                 "RefManageR",   # BibTeX reference manager
-                "knitcitations" #
+                "knitcitations",#
+                "here"          # For working with file paths
                 )
 
 inst <- RRpackages %in% installed.packages()
@@ -108,8 +108,7 @@ pkgList <- c("devtools",        # tends to be needed/useful
              "magrittr",
              "plotly",
              "svglite",
-             "scales",
-             "streamsandlakes")
+             "scales")
 
 inst <- pkgList %in% installed.packages()
 if (length(pkgList[!inst]) > 0) {
@@ -120,7 +119,9 @@ if (length(pkgList[!inst]) > 0) {
 lapply(pkgList, library, character.only = TRUE, quietly = TRUE)
 
 if (! "EMLassemblyline" %in% installed.packages()) remotes::install_github("EDIorg/EMLassemblyline")
-require("EMLassemblyline")  
+if (! "streamsandlakes" %in% installed.packages()) remotes::install_github("nationalparkservice/mojn-stlk-rpackage")
+require("EMLassemblyline")
+require("streamsandlakes")
 
 # create stub of citations for packages
 pkgBibTex <- lapply(c("base", pkgList, RRpackages), citation)
@@ -128,11 +129,11 @@ pkgBibTex <- lapply(c("base", pkgList, RRpackages), citation)
 # pkgBibTex <- do.call()
 
 knitr::opts_chunk$set(
-   root.dir = params$projectDir,  # from YAML parameter, knitr instead of setwd()
+   root.dir = here::here(),
    echo = FALSE,
    comment = " ",
    dev = "svg",
-   fig.path = "figures/",
+   fig.path = here::here("figures"),
    tidy.opts = list(width.cutoff = 60),
    tidy = TRUE
    )
@@ -141,10 +142,8 @@ if ("ggplot2" %in% .packages()) {
    theme_update(plot.title = element_text(hjust = 0.5))
 }
 
-setwd(params$projectDir)
-
 # Write YAML parameters to file for consistent reuse across report and data packages
-save(params,file="data/temp/reportParameters.RData")
+save(params,file=here::here("data", "temp", "reportParameters.RData"))
 
 conn <- OpenDatabaseConnection()
 ```
@@ -152,8 +151,8 @@ conn <- OpenDatabaseConnection()
 ```{r LoadData, include=FALSE}
 # Load datasets for use
 
-if (file.exists(file="data/temp/projectMetadata.RData")) {
-  load(file="data/temp/projectMetadata.RData")
+if (file.exists(file=here::here("data", "temp", "projectMetadata.RData"))) {
+  load(file=here::here("data", "temp", "projectMetadata.RData"))
 } else{
   projectMetadata<-list()
 }
@@ -177,7 +176,7 @@ All nine streams are visited annually in August to collect water quality channel
 The lakes are visited annually in September to collect water quality depth profiles, water chemistry samples, water clarity through Secchi depth measurements, and water surface elevations through digital level surveys. These water surface elevations are tied to continuous lake level recorded by pressure transducers.
 
 ``` {r figure1, echo = FALSE, fig.align = "left", fig.cap = "**Figure 1.** Streams and lakes monitoring locations, Great Basin National Park."}
-include_graphics("figures/STLK Map 600DPI.jpg")
+include_graphics(here::here("figures", "STLK Map 600DPI.jpg"))
 ```
 
 ## Monitoring Questions
