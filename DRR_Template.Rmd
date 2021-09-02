@@ -346,7 +346,17 @@ This is a plot of the final calculated water surface elevations for each lake ac
 ``` {r lake.elev.plots, warning = FALSE}
 lake.elev.plots <- PlotLakeSurfaceElevation(conn)
 
-ggplotly(lake.elev.plots)
+lake.elev.plots <- ggplotly(lake.elev.plots)
+
+
+
+for (i in 1:length(lake.elev.plots$x$data)){
+    if (!is.null(lake.elev.plots$x$data[[i]]$name)){
+        lake.elev.plots$x$data[[i]]$name =  gsub("\\(","",str_split(lake.elev.plots$x$data[[i]]$name,",")[[1]][1])
+    }
+}
+
+lake.elev.plots
 ```
 
 ## Lake water clarity (Secchi depth) {.tabset}
@@ -527,7 +537,7 @@ field.blanks %>%
 There are `r nrow(field.blanks)` analytes from blanks with concentrations greater than the MDL for that analyte.
 
 ### Dissolved nitrogen
-These are the records where the concentration of total dissolved nitrogen (TDN) exceeds total nitrogen (UTN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample.
+These are the records where the concentration of total dissolved nitrogen (TDN) exceeds total nitrogen (UTN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration is measured from the filtered sampled. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
 ``` {r chem.TDN}
 chem.TDN <- qcChemTDN(conn)
 
@@ -539,7 +549,7 @@ chem.TDN %>%
 There are `r nrow(chem.TDN %>% filter(TDNvUTN >= 0.02))` records where the concentration of dissolved nitrogen is greater than the total nitrogen concentration and the difference is outside the normal limits of variability.
 
 ### Nitrate and nitrite
-These are the records where the concentration of nitrate (NO3) and nitrite (NO2) exceeds either total nitrogen (UTN) or total dissolved nitrogen (TDN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen or dissolved nitrogen is in the form of nitrate and nitrite, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample.
+These are the records where the concentration of nitrate (NO3) and nitrite (NO2) exceeds either total nitrogen (UTN) or total dissolved nitrogen (TDN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen or dissolved nitrogen is in the form of nitrate and nitrite, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration (including nitrate and nitrite) is measured from the filtered sampled. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
 ``` {r chem.NO3NO2}
 chem.NO3NO2 <- qcChemNO3NO2(conn)
 
@@ -551,7 +561,7 @@ chem.NO3NO2 %>%
 There are `r nrow(chem.NO3NO2)` records where the concentration of nitrate and nitrate is greater than the concentration of either total nitrogen or total dissolved nitrogen.
 
 ### Dissolved phosphorus
-These are the records where the concentration of total dissolved phosphorus exceeds total phosphorus. If the discrepancy falls within precision limits, this indicates that nearly all of the phosphorus is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample.
+These are the records where the concentration of total dissolved phosphorus exceeds total phosphorus. If the discrepancy falls within precision limits, this indicates that nearly all of the phosphorus is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration is measured from the filtered sampled. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
 ``` {r chem.TDP}
 chem.TDP <- qcChemTDP(conn)
 
