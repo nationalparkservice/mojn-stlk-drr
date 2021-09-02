@@ -1,13 +1,13 @@
 ---
 params:
-  projectDir: "C:/Users/jbailard/Documents/R/mojn-stlk-drr"   # You will have to update this directory to match your project directory before knitting.
+  projectDir: "C:/Users/mlehman/Documents/R/mojn-stlk-drr"   # You will have to update this directory to match your project directory before knitting.
   reportNumber: "REPORT NUMBER"                           # Optional. Only include this if publishing in the semi-official Data Release Report Series. Contact Joe if you are.
   reportRefID: 123456                                     # This should match the Data Store Reference ID for this report.
   packageAbstract: >-
     This report summarizes data quality evaluations of discrete data collected for the Mojave Desert Network Inventory and Monitoring Program (MOJN I&M) Streams and Lakes (STLK) monitoring protocol from 2009 to 2020. This protocol is designed to monitor the ecosystem health of nine streams and six subalpine lakes in Great Basin National Park (GRBA) and to identify and assess the effects of stressors such as climate change, groundwater withdrawal, and atmospheric nutrient deposition. Data collected include lake level surveys, water quality measurements, water chemistry samples, and benthic macroinvertebrate assemblages.
-  dataPackage1RefID: 2272463                              # Data Store reference ID for data set associated with this report. You must have at least one.
-  dataPackage1Title: "Dataset 1 FULL TITLE"               # Should match title in data store.
-  dataPackage1Description: "SHORT TITLE FOR DATASET 1"  
+  dataPackage1RefID: 2287321                              # Data Store reference ID for data set associated with this report. You must have at least one.
+  dataPackage1Title: "MOJN Streams and Lakes Data Package 2009-2020"               # Should match title in data store.
+  dataPackage1Description: "MOJN STLK 2009-2020"  
   dataPackage2RefID: 2272464                              # Data Store reference ID for data set associated with this report. You must have at least one.
   dataPackage2Title: "Dataset 2 FULL TITLE"               # Should match title in data store.
   dataPackage2Description: "SHORT TITLE FOR DATASET 1"  
@@ -205,38 +205,25 @@ Summaries of these laboratory methods are also described in *Mojave Desert Netwo
 
 ## Additional Data Sources
 Provide descriptions (with citations) of other data sources used.
-
 **Not applicable to this release.**
 
 ## Data Processing
-Summarize process and results of any QC processes done that manipulate, change, or qualify data.
+Data were assessed using a collection of QC checks that are part of the MOJN Streams and Lakes R package. These results are summarized in Section 4 of this document. Where data quality issues exist, they have been documented in a flag note in the data record, and a flag has been assigned to indicate the level of concern. These flags include Information (not expected too impact the validity of this data), Warning (care should be taken when including this record in analyses), and Critical (There are serious concerns about the quality of this record and it should not be used in analyses).
 
 ## Code Availability
+All of the code used in the preparation of this data package is available in the MOJN Streams and Lakes R Package.
+
 For all studies using custom code in the generation or processing of datasets, a statement must be included in the Methods section, under the subheading "Code availability", indicating whether and how the code can be accessed, including any restrictions to access. This section should also include information on the versions of any software used, if relevant, and any specific variables or parameters used to generate, test, or process the current dataset. Actual analytical code should be provided in Appendices.
 
 # Data Records
-The Data Records section should be used to explain each data record associated
-with this work, including the repository where this information is stored, and
-to provide an overview of the data files and their formats. Each external data
-record should be cited as described below. A data citation should also be placed
-in the subsection of the Methods containing the data-collection or analytical
-procedure(s) used to derive the corresponding record.
+A data dictionary for all of the published tables and fields is provided in CSV format with this data package. 
 
-Tables should be used to support the data records, and should clearly indicate
-the samples and subjects (study inputs), their provenance, and the experimental
-manipulations performed on each (please see example Tables below). They should
-also specify the data output resulting from each data-collection or analytical
-step, should these form part of the archived record.
+The published CSV files are provided in a raw for that suitable for use with the MOJN Streams and Lakes R package. In three cases, a CSV file is provided that contains calculated values that were generated using this R package. These files are clearly labelled as "calculated".
 
-## Required Elements for this Section
+## Summary of datasets created.
+One data package containing multiple csv data tables was published for this project:
 
-### Summary of datasets created. Example of stock text to include. ###
-
-Two datasets were generated as a part of this effort (Table 2):
-
-* **`r params$dataPackage1Title`.** Comma-separated text file enumerating the specific taxa considered to have federal conservation status in NPS park units. These data were compiled by the National Park Service Biological Resources Division and were last updated on XX. Available at `r paste0("https://irma.nps.gov/DataStore/Reference/Profile/", params$dataPackage1RefID)`. 
-
-* **`r params$dataPackage2Title`.** Comma-seperated text file enumerating the park-specific specific taxa about which data must be protected from release to the public based on federal conservation status. This dataset includes all taxa identified by the USFWS as well as their child taxa and taxonomic synonyms. Available at `r paste0("https://irma.nps.gov/DataStore/Reference/Profile/",params$dataPackage2RefID)`. 
+* **`r params$dataPackage1Title`.** Comma-separated text files are Site,	Visit,	BMI	Channel,	Chemistry,	Clarity,	LakeLevelString,	LakeLevelSurvey,	WaterQualityDO,	WaterQualitypH,	WaterQualitySpCond,	WaterQualityTemperature,	WQStreamXSection,	LakeLevel_CALCULATED,	WaterQuality_CALCULATED,	WQStreamXSection_CALCULATED. These data were compiled by the Mojave Desert Inventory and Monitoring Network and were last updated on September 1, 2021. Available at `r paste0("https://irma.nps.gov/DataStore/Reference/Profile/", params$dataPackage1RefID)`. 
 
 
 *Also include a table explaining provenance of datasets*
