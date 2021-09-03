@@ -423,7 +423,7 @@ reactable(wq.stream.sanity, searchable = TRUE,
             details = colDef(
               name = "Notes",
               details = function(index) {
-                data$FlagNote[index]
+                wq.stream.sanity$FlagNote[index]
               }
             ))
 ```
@@ -443,7 +443,7 @@ reactable(wq.lake.sanity, searchable = TRUE,
             details = colDef(
               name = "Notes",
               details = function(index) {
-                data$FlagNote[index]
+                wq.lake.sanity$FlagNote[index]
               }
             ))
 ```
