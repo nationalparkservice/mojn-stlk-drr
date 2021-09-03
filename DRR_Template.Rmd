@@ -41,7 +41,6 @@ output:
     fig_caption: true
     dev: svg
     highlight: haddock
-    keep_md: yes
     smart: no
     theme: journal
     css: !expr here::here('common', 'journalnps.min.css')
