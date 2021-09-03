@@ -419,13 +419,17 @@ wq.stream.sanity %<>%
   dplyr::select(-c(Park, SampleFrame, VisitType)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-reactable(wq.stream.sanity, searchable = TRUE,
-            details = colDef(
-              name = "Notes",
-              details = function(index) {
-                wq.stream.sanity$FlagNote[index]
-              }
-            ))
+reactable(dplyr::select(wq.stream.sanity, -FlagNote),
+          searchable = TRUE,
+          defaultColDef = colDef(minWidth = 50),
+          details = colDef(
+            name = "Notes",
+            details = function(index) {
+              wq.stream.sanity$FlagNote[index]
+            }
+          ),
+          resizable = TRUE,
+          compact = TRUE)
 ```
 There are `r nrow(wq.stream.sanity)` measurements outside of expected ranges.
 
@@ -439,13 +443,17 @@ wq.lake.sanity %<>%
   dplyr::relocate(MeasurementDepth_m, .after = VisitDate) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-reactable(wq.lake.sanity, searchable = TRUE,
-            details = colDef(
-              name = "Notes",
-              details = function(index) {
-                wq.lake.sanity$FlagNote[index]
-              }
-            ))
+reactable(dplyr::select(wq.lake.sanity, -FlagNote),
+          defaultColDef = colDef(minWidth = 50),
+          searchable = TRUE,
+          details = colDef(
+            name = "Notes",
+            details = function(index) {
+              wq.lake.sanity$FlagNote[index]
+            }
+          ),
+          resizable = TRUE,
+          compact = TRUE)
 ```
 There are `r nrow(wq.lake.sanity)` measurements outside of expected ranges.
 
@@ -454,10 +462,21 @@ These are stream water quality values that have data quality flags. I = Informat
 ``` {r wq.stream.flags}
 wq.stream.flags <- qcStreamWqFlags(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-wq.stream.flags %>%
+wq.stream.flags %<>%
   dplyr::select(-c(Park, SampleFrame, VisitType)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
-  reactable(searchable = TRUE)
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+reactable(dplyr::select(wq.stream.flags, -FlagNote),
+          defaultColDef = colDef(minWidth = 50),
+          searchable = TRUE,
+          details = colDef(
+            name = "Notes",
+            details = function(index) {
+              wq.stream.flags$FlagNote[index]
+            }
+          ),
+          resizable = TRUE,
+          compact = TRUE)
 ```
 There are `r nrow(wq.stream.flags)` flagged measurements.
 
@@ -466,11 +485,22 @@ These are lake water quality values that have data quality flags. I = Informatio
 ``` {r wq.lake.flags}
 wq.lake.flags <- qcLakeWqFlags(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-wq.lake.flags %>%
+wq.lake.flags %<>%
   dplyr::select(-c(Park, SampleFrame, VisitType)) %>%
   dplyr::relocate(MeasurementDepth_m, .after = VisitDate) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
-  reactable(searchable = TRUE)
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+reactable(dplyr::select(wq.lake.flags, -FlagNote),
+          defaultColDef = colDef(minWidth = 50),
+          searchable = TRUE,
+          details = colDef(
+            name = "Notes",
+            details = function(index) {
+              wq.lake.flags$FlagNote[index]
+            }
+          ),
+          resizable = TRUE,
+          compact = TRUE)
 ```
 There are `r nrow(wq.lake.flags)` flagged measurements.
 
@@ -512,10 +542,21 @@ These are water chemistry values that have data quality flags. I = Information: 
 ``` {r chem.flags}
 chem.flags <- qcChemFlags(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-chem.flags %>%
+chem.flags %<>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
-  reactable(searchable = TRUE)
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+reactable(dplyr::select(chem.flags, -FlagNote),
+          defaultColDef = colDef(minWidth = 50),
+          searchable = TRUE,
+          details = colDef(
+            name = "Notes",
+            details = function(index) {
+              chem.flags$FlagNote[index]
+            }
+          ),
+          resizable = TRUE,
+          compact = TRUE)
 ```
 There are `r nrow(chem.flags)` flagged analytes.
 
@@ -524,10 +565,21 @@ Laboratory duplicates and triplicates are re-analyses of an analyte from the sam
 ``` {r lab.dupes}
 lab.dupes <- qcChemLabDupes(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-lab.dupes %>%
+lab.dupes %<>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
-  reactable(searchable = TRUE)
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+reactable(dplyr::select(lab.dupes, -RPDFlag),
+          defaultColDef = colDef(minWidth = 50),
+          searchable = TRUE,
+          details = colDef(
+            name = "Notes",
+            details = function(index) {
+              lab.dupes$RPDFlag[index]
+            }
+          ),
+          resizable = TRUE,
+          compact = TRUE)
 ```
 There are `r nrow(lab.dupes %>% filter(RPD > 30))` duplicates with RPD values above the 30% MQO threshold.
 
