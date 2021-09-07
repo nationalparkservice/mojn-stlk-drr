@@ -192,13 +192,18 @@ include_graphics(here::here("figures", "STLK Map 600DPI.jpg"))
 The goal of this protocol is to gather information that will aid in the assessment, conservation, and restoration of these surface water resources. To achieve this goal, MOJN I&M collects data to address the following monitoring questions:
 
 **Streams:**
-1) Are the amount or seasonal patterns of discharge changing over time?
-2) What is the status of and what are the trends in water chemistry?
-3) What is the status of and what are the trends in benthic macroinvertebrate assemblages? 
+
+1. Are the amount or seasonal patterns of discharge changing over time?
+
+1. What is the status of and what are the trends in water chemistry?
+
+1. What is the status of and what are the trends in benthic macroinvertebrate assemblages? 
 
 **Lakes:**
-1) Are water levels or the lake ice-free season changing over time?
-2) What is the status of and what are the trends in water chemistry?
+
+1. Are water levels or the lake ice-free season changing over time?
+
+1. What is the status of and what are the trends in water chemistry?
 
 # Methods
 
@@ -235,10 +240,15 @@ FileName<-c("Site","Visit","BMI","Channel","Chemistry","Clarity","LakeLevelStrin
 Description<-c("A full description of each of the site codes used in this dataset (Streams and Lakes)","General attributes of the monitoring site visit (Streams and Lakes)","All benthic macroinvertebrate data from all sites (Streams)","Channel characteristics associated with the BMI measurements (Streams)","Laboratory analysis of water chemistry (Streams and Lakes)","Depth and secchi depth measurements (Lakes)","Lake level measured using a string-based survey","Lake level measured using a theodolite-based survey","Dissolved oxygen measured in situ through a depth profile (Lakes)","pH measured in situ through a depth profile (Lakes)","Specific conductance measured in situ through a depth profile (Lakes)","Temperature measured in situ through a depth profile (Lakes)","In situ water quality measured through stream crosssections (Streams)","The calculated lake surface level calculated from the raw data in LakeLevel String and LakeLevelSurvey using the MOJN Streams and Lakes R package (Lakes)","The median water quality values calculated from the four raw WaterQuality data tables (Lakes)","The median water quality values calculated from the raw values in the WQStreamXSection data table (Streams)")
 Table<-data.frame(FileName,Description)
 
-kable(Table, 
-      col.names=c("FileName","Description"),
-      caption="**Table 1.** Data files in this data package.") %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=F)
+reactable(Table,
+          columns = list(FileName = colDef(name = "Filename")),
+          pagination = FALSE,
+          compact = TRUE, striped = TRUE)
+
+# kable(Table, 
+#       col.names=c("FileName","Description"),
+#       caption="**Table 1.** Data files in this data package.") %>%
+#   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=F)
 
 ```
 
@@ -285,7 +295,8 @@ dpl.check %>%
       rename_with(~ gsub(".DPL", "", .x)) %>%
       pivot_longer(everything(), names_to = "SOP", values_to = "DPL")
     reactable(dpl, outlined = TRUE)
-  })
+  },
+  compact = TRUE, striped = TRUE)
 ```
 `r if(nrow(dpl.check) == 0){"All records have been accepted."}`
 `r if(nrow(dpl.check) > 0){"The above records need to be reviewed and accepted before publication."}`
@@ -301,7 +312,7 @@ benchmark.elevations$FinalCorrectedElevation_ft <- round(benchmark.elevations$Fi
 
 benchmark.elevations %>%
   dplyr::select(-c(Park, SiteShort, DPL, VisitType)) %>%
-  reactable(searchable = TRUE)
+  reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 ```
 
 ### String survey heights
@@ -315,7 +326,7 @@ string.heights$StDevHeight_ft <- round(string.heights$StDevHeight_ft, 4)
 string.heights %>%
   dplyr::select(-c(Park, SiteShort, VisitType)) %>%
   dplyr::ungroup() %>%
-  reactable(searchable = TRUE)
+  reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 ```
 
 ### String survey elevations
@@ -328,7 +339,7 @@ string.elevations$StDevFinalElevation_ft <- round(string.elevations$StDevFinalEl
 
 string.elevations %>%
   dplyr::select(-c(Park, SiteShort, VisitType)) %>%
-  reactable(searchable = TRUE)
+  reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 ```
 
 ### Benchmark elevation plots
@@ -346,7 +357,7 @@ lake.elevations <- LakeSurfaceElevation(conn = conn, path.to.data = raw_data_pat
 
 lake.elevations %>%
   dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
-  reactable(searchable = TRUE)
+  reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
   
 ```
 
@@ -376,7 +387,7 @@ depths.exceed.lake <- qcSecchiGTDepth(conn = conn, path.to.data = raw_data_path,
 
 depths.exceed.lake %>%
   dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
-  reactable(searchable = TRUE)
+  reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 ```
 There are `r nrow(depths.exceed.lake)` records with this inconsistency.
 
@@ -387,7 +398,7 @@ lake.dry.depths.exist <- qcLakeDryMeasurementsExist(conn = conn, path.to.data = 
 
 lake.dry.depths.exist %>%
   dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
-  reactable(searchable = TRUE)
+  reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 ```
 There are `r nrow(lake.dry.depths.exist)` records with this inconsistency.
 
@@ -398,7 +409,7 @@ lake.not.dry.no.clarity <- qcLakeNotDryMeasurementsMissing(conn = conn, path.to.
 
 lake.not.dry.no.clarity %>%
   dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
-  reactable(searchable = TRUE)
+  reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 ```
 There are `r nrow(lake.not.dry.no.clarity)` records with missing data.
 
@@ -409,7 +420,7 @@ lake.not.dry.no.depths <- qcSecchiDepthMissing(conn = conn, path.to.data = raw_d
 
 lake.not.dry.no.depths %>%
   dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
-  reactable(searchable = TRUE)
+  reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 ```
  There are `r nrow(lake.not.dry.no.depths)` records with missing data.
 
@@ -433,7 +444,8 @@ reactable(dplyr::select(wq.stream.sanity, -FlagNote),
             }
           ),
           resizable = TRUE,
-          compact = TRUE)
+          compact = TRUE,
+          striped = TRUE)
 ```
 There are `r nrow(wq.stream.sanity)` measurements outside of expected ranges.
 
@@ -457,7 +469,8 @@ reactable(dplyr::select(wq.lake.sanity, -FlagNote),
             }
           ),
           resizable = TRUE,
-          compact = TRUE)
+          compact = TRUE,
+          striped = TRUE)
 ```
 There are `r nrow(wq.lake.sanity)` measurements outside of expected ranges.
 
@@ -480,7 +493,8 @@ reactable(dplyr::select(wq.stream.flags, -FlagNote),
             }
           ),
           resizable = TRUE,
-          compact = TRUE)
+          compact = TRUE,
+          striped = TRUE)
 ```
 There are `r nrow(wq.stream.flags)` flagged measurements.
 
@@ -504,7 +518,8 @@ reactable(dplyr::select(wq.lake.flags, -FlagNote),
             }
           ),
           resizable = TRUE,
-          compact = TRUE)
+          compact = TRUE,
+          striped = TRUE)
 ```
 There are `r nrow(wq.lake.flags)` flagged measurements.
 
@@ -560,7 +575,8 @@ reactable(dplyr::select(chem.flags, -FlagNote),
             }
           ),
           resizable = TRUE,
-          compact = TRUE)
+          compact = TRUE,
+          striped = TRUE)
 ```
 There are `r nrow(chem.flags)` flagged analytes.
 
@@ -583,7 +599,8 @@ reactable(dplyr::select(lab.dupes, -RPDFlag),
             }
           ),
           resizable = TRUE,
-          compact = TRUE)
+          compact = TRUE,
+          striped = TRUE)
 ```
 There are `r nrow(lab.dupes %>% filter(RPD > 30))` duplicates with RPD values above the 30% MQO threshold.
 
@@ -592,10 +609,22 @@ Field duplicates are additional samples collected from the same location at appr
 ``` {r field.dupes}
 field.dupes <- qcChemFieldDupes(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-field.dupes %>%
+field.dupes %<>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
-  reactable(searchable = TRUE)
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+  reactable(dplyr::select(field.dupes, -RPDFlag),
+          defaultColDef = colDef(minWidth = 50),
+          searchable = TRUE,
+          details = colDef(
+            name = "Notes",
+            details = function(index) {
+              field.dupes$RPDFlag[index]
+            }
+          ),
+          resizable = TRUE,
+          compact = TRUE,
+          striped = TRUE)
 ```
 There are `r nrow(field.dupes %>% filter(RPD > 30))` duplicates with RPD values above the 30% MQO threshold.
 
@@ -607,7 +636,9 @@ field.blanks <- qcChemFieldBlanks(conn = conn, path.to.data = raw_data_path, dat
 field.blanks %>%
   dplyr::select(-c(SampleFrame)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate) %>%
-  reactable(searchable = TRUE)
+  reactable(searchable = TRUE,
+          compact = TRUE,
+          striped = TRUE)
 ```
 There are `r nrow(field.blanks)` analytes from blanks with concentrations greater than the MDL for that analyte.
 
@@ -616,10 +647,22 @@ These are the records where the concentration of total dissolved nitrogen (TDN) 
 ``` {r chem.TDN}
 chem.TDN <- qcChemTDN(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-chem.TDN %>%
+chem.TDN %<>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
-  reactable(searchable = TRUE)
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+reactable(dplyr::select(chem.TDN, -TDNFlag),
+          defaultColDef = colDef(minWidth = 50),
+          searchable = TRUE,
+          details = colDef(
+            name = "Notes",
+            details = function(index) {
+              chem.TDN$TDNFlag[index]
+            }
+          ),
+          resizable = TRUE,
+          compact = TRUE,
+          striped = TRUE)
 ```
 There are `r nrow(chem.TDN %>% filter(TDNvUTN >= 0.02))` records where the concentration of dissolved nitrogen is greater than the total nitrogen concentration and the difference is outside the normal limits of variability.
 
@@ -628,10 +671,22 @@ These are the records where the concentration of nitrate (NO3) and nitrite (NO2)
 ``` {r chem.NO3NO2}
 chem.NO3NO2 <- qcChemNO3NO2(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-chem.NO3NO2 %>%
+chem.NO3NO2 %<>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
-  reactable(searchable = TRUE)
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+reactable(dplyr::select(chem.NO3NO2, -NO3NO2Flag),
+          defaultColDef = colDef(minWidth = 50),
+          searchable = TRUE,
+          details = colDef(
+            name = "Notes",
+            details = function(index) {
+              chem.NO3NO2$NO3NO2Flag[index]
+            }
+          ),
+          resizable = TRUE,
+          compact = TRUE,
+          striped = TRUE)
 ```
 There are `r nrow(chem.NO3NO2)` records where the concentration of nitrate and nitrate is greater than the concentration of either total nitrogen or total dissolved nitrogen.
 
@@ -640,10 +695,22 @@ These are the records where the concentration of total dissolved phosphorus exce
 ``` {r chem.TDP}
 chem.TDP <- qcChemTDP(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-chem.TDP %>%
+chem.TDP %<>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
-  reactable(searchable = TRUE)
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+reactable(dplyr::select(chem.TDP, -TDPFlag),
+          defaultColDef = colDef(minWidth = 50),
+          searchable = TRUE,
+          details = colDef(
+            name = "Notes",
+            details = function(index) {
+              chem.TDP$TDPFlag[index]
+            }
+          ),
+          resizable = TRUE,
+          compact = TRUE,
+          striped = TRUE)
 ```
 There are `r nrow(chem.TDP %>% filter(TDPvUTP >= 0.003))` records where the concentration of dissolved phosphorus is greater than the total phosphorus concentration and the difference is outside the normal limits of variability.
 
@@ -653,10 +720,22 @@ Minimum detection level (MDL) is defined by the EPA as the "minimum concentratio
 lookup <- getMDLLookup()
 chem.MDL <- qcChemMDL(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-chem.MDL %>%
+chem.MDL %<>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
-  reactable(searchable = TRUE)
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+reactable(dplyr::select(chem.MDL, -MDLFlag),
+          defaultColDef = colDef(minWidth = 50),
+          searchable = TRUE,
+          details = colDef(
+            name = "Notes",
+            details = function(index) {
+              chem.MDL$MDLFlag[index]
+            }
+          ),
+          resizable = TRUE,
+          compact = TRUE,
+          striped = TRUE)
 ```
 There are `r nrow(chem.MDL)` analytes with concentrations less than or equal to the MDL.
 
@@ -668,8 +747,20 @@ chem.ML <- qcChemML(conn = conn, path.to.data = raw_data_path, data.source = par
 
 chem.ML %>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
-  reactable(searchable = TRUE)
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+reactable(dplyr::select(chem.ML, -MLFlag),
+          defaultColDef = colDef(minWidth = 50),
+          searchable = TRUE,
+          details = colDef(
+            name = "Notes",
+            details = function(index) {
+              chem.ML$MLFlag[index]
+            }
+          ),
+          resizable = TRUE,
+          compact = TRUE,
+          striped = TRUE)
 ```
 There are `r nrow(chem.ML)` analytes with concentrations less than or equal to the ML.
 
@@ -731,10 +822,23 @@ These are stream BMI records with discrepancies between taxa group count (or ric
 ``` {r bmi.discrepancies}
 bmi.discrepancies <- qcBMIDiscrepancies(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-bmi.discrepancies %>%
+bmi.discrepancies %<>%
   dplyr::select(-c(Park, SiteShort, VisitType)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
-  reactable(searchable = TRUE)
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+reactable(dplyr::select(bmi.discrepancies, -LabNotes),
+          defaultColDef = colDef(minWidth = 50),
+          searchable = TRUE,
+          details = colDef(
+            name = "Notes",
+            details = function(index) {
+              bmi.discrepancies$LabNotes[index]
+            }
+          ),
+          resizable = TRUE,
+          compact = TRUE,
+          striped = TRUE)
+
 ```
 There are `r nrow(bmi.discrepancies)` metrics with discrepancies between taxa group count and taxa group abundance.
 
