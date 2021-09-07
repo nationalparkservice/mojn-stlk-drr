@@ -13,17 +13,13 @@ params:
   dataPackage2Description: "SHORT TITLE FOR DATASET 1"  
   dataSource: "local"  # Either "local" or "database". If "local", csv data must be in data/raw folder. If database, must be able to connect to the MOJN STLK SQL Server db.
   
-title: "Mojave Desert Network Streams and Lakes Data Package 2009-2020"          
+title: |
+    | Mojave Desert Network Streams and Lakes
+    | Data Package 2009-2020          
 subtitle: |
   | Data Release Report `r params$reportNumber` 
 author:
-  - name: "Jennifer Bailard"                                      # Add or remove authors as appropriate.
-    affiliation: |
-      | Mojave Desert Network
-      | Inventory and Monitoring Program 
-      | 101 Katzenbach Drive
-      | Boulder City, Nevada
-  - name: "Mark Lehman"                                      # Add or remove authors as appropriate.
+  - name: "Jennifer Bailard, Mark Lehman, and Sarah Wright"
     affiliation: |
       | Mojave Desert Network
       | Inventory and Monitoring Program 
@@ -107,6 +103,7 @@ pkgList <- c("devtools",        # tends to be needed/useful
              "english",         # converts numbers into english. Good for all that English stuff.
              "remotes",         # for install_github()
              "tidyverse",       # useful
+             "formatR",
              "magrittr",
              "plotly",
              "svglite",
@@ -173,7 +170,7 @@ if (file.exists(file=here::here("data", "temp", "projectMetadata.RData"))) {
 Streams and lakes in Great Basin National Park (GRBA) provide habitat for aquatic and terrestrial organisms, contribute to local water supplies, and serve as popular visitor destinations. Aquatic and riparian habitats are important compared to their relatively small land cover because they often host endemic biota and support higher levels of biodiversity. Up to 80% of all vertebrates in the western United States depend on riparian habitats for at least part of their life cycles, and more than half are completely dependent on riparian habitats. Recently, the regionally-endemic Bonneville cutthroat trout has been reintroduced to streams and lakes in the park.
 
 ## Threats and Stressors
-Climate change poses the main threat to surface water resources in GRBA. Climate change affects precipitation and snowmelt patterns, which control stream flow regime--the amount and variability in discharge--as well as lake hydrology and physical limnology. Flow regime is the key driver of ecosystem processes in streams. In addition, climate change affects water temperatures and thermal regimes, which are also important determinants of biotic communities and ecosystem processes in streams and lakes.
+Climate change poses a threat to surface water resources in GRBA. Climate change affects precipitation and snowmelt patterns, which control stream flow regime--the amount and variability in discharge--as well as lake hydrology and physical limnology. Flow regime is the key driver of ecosystem processes in streams. In addition, climate change affects water temperatures and thermal regimes, which are also important determinants of biotic communities and ecosystem processes in streams and lakes.
 
 Other potential threats include groundwater pumping in valleys adjacent to GRBA, cultural eutrophication, sedimentation, acid rain, input of contaminants, fishing, and the introduction of non-native species. Cultural eutrophication through the atmospheric deposition of anthropogenic nitrogen and phosphorus may lead to changes in food webs and fisheries and can exacerbate hypoxia events in lakes. Acid rain may decrease pH and alter the nutrient status of lakes. Lakes such as those at GRBA with low natural buffering capacity are particularly vulnerable to the effects of acidification. The combined effects of invasive grasses, past fire suppression, and climate change may result in large and catastrophic fires within the park. Large fires, particularly those burning entire watersheds, could be major disturbances for aquatic biota in streams and lakes.
 
@@ -184,7 +181,7 @@ All nine streams are visited annually in August to collect water quality channel
 
 The lakes are visited annually in September to collect water quality depth profiles, water chemistry samples, water clarity through Secchi depth measurements, and water surface elevations through digital level surveys. These water surface elevations are tied to continuous lake level recorded by pressure transducers.
 
-``` {r figure1, echo = FALSE, fig.align = "left", fig.cap = "**Figure 1.** Streams and lakes monitoring locations, Great Basin National Park."}
+``` {r figure1, echo = FALSE, fig.align = "left", fig.cap = "**Figure 1.** Streams and lakes monitoring locations, Great Basin National Park. (M. Lehman, NPS)"}
 include_graphics(here::here("figures", "STLK Map 600DPI.jpg"))
 ```
 
@@ -367,8 +364,6 @@ This is a plot of the final calculated water surface elevations for each lake ac
 lake.elev.plots <- PlotLakeSurfaceElevation(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 lake.elev.plots <- ggplotly(lake.elev.plots)
-
-
 
 for (i in 1:length(lake.elev.plots$x$data)){
     if (!is.null(lake.elev.plots$x$data[[i]]$name)){
@@ -643,7 +638,7 @@ field.blanks %>%
 There are `r nrow(field.blanks)` analytes from blanks with concentrations greater than the MDL for that analyte.
 
 ### Dissolved nitrogen
-These are the records where the concentration of total dissolved nitrogen (TDN) exceeds total nitrogen (UTN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration is measured from the filtered sampled. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
+These are the records where the concentration of total dissolved nitrogen (TDN) exceeds total nitrogen (UTN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration is measured from the filtered sample. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
 ``` {r chem.TDN}
 chem.TDN <- qcChemTDN(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
@@ -667,7 +662,7 @@ reactable(dplyr::select(chem.TDN, -TDNFlag),
 There are `r nrow(chem.TDN %>% filter(TDNvUTN >= 0.02))` records where the concentration of dissolved nitrogen is greater than the total nitrogen concentration and the difference is outside the normal limits of variability.
 
 ### Nitrate and nitrite
-These are the records where the concentration of nitrate (NO3) and nitrite (NO2) exceeds either total nitrogen (UTN) or total dissolved nitrogen (TDN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen or dissolved nitrogen is in the form of nitrate and nitrite, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration (including nitrate and nitrite) is measured from the filtered sampled. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
+These are the records where the concentration of nitrate (NO3) and nitrite (NO2) exceeds either total nitrogen (UTN) or total dissolved nitrogen (TDN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen or dissolved nitrogen is in the form of nitrate and nitrite, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration (including nitrate and nitrite) is measured from the filtered sample. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
 ``` {r chem.NO3NO2}
 chem.NO3NO2 <- qcChemNO3NO2(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
@@ -691,7 +686,7 @@ reactable(dplyr::select(chem.NO3NO2, -NO3NO2Flag),
 There are `r nrow(chem.NO3NO2)` records where the concentration of nitrate and nitrate is greater than the concentration of either total nitrogen or total dissolved nitrogen.
 
 ### Dissolved phosphorus
-These are the records where the concentration of total dissolved phosphorus exceeds total phosphorus. If the discrepancy falls within precision limits, this indicates that nearly all of the phosphorus is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration is measured from the filtered sampled. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
+These are the records where the concentration of total dissolved phosphorus exceeds total phosphorus. If the discrepancy falls within precision limits, this indicates that nearly all of the phosphorus is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration is measured from the filtered sample. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
 ``` {r chem.TDP}
 chem.TDP <- qcChemTDP(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
@@ -843,7 +838,7 @@ reactable(dplyr::select(bmi.discrepancies, -LabNotes),
 There are `r nrow(bmi.discrepancies)` metrics with discrepancies between taxa group count and taxa group abundance.
 
 ### General metrics plot
-This plot shows total richness (number of unique taxa within a sample) and total abundance (number of individuals per m2 within a sample) for stream BMI samples. Richness metrics are standardized to Operational Taxonomic Units (OTUs), which abundance metrics are based on the raw taxa list.
+This plot shows total richness (number of unique taxa within a sample) and total abundance (number of individuals per m2 within a sample) for stream BMI samples. Richness metrics are standardized to Operational Taxonomic Units (OTUs), while abundance metrics are based on the raw taxa list.
 ``` {r bmi.gen.plot, warning = FALSE}
 bmi.gen.plot <- BMIGeneralMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
@@ -859,9 +854,9 @@ ggplotly(bmi.div.plot)
 ```
 
 ### Tolerance metrics plot
-This plot shows richness (number of taxa within a group) and abundance (number of individuals within a group) for stream BMI samples. Richness metrics are standardized to Operational Taxonomic Units (OTUs), which abundance metrics are based on the raw taxa list.
+This plot shows richness (number of taxa within a group) and abundance (number of individuals within a group) for stream BMI samples. Richness metrics are standardized to Operational Taxonomic Units (OTUs), while abundance metrics are based on the raw taxa list.
 
-Groups are based on tolerance to disturbance or pollution. The Hilsenhoff Biotic Index (HBI) is the abundance-weighted average of family-level pollution tolerances, and is plotted in the diversity metrics section. Tolerant taxa have an HBI score >=8 and are able to withstand disturbance and poor water quality. Intolerant taxa have an BMI score <=2 and are not as able to withstand disturbance and poor water quality. EPT refers to the insect orders Ephemeroptera (mayflies), Plecoptera (stoneflies), and Tricoptera (caddisflies), which are sensitive to disturbance and can indicate good water quality. Long-lived taxa have 2- to 3-year life cycles can indicate habitat stability and persistent good water quality in their habitat. Clinger taxa have fixed retreats or other strategies for clinging to rocks and are vulnerable to the deposition of fine sediments.
+Groups are based on tolerance to disturbance or pollution. The Hilsenhoff Biotic Index (HBI) is the abundance-weighted average of family-level pollution tolerances, and is plotted in the diversity metrics section. Tolerant taxa have an HBI score >=8 and are able to withstand disturbance and poor water quality. Intolerant taxa have an BMI score <=2 and are not as able to withstand disturbance and poor water quality. EPT refers to the insect orders Ephemeroptera (mayflies), Plecoptera (stoneflies), and Tricoptera (caddisflies), which are sensitive to disturbance and whose presence and abundance can indicate good water quality. Long-lived taxa have 2- to 3-year life cycles can indicate habitat stability and persistent good water quality in their habitat. Clinger taxa have fixed retreats or other strategies for clinging to rocks and are vulnerable to the deposition of fine sediments.
 ``` {r bmi.tol.plot, warning = FALSE}
 bmi.tol.plot <- BMIToleranceMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
@@ -869,9 +864,9 @@ ggplotly(bmi.tol.plot)
 ```
 
 ### Functional feeding group metrics plot
-This plot shows richness (number of taxa within a group) and abundance (number of individuals within a group) for stream BMI samples. Richness metrics are standardized to Operational Taxonomic Units (OTUs), which abundance metrics are based on the raw taxa list.
+This plot shows richness (number of taxa within a group) and abundance (number of individuals within a group) for stream BMI samples. Richness metrics are standardized to Operational Taxonomic Units (OTUs), while abundance metrics are based on the raw taxa list.
 
-Groups are based on functional feeding groups, which refer to the type of food resource that species utilize in the stream. Shredder taxa consume living or decomposing vascular plant tissue and coarse particulate organic matter (CPOM). Scraper taxa consume periphyton, particularly algae and diatoms. Collector-filterer taxa consume fine particulate organic matter (FPOM) in the water column. Collector-gatherer taxa consume FPOM from benthic deposits. Predator taxa consume living animal tissue, usually other BMI, but occasionally small amphibians and other vertebrates. They can indicate that a habitat supports higher trophic complexity.
+Groups are based on functional feeding groups, which refer to the type of food resource that species utilize in the stream. Shredder taxa consume living or decomposing vascular plant tissue and coarse particulate organic matter (CPOM). Scraper taxa consume periphyton, particularly algae and diatoms. Collector-filterer taxa consume fine particulate organic matter (FPOM) in the water column. Collector-gatherer taxa consume FPOM from benthic deposits. Predator taxa consume living animal tissue, usually other BMI, but occasionally small vertebrates. They can indicate that a habitat supports higher trophic complexity.
 ``` {r bmi.fun.plot, warning = FALSE}
 bmi.fun.plot <- BMIFunctionalMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
@@ -903,7 +898,7 @@ apply to access the data, what criteria will be used to determine who may access
 the data, and any limitations on data use.
 
 # Acknowledgements
-The authors would like to acknowledge Geoff Moret, who wrote the Streams and Lakes protocol and set in motion over a decade of surface water resource monitoring in Great Basin National Park.
+The authors would like to acknowledge Geoff Moret, who developed the Streams and Lakes protocol and set in motion over a decade of surface water resource monitoring in Great Basin National Park.
 
 # References (required)
 Bibliographic information for any works cited in the above sections, using the
@@ -927,114 +922,18 @@ U.S. Fish & Wildlife Service (USFWS). 2019. ECOS Environmental Conservation Onli
 
 U.S. Government Printing Office (GPO). 2013. Making Open and Machine Readable the New Default for Government Information. Executive Order 13642.(Available at https://www.govinfo.gov/content/pkg/CFR-2014-title3-vol1/pdf/CFR-2014-title3-vol1-eo13642.pdf)
 
-
 \pagebreak
 
-# Appendix C. Code Listing
+# Appendix A. Code Listing
 ```{r Listing, ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
 ```
 
 \pagebreak
 
-# Appendix D. Session and Version Information
+# Appendix B. Session and Version Information
 ```{r session-info, echo=FALSE, cache=FALSE}
 sessionInfo()
 Sys.time()
-```
-
-# Additional Notes (this should not be included in reports...)
-
-## Figures
-
-Figure images should be included in-text near the initial point of reference.
-
-Figure captions begin with a brief title sentence summarizing the purpose of the figure as a whole, and continue with a short description of what is shown in each panel and an explanation of any symbols used. Legends must total no more than 350 words, and may contain literature references. The first sentence of the legend will be used as the title for the figure. It (the first sentence) should contain no references of any kind, including to specific figure panels, bibliographic citations or references to other figures or panels.
-
-## Tables
-
-Authors are encouraged to provide one or more tables that provide basic
-information on the main ‘inputs’ to the study (e.g. samples, participants, or
-information sources) and the main data outputs of the study; also see the
-additional information on providing metadata on page 6. Tables in the manuscript
-should generally not be used to present primary data (i.e. measurements). Tables
-containing primary data should be submitted to an appropriate data repository.
-
-Authors may provide tables within text near the initial citation or as an
-appendix. Legends, where needed, should be included in the Word document.
-Generally, a Data Publication Report should have fewer than ten tables, but more
-may be allowed when needed.
-
-### Example Data Record Summary Tables
-Here, we provide four generic ‘Table 1’ examples, including two experimental
-study examples, one observational study example, and an example for an
-aggregated dataset of the type that may result from a meta-analysis. 
-
-```{r Table21, echo=FALSE}
-T1Subjects<-c("Mouse1","Mouse2","Mousen")
-T1Protocol1<-c("Drug treatment","Drug treatment","Drug treatment")
-T1Protocol2<-c("Liver dissection","Liver dissection","Liver dissection")
-T1Protocol3<-c("RNA extraction","RNA extraction","RNA extraction")
-T1Protocol4<-c("RNA-Seq","RNA-Seq","RNA-Seq")
-T1Data<-c("GEOXXXXX","GEOXXXXX","GEOXXXXX")
-Table1<-data.frame(T1Subjects,T1Protocol1,T1Protocol2,T1Protocol3,T1Protocol4,T1Data)
-
-kable(Table1, 
-      col.names=c("Subjects","Protocol 1","Protocol 2","Protocol 3","Protocol 4","Data"),
-      caption="**Table 21.** Experimental study example Data Records table.") %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=F) %>%
-  footnote(general="This table was generated using the kableExtra package.")
-
-```
-
-```{r Table2, echo=FALSE}
-Source<-c("CellCulture1","CellCulture1","CellCulture1","CellCulture1","CellCulture1","CellCulture1")
-Protocol1<-c("Drug treatment","Drug treatment","Drug treatment","Drug treatment","Drug treatment","Drug treatment")
-Protocol2<-c("RNA extraction","RNA extraction","RNA extraction","RNA extraction","RNA extraction","RNA extraction")
-Samples<-c("TechnicalRep1a","TechnicalRep2a","TechnicalRep3a","TechnicalRep1b","TechnicalRep2b","TechnicalRep3b")
-Protocol3<-c("Microarray hybridization","Microarray hybridization","Microarray hybridization","Microarray hybridization","Microarray hybridization","Microarray hybridization")
-Data<-c("GEOXXXXX","GEOXXXXX","GEOXXXXX","GEOXXXXX","GEOXXXXX","GEOXXXXX")
-Table<-data.frame(Source,Protocol1,Protocol2,Samples,Protocol3,Data)
-
-kable(Table, 
-      col.names=c("Subjects","Protocol 1","Protocol 2","Samples","Protocol 3","Data"),
-      caption="**Table 2.** Experimental study with replicates Data Records table.") %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=F)
-
-
-```
-
-```{r Table3, echo=FALSE}
-Sample<-c("Body of water 1","Body of water 2","Body of water n")
-geoloc<-c("location name","location name","location name")
-geopos<-c("latitude, longitude, altitude","latitude, longitude, altitude","latitude, longitude, altitude")
-protocol<-c("Measurement of surface temperature","Measurement of surface temperature","Measurement of surface temperature")
-data<-c("dataFile1","dataFile2","dataFile3")
-Table<-data.frame(Sample,geoloc,geopos,protocol,data)
-
-kable(Table, 
-      col.names=c("Sample","Geographical Location","Geoposition","Protocol","Data"),
-      caption="**Table 3.** Observational study example Data Records table.") %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=F)
-
-
-```
-
-```{r Table4, echo=FALSE}
-c1<-c("Database URL 1","Database URL 1","Database URL 2")
-c2<-c("Dataset 1","Dataset 2","Dataset n")
-c3<-c("Number of samples in the dataset","Number of samples in the dataset","Number of samples in the dataset")
-c4<-c("Range of measurements reported in the dataset","Range of measurements reported in the dataset","Range of measurements reported in the dataset")
-c5<-c("Data assimilation procedure","Data assimilation procedure","Data assimilation procedure")
-c6<-c("Method to generate output data","Method to generate output data","Method to generate output data")
-c7<-c("dataFile1","dataFile1","dataFile2")
-Table<-data.frame(c1,c2,c3,c4,c5,c6,c7)
-
-kable(Table, 
-      col.names=c("Source","Sample","Sample Number","Temporal Range","Protocol 1","Protocol2","Data"),
-      caption="**Table 4.** Data aggregation study example Data Records table.") %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=F)
-
-
 ```
 
 ``` {r close.db}
