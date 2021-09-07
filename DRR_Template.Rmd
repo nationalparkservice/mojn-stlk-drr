@@ -820,13 +820,13 @@ U.S. Government Printing Office (GPO). 2013. Making Open and Machine Readable th
 
 \pagebreak
 
-# Appendix C. Code Listing
+# Appendix A. Code Listing
 ```{r Listing, ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
 ```
 
 \pagebreak
 
-# Appendix D. Session and Version Information
+# Appendix B. Session and Version Information
 ```{r session-info, echo=FALSE, cache=FALSE}
 sessionInfo()
 Sys.time()
