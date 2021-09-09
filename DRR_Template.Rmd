@@ -12,6 +12,7 @@ params:
   dataPackage2Title: "Dataset 2 FULL TITLE"               # Should match title in data store.
   dataPackage2Description: "SHORT TITLE FOR DATASET 1"  
   dataSource: "local"  # Either "local" or "database". If "local", csv data must be in data/raw folder. If database, must be able to connect to the MOJN STLK SQL Server db.
+  isAccessible: "yes" # Either "yes" for a version that is screen-readable or "no" for a version with interactive table and plot formatting.
   
 title: |
     | Mojave Desert Network Streams and Lakes
@@ -151,7 +152,6 @@ if (params$dataSource == "database") {
   conn <- NA
 } 
 raw_data_path <- here::here("data", "raw")
-
 ```
 
 ```{r LoadData, include=FALSE}
@@ -181,8 +181,8 @@ All nine streams are visited annually in August to collect water quality channel
 
 The lakes are visited annually in September to collect water quality depth profiles, water chemistry samples, water clarity through Secchi depth measurements, and water surface elevations through digital level surveys. These water surface elevations are tied to continuous lake level recorded by pressure transducers.
 
-``` {r figure1, echo = FALSE, fig.align = "left", fig.cap = "**Figure 1.** Streams and lakes monitoring locations, Great Basin National Park. (M. Lehman, NPS)"}
-include_graphics(here::here("figures", "STLK Map 600DPI.jpg"))
+``` {r figure1, echo = FALSE, fig.align = "left", fig.cap = "**Figure 1.** Streams and lakes monitoring locations, Great Basin National Park. (M. Lehman, NPS)", fig.alt = "Map of Great Basin National Park with lines for streams, dots for lakes, and symbols indicating different types of monitoring locations. Great Basin National Park is located in central-eastern Nevada along the border with Utah. The nine monitored streams are Shingle, Pine, and Ridge on the western slope of the Southern Snake Range, and Strawberry, Mill, Lehman, Baker, Snake, and South Fork Big Wash on the eastern slope. The six monitored lakes are Stella, Teresa and Brown clustered together in the north of the park below Wheeler Peak; Baker below Baker Peak; and Johnson and Dead in the middle of the park slightly below Pyramid Peak."}
+knitr::include_graphics(here::here("figures", "STLK Map 600DPI.jpg"))
 ```
 
 ## Monitoring Questions
@@ -227,7 +227,7 @@ One data package containing multiple csv data tables was published for this proj
 
 * **`r params$dataPackage1Title`.** Comma-separated text files containing data from the MOJN Streams and Lakes protocol. These data were compiled by the Mojave Desert Inventory and Monitoring Network and were last updated on September 1, 2021. Available at `r paste0("https://irma.nps.gov/DataStore/Reference/Profile/", params$dataPackage1RefID)`. 
 
-```{r Table1, echo=FALSE}
+```{r Table1, echo=FALSE, alt.text = "Table with the file name of each CSV published as part of the data package and a brief description of each file. There are thirteen raw files and and additional three calculated files."}
 FileName<-c("Site","Visit","BMI","Channel","Chemistry","Clarity","LakeLevelString","LakeLevelSurvey","WaterQualityDO","WaterQualitypH","WaterQualitySpCond","WaterQualityTemperature","WQStreamXSection","LakeLevel_CALCULATED","WaterQuality_CALCULATED","WQStreamXSection_CALCULATED")
 Description<-c("A full description of each of the site codes used in this dataset (Streams and Lakes)","General attributes of the monitoring site visit (Streams and Lakes)","All benthic macroinvertebrate data from all sites (Streams)","Channel characteristics associated with the BMI measurements (Streams)","Laboratory analysis of water chemistry (Streams and Lakes)","Depth and secchi depth measurements (Lakes)","Lake level measured using a string-based survey","Lake level measured using a theodolite-based survey","Dissolved oxygen measured in situ through a depth profile (Lakes)","pH measured in situ through a depth profile (Lakes)","Specific conductance measured in situ through a depth profile (Lakes)","Temperature measured in situ through a depth profile (Lakes)","In situ water quality measured through stream crosssections (Streams)","The calculated lake surface level calculated from the raw data in LakeLevel String and LakeLevelSurvey using the MOJN Streams and Lakes R package (Lakes)","The median water quality values calculated from the four raw WaterQuality data tables (Lakes)","The median water quality values calculated from the raw values in the WQStreamXSection data table (Streams)")
 Table<-data.frame(FileName,Description)
@@ -256,24 +256,36 @@ The data within the data records listed above have been reviewed by staff in the
 - In 2017, no water quality data were collected at Baker Lake due to leaking waders. 
 - In 2018, the method for determining benchmark and lake level elevations transitioned from string surveys to digit level surveys.
 
-## Sites not visited {.tabset}
+`r if(params$isAccessible == "yes") {"## Sites not visited"} else {"## Sites not visited {.tabset}"}`
+
 This is a list of sites that were not visited for annual monitoring during a field season. Stream sampling moved from Baker Creek South Fork (GRBA_S_BAKR2) to Baker Creek Main Stem (GRBA_S_BAKR3) in 2011. Brown Lake and Dead Lake were not monitored during the pilot field season in 2009. Dead Lake and Johnson Lake were not monitored in 2013 due to the lapse in federal appropriations. While Dead Lake was monitored in 2015, no data were collected because the lake was entirely dry.
-``` {r no.visits}
+``` {r no.visits, fig.alt = "Table listing all of the streams or lakes that were not visited during any given field season."}
 no.visits <- qcNoAnnualVisit(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+knitr::kable(no.visits) %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
+} else {
 no.visits %>%
   dplyr::select(-c(VisitDate, Park, SiteShort)) %>%
   reactable(groupBy = "SiteCode", 
                        columns = list(SiteName = colDef(aggregate = "unique"),
                                       SampleFrame = colDef(aggregate = "unique"),
                                       FieldSeason = colDef(aggregate = "unique")))
+}
 ```
 
-## Data processing levels {.tabset}
-This is a list of site visits that have any data categorized as "Raw" or "Provisional." These data need to be reviewed and moved to "Accepted" status before publication of the dataset.
-``` {r dpl.check, echo = FALSE, message = FALSE}
+`r if(params$isAccessible == "yes") {"## Data processing levels"} else {"## Data processing levels {.tabset}"}`
+
+This is a list of site visits that have any data labeled as "Raw" or "Provisional." These data need to be reviewed and moved to "Accepted" status before publication of the dataset.
+``` {r dpl.check, echo = FALSE, message = FALSE, fig.alt = "Table listing any records with data still labeled as Raw or Provisional."}
 dpl.check <- qcDPLCheck(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+dpl.check %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
+} else {
 dpl.check %>%
   dplyr::select(SiteCode, SiteName, VisitDate, FieldSeason, SampleFrame, VisitType) %>%
   reactable(details = function(index) {
@@ -283,141 +295,217 @@ dpl.check %>%
       pivot_longer(everything(), names_to = "SOP", values_to = "DPL")
     reactable(dpl, outlined = TRUE)
   })
+}
 ```
 `r if(nrow(dpl.check) == 0){"All records have been accepted."}`
 `r if(nrow(dpl.check) > 0){"The above records need to be reviewed and accepted before publication."}`
 
-## Lake surface and benchmark elevations {.tabset}
+`r if(params$isAccessible == "yes") {"## Lake surface and benchmark elevations"} else {"## Lake surface and benchmark elevations {.tabset}"}`
+
 ### Benchmark elevations
 These are the mean values and standard deviations of final corrected elevations for each benchmark across all field seasons. Digital level readings began in 2018.
-``` {r benchmark.elevations}
+``` {r benchmark.elevations, fig.alt = "Table with calculated elevations for each lake benchmark and water surface since 2018 when the use of digital level surveys began."}
 benchmark.elevations <- SurveyPointElevation(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 benchmark.elevations$ClosureError_ft <- round(benchmark.elevations$ClosureError_ft, 4)
 benchmark.elevations$FinalCorrectedElevation_ft <- round(benchmark.elevations$FinalCorrectedElevation_ft, 4)
 
+if (params$isAccessible == "yes") {
+benchmark.elevations %>%
+  dplyr::select(-c(Park, SiteShort, DPL, VisitType)) %>%  
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
+} else {
 benchmark.elevations %>%
   dplyr::select(-c(Park, SiteShort, DPL, VisitType)) %>%
   reactable(searchable = TRUE)
+}
 ```
 
 ### String survey heights
 These are the mean values and standard deviations of string survey heights for each benchmark for each field season. The height of the benchmark above the water surface was typically measured seven times during the string survey. String surveys ended in 2018 and were replaced by digit level readings during that same field season, which have higher accuracy and precision. No comparable lake level data were collected in 2009 due to different reference marks used during the pilot field season.
-``` {r string.heights}
+``` {r string.heights, fig.alt = "Table with mean string heights and standard deviations for each lake benchmark from 2010 until the string method was last used in 2018."}
 string.heights <- qcStringSurveyHeights(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 string.heights$MeanHeight_ft <- round(string.heights$MeanHeight_ft, 4)
 string.heights$StDevHeight_ft <- round(string.heights$StDevHeight_ft, 4)
 
+if (params$isAccessible == "yes") {
+string.heights %>%
+  dplyr::select(-c(Park, SiteShort, VisitType)) %>%
+  dplyr::ungroup() %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
+} else {
 string.heights %>%
   dplyr::select(-c(Park, SiteShort, VisitType)) %>%
   dplyr::ungroup() %>%
   reactable(searchable = TRUE)
+}
 ```
 
 ### String survey elevations
 These are the mean values and standard deviations of string survey lake level elevations for each field season. The reference mark designated Benchmark 1 was typically used to calculate the final lake level at each lake. String surveys ended in 2018 and were replaced by digit level readings during that same field season, which have higher accuracy and precision.
-``` {r string.elevations}
+``` {r string.elevations, fig.alt = "Table with calculated elevations for each lake water surface from 2010 until the string method was last used in 2018."}
 string.elevations <- qcStringSurveyElevations(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 string.elevations$MeanFinalElevation_ft <- round(string.elevations$MeanFinalElevation_ft, 4)
 string.elevations$StDevFinalElevation_ft <- round(string.elevations$StDevFinalElevation_ft, 4)
 
+if (params$isAccessible == "yes") {
+string.elevations %>%
+  dplyr::select(-c(Park, SiteShort, VisitType)) %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
+} else {
 string.elevations %>%
   dplyr::select(-c(Park, SiteShort, VisitType)) %>%
   reactable(searchable = TRUE)
+}
 ```
 
 ### Benchmark elevation plots
 This is a plot of the final corrected elevations for each benchmark for each field season. Consistent upward or downward trends in the elevation of a benchmark may indicate that the benchmark is unstable. An abrupt change in the elevation of a benchmark may indicate disturbance at the location of the benchmark. Only digital level readings are included, which began in 2018.
-``` {r benchmark.plots, warning = FALSE}
+``` {r benchmark.plots, warning = FALSE, fig.alt = "Line graphs of benchmark elevations at each lake since 2018, with field season on the x-axis and elevation in feet on the y-axis. Benchmarks generally appear stable."}
 benchmark.plots <- PlotBenchmarkElevation(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+benchmark.plots
+} else {
 ggplotly(benchmark.plots)
+}
 ```
 
 ### Lake surface elevations
 These are the final calculated water surface elevations for each lake across all field seasons. Digital level readings began in 2018.
-``` {r lake.elevations}
+``` {r lake.elevations, fig.alt = "Table with all calcuated lake water surface elevations, including string and digital level methods."}
 lake.elevations <- LakeSurfaceElevation(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+lake.elevations %>%
+  dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
+} else {
 lake.elevations %>%
   dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
   reactable(searchable = TRUE)
-  
+}
 ```
 
 ### Lake surface elevation plots
 This is a plot of the final calculated water surface elevations for each lake across all field seasons. Digital level readings began in 2018. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015.
-``` {r lake.elev.plots, warning = FALSE}
+``` {r lake.elev.plots, warning = FALSE, fig.alt = "Line graphs of lake surface elevations at each lake since 2010, with field season on the x-axis and elevation in feet on the y-axis. Lake surface elevations fluctuate each year, with Dead Lake and Teresa Lake exhibiting the highest fluctuations."}
 lake.elev.plots <- PlotLakeSurfaceElevation(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+lake.elev.plots
+} else {
 lake.elev.plots <- ggplotly(lake.elev.plots)
 
 for (i in 1:length(lake.elev.plots$x$data)){
     if (!is.null(lake.elev.plots$x$data[[i]]$name)){
         lake.elev.plots$x$data[[i]]$name =  gsub("\\(","",str_split(lake.elev.plots$x$data[[i]]$name,",")[[1]][1])
     }
-}
-
+  }
 lake.elev.plots
+}
 ```
 
-## Lake water clarity (Secchi depth) {.tabset}
+`r if(params$isAccessible == "yes") {"## Lake water clarity (Secchi depth)"} else {"## Lake water clarity (Secchi depth) {.tabset}"}`
+
 ### Depths exceed lake
 This is a list of records where Secchi depth measurements are greater than the lake depth entered during the visit.
-``` {r depths.exceed.lake}
+``` {r depths.exceed.lake, fig.alt = "Table of records where Secchi depth was greater than lake depth."}
 depths.exceed.lake <- qcSecchiGTDepth(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+depths.exceed.lake %<>%
+  dplyr::select(-c(Park, SiteShort, VisitType, DPL))
+
+if (params$isAccessible == "yes") {
 depths.exceed.lake %>%
-  dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
+} else {
+depths.exceed.lake %>%
   reactable(searchable = TRUE)
+}
 ```
 There are `r nrow(depths.exceed.lake)` records with this inconsistency.
 
 ### Lake dry, depths exist
 This is a list of records where the lake **is** dry and clarity data or Secchi depth measurements exist.
-``` {r lake.dry.depths.exist}
+``` {r lake.dry.depths.exist, fig.alt = "Table of records where the lake is dry but clarity data or Secchi depth measurements exist."}
 lake.dry.depths.exist <- qcLakeDryMeasurementsExist(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+lake.dry.depths.exist %<>%
+  dplyr::select(-c(Park, SiteShort, VisitType, DPL))  
+
+if (params$isAccessible == "yes") {
 lake.dry.depths.exist %>%
-  dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
+} else {
+lake.dry.depths.exist %>%
   reactable(searchable = TRUE)
+}
 ```
 There are `r nrow(lake.dry.depths.exist)` records with this inconsistency.
 
 ### Lake not dry, no clarity
 This is a list of records where the lake **is not** dry and calmness, on bottom, or depth to bottom data **do not** exist.
-``` {r lake.not.dry.no.clarity}
+``` {r lake.not.dry.no.clarity, fig.alt = "Table of records where the lake has water but clarity data do not exist."}
 lake.not.dry.no.clarity <- qcLakeNotDryMeasurementsMissing(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+lake.not.dry.no.clarity %<>%
+  dplyr::select(-c(Park, SiteShort, VisitType, DPL))
+
+if (params$isAccessible == "yes") {
 lake.not.dry.no.clarity %>%
-  dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
+} else {
+lake.not.dry.no.clarity %>%
   reactable(searchable = TRUE)
+}
 ```
 There are `r nrow(lake.not.dry.no.clarity)` records with missing data.
 
 ### Lake not dry, no depths
 This is a list of records where the Secchi disk **is not** visible on the bottom of the lake and Secchi depth measurements **do not** exist.
-``` {r lake.not.dry.no.depths}
+``` {r lake.not.dry.no.depths, fig.alt = "Table of records where the lake has water but Sechhi depth measurements do not exist."}
 lake.not.dry.no.depths <- qcSecchiDepthMissing(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+lake.not.dry.no.depths %<>%
+  dplyr::select(-c(Park, SiteShort, VisitType, DPL))
+
+if (params$isAccessible == "yes") {
 lake.not.dry.no.depths %>%
-  dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
+} else {
+lake.not.dry.no.depths %>%
   reactable(searchable = TRUE)
+}
 ```
  There are `r nrow(lake.not.dry.no.depths)` records with missing data.
 
-## Discrete water quality {.tabset}
+`r if(params$isAccessible == "yes") {"## Discrete water quality"} else {"## Discrete water quality {.tabset}"}`
+
 ### Stream sanity check
 These are stream water quality values that fall above or below the ranges that we typically see in subalpine lake and stream systems. These data are not necessarily incorrect, but they are outliers that should be evaluated using data quality flags and field notes. Wildly impossible values may be the result of instrument malfunction, improper callibration, or typos during data entry. The following records are included in the list below: temperature values greater than 20 C, pH values greater than 10 and less than 6, specific conductance values greater than 1000 uS/cm, dissolved oxygen percent values greater than 110%, and dissolved oxygen concentration values greater than 12 mg/L.
-``` {r wq.stream.sanity}
+``` {r wq.stream.sanity, fig.alt = "Table of stream water quality values (temperature, pH, specific conductance, and dissolved oxygen) that fall outside of expected ranges."}
 wq.stream.sanity <- qcStreamWqSanity(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 wq.stream.sanity %<>%
   dplyr::select(-c(Park, SampleFrame, VisitType)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
+if (params$isAccessible == "yes") {
+wq.stream.sanity %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left") 
+} else {
 reactable(dplyr::select(wq.stream.sanity, -FlagNote),
           searchable = TRUE,
           defaultColDef = colDef(minWidth = 50),
@@ -429,12 +517,13 @@ reactable(dplyr::select(wq.stream.sanity, -FlagNote),
           ),
           resizable = TRUE,
           compact = TRUE)
+}
 ```
 There are `r nrow(wq.stream.sanity)` measurements outside of expected ranges.
 
 ### Lake sanity check
 These are lake water quality values that fall above or below the ranges that we typically see in subalpine lake and stream systems. These data are not necessarily incorrect, but they are outliers that should be evaluated using data quality flags and field notes. Wildly impossible values may be the result of instrument malfunction, improper callibration, or typos during data entry. The following records are included in the list below: temperature values greater than 20 C, pH values greater than 10 and less than 6, specific conductance values greater than 1000 uS/cm, dissolved oxygen percent values greater than 110%, and dissolved oxygen concentration values greater than 12 mg/L.
-``` {r wq.lake.sanity}
+``` {r wq.lake.sanity, fig.alt = "Table of lake water quality values (temperature, pH, specific conductance, and dissolved oxygen) that fall outside of expected ranges."}
 wq.lake.sanity <- qcLakeWqSanity(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 wq.lake.sanity %<>%
@@ -442,6 +531,11 @@ wq.lake.sanity %<>%
   dplyr::relocate(MeasurementDepth_m, .after = VisitDate) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
+if (params$isAccessible == "yes") {
+wq.lake.sanity %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left") 
+} else {
 reactable(dplyr::select(wq.lake.sanity, -FlagNote),
           defaultColDef = colDef(minWidth = 50),
           searchable = TRUE,
@@ -453,18 +547,24 @@ reactable(dplyr::select(wq.lake.sanity, -FlagNote),
           ),
           resizable = TRUE,
           compact = TRUE)
+}
 ```
 There are `r nrow(wq.lake.sanity)` measurements outside of expected ranges.
 
 ### Stream data quality flags
 These are stream water quality values that have data quality flags. I = Information: These data do not have any suspected problems, but there may be information regarding the equipment or conditions in which they were collected that could inform their interpretation. W = Warning: These data are suspected to have problems and should only be used after careful assessment of instrument and environmental factors. C = Critical: These data are suspected to have serious problems and are likely unusable.
-``` {r wq.stream.flags}
+``` {r wq.stream.flags, fig.alt = "Table of stream water quality values (temperature, pH, specific conductance, and dissolved oxygen) that have data quality flags."}
 wq.stream.flags <- qcStreamWqFlags(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 wq.stream.flags %<>%
   dplyr::select(-c(Park, SampleFrame, VisitType)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
+if (params$isAccessible == "yes") {
+wq.stream.flags %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left") 
+} else {
 reactable(dplyr::select(wq.stream.flags, -FlagNote),
           defaultColDef = colDef(minWidth = 50),
           searchable = TRUE,
@@ -476,12 +576,13 @@ reactable(dplyr::select(wq.stream.flags, -FlagNote),
           ),
           resizable = TRUE,
           compact = TRUE)
+}
 ```
 There are `r nrow(wq.stream.flags)` flagged measurements.
 
 ### Lake data quality flags
 These are lake water quality values that have data quality flags. I = Information: These data do not have any suspected problems, but there may be information regarding the equipment or conditions in which they were collected that could inform their interpretation. W = Warning: These data are suspected to have problems and should only be used after careful assessment of instrument and environmental factors. C = Critical: These data are suspected to have serious problems and are likely unusable.
-``` {r wq.lake.flags}
+``` {r wq.lake.flags, fig.alt = "Table of lake water quality values (temperature, pH, specific conductance, and dissolved oxygen) that have data quality flags."}
 wq.lake.flags <- qcLakeWqFlags(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 wq.lake.flags %<>%
@@ -489,6 +590,11 @@ wq.lake.flags %<>%
   dplyr::relocate(MeasurementDepth_m, .after = VisitDate) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
+if (params$isAccessible == "yes") {
+wq.lake.flags %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left") 
+} else {
 reactable(dplyr::select(wq.lake.flags, -FlagNote),
           defaultColDef = colDef(minWidth = 50),
           searchable = TRUE,
@@ -500,51 +606,74 @@ reactable(dplyr::select(wq.lake.flags, -FlagNote),
           ),
           resizable = TRUE,
           compact = TRUE)
+}
 ```
 There are `r nrow(wq.lake.flags)` flagged measurements.
 
 ### Lake temperature depth profiles
 This is a plot of temperature depth profiles in units of C for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015. Baker Lake water qualtiy data were not collected in 2017 due to leaky waders and frigid temperatures.
-``` {r temp.dp.plot, warning = FALSE}
+``` {r temp.dp.plot, warning = FALSE, fig.alt = "Plot of lake water temperature values, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates water temperature in degrees Celsius. Lake water temperature values vary by year and are typically between the range of 2.5 to 22.5 degrees Celsius. Lakes generally have a similar temperature throughout the water column, though they often have a relatively warmer temperature at the surface."}
 temp.dp.plot <- WqPlotTemperatureDepthProfile(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+temp.dp.plot
+} else {
 ggplotly(temp.dp.plot)
+}
 ```
 
 ### Lake pH depth profiles
 This is a plot of pH depth profiles for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015. Baker Lake water qualtiy data were not collected in 2017 due to leaky waders and frigid temperatures.
-``` {r ph.dp.plot, warning = FALSE}
+``` {r ph.dp.plot, warning = FALSE, fig.alt = "Plot of lake pH values, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates pH. Lake pH values vary slightly by year and are typically basic between the range of 7 to 9.5. Lakes generally have a similar pH throughout the water column, though acidity occasionally increases with depth."}
 ph.dp.plot <- WqPlotPHDepthProfile(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+ph.dp.plot
+} else {
 ggplotly(ph.dp.plot)
+}
 ```
 
 ### Lake specific conductance depth profiles
 This is a plot of specific conductance depth profiles in units of uS/cm for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015. Baker Lake water qualtiy data were not collected in 2017 due to leaky waders and frigid temperatures.
-``` {r sc.dp.plot, warning = FALSE}
+``` {r sc.dp.plot, warning = FALSE, fig.alt = "Plot of lake specific conductance values, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates specific conductance in micro-Siemens per centimeter. Lake specific conductance values vary slightly by year and are typically less than 50 micro-Siemens per centimeter, although Brown Lake in 2020 was as high as 162 micro-Siemens per centimeter. Lakes generally have a similar specific conductance throughout the water column."}
 sc.dp.plot <- WqPlotSpCondDepthProfile(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+sc.dp.plot
+} else {
 ggplotly(sc.dp.plot)
+}
 ```
 
 ### Lake dissolved oxygen depth profiles
 This is a plot of dissolved oxygen depth profiles in units of mg/L for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015. Baker Lake water qualtiy data were not collected in 2017 due to leaky waders and frigid temperatures.
-``` {r do.dp.plot, warning = FALSE}
+``` {r do.dp.plot, warning = FALSE, fig.alt = "Plot of lake dissolved oxygen values, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates dissolved oxygen in milligrams per liter. Lake dissolved oxygen values vary slightly by year and are typically between the range of 6 to 9 milligrams per liter, with some slightly higher values at Teresa Lake in 2014 and lower values at Dead Lake in 2017. Lakes generally have a similar dissolved oxygen throughout the water column. Occasionally there is very low dissolved oxygen at the bottom, likely due to the probe resting on anoxic substrate."}
 do.dp.plot <- WqPlotDODepthProfile(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+do.dp.plot
+} else {
 ggplotly(do.dp.plot)
+}
 ```
 
-## Water chemistry {.tabset}
+`r if(params$isAccessible == "yes") {"## Water chemistry"} else {"## Water chemistry {.tabset}"}`
+
 ### Data quality flags
 These are water chemistry values that have data quality flags. I = Information: These data do not have any suspected problems, but there may be information regarding the equipment or conditions in which they were collected that could inform their interpretation. W = Warning: These data are suspected to have problems and should only be used after careful assessment of instrument and environmental factors. C = Critical: These data are suspected to have serious problems and are likely unusable.
-``` {r chem.flags}
+``` {r chem.flags, fig.alt = "Table of water chemistry values (nutrients and common ions) that have data quality flags."}
 chem.flags <- qcChemFlags(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 chem.flags %<>%
   dplyr::select(-c(SampleFrame)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
+if (params$isAccessible == "yes") {
+chem.flags %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")   
+} else {
 reactable(dplyr::select(chem.flags, -FlagNote),
           defaultColDef = colDef(minWidth = 50),
           searchable = TRUE,
@@ -556,18 +685,24 @@ reactable(dplyr::select(chem.flags, -FlagNote),
           ),
           resizable = TRUE,
           compact = TRUE)
+}
 ```
 There are `r nrow(chem.flags)` flagged analytes.
 
 ### Lab duplicates
 Laboratory duplicates and triplicates are re-analyses of an analyte from the same sample. These duplicates and triplicates can be used to confirm or replace a suspicious initial result. This is a list of the relative percent difference (RPD) values for laboratory duplicates and triplicates. Results that exceed the 30% method quality objective (MQO) threshold are flagged.
-``` {r lab.dupes}
+``` {r lab.dupes, fig.alt = "Table of relative percent difference values for laboratory duplicates and triplicates."}
 lab.dupes <- qcChemLabDupes(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 lab.dupes %<>%
   dplyr::select(-c(SampleFrame)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
+if (params$isAccessible == "yes") {
+lab.dupes %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")   
+} else {
 reactable(dplyr::select(lab.dupes, -RPDFlag),
           defaultColDef = colDef(minWidth = 50),
           searchable = TRUE,
@@ -579,92 +714,158 @@ reactable(dplyr::select(lab.dupes, -RPDFlag),
           ),
           resizable = TRUE,
           compact = TRUE)
+}
 ```
 There are `r nrow(lab.dupes %>% filter(RPD > 30))` duplicates with RPD values above the 30% MQO threshold.
 
 ### Field duplicates
 Field duplicates are additional samples collected from the same location at approximately the same time and using the same methods as the primary sample. These duplicates can help to detect inconsistency in collection methods or variability in water chemistry at a location. This is a list of the relative percent difference (RPD) values for field duplicates and triplicates. Results that exceed the 30% method quality objective (MQO) threshold are flagged.
-``` {r field.dupes}
+``` {r field.dupes, fig.alt = "Table of relative percent difference values for field duplicates and triplicates."}
 field.dupes <- qcChemFieldDupes(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-field.dupes %>%
+field.dupes %<>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
-  reactable(searchable = TRUE)
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+if (params$isAccessible == "yes") {
+field.dupes %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")   
+} else {
+reactable(dplyr::select(field.dupes, -RPDFlag),
+          defaultColDef = colDef(minWidth = 50),
+          searchable = TRUE,
+          details = colDef(
+            name = "Notes",
+            details = function(index) {
+              lab.dupes$RPDFlag[index]
+            }
+          ),
+          resizable = TRUE,
+          compact = TRUE)
+}
 ```
 There are `r nrow(field.dupes %>% filter(RPD > 30))` duplicates with RPD values above the 30% MQO threshold.
 
 ### Field blanks
 Field blanks are bottles filled with distilled water as opposed to water sampled at the location. They are handled the same way as primary samples in the field and can help to detect and identify sources of contamination during sampling. This is a list of analyte concentrations that exceed the method detection limit (MDL) for that analyte.
-``` {r field.blanks}
+``` {r field.blanks, fig.alt = "Table of analyte concentrations measured in field blanks that exceed the method detection limit."}
 field.blanks <- qcChemFieldBlanks(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-field.blanks %>%
+field.blanks %<>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+if (params$isAccessible == "yes") {
+field.blanks %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
+} else {
+field.blanks %>%
   reactable(searchable = TRUE)
+}
 ```
 There are `r nrow(field.blanks)` analytes from blanks with concentrations greater than the MDL for that analyte.
 
 ### Dissolved nitrogen
 These are the records where the concentration of total dissolved nitrogen (TDN) exceeds total nitrogen (UTN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration is measured from the filtered sample. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
-``` {r chem.TDN}
+``` {r chem.TDN, fig.alt = "Table of records where the concentration of total dissolved nitrogen is greater than total nitrogen."}
 chem.TDN <- qcChemTDN(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-chem.TDN %>%
+chem.TDN %<>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+if (params$isAccessible == "yes") {
+chem.TDN %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
+} else {
+chem.TDN %>%
   reactable(searchable = TRUE)
+}
 ```
 There are `r nrow(chem.TDN %>% filter(TDNvUTN >= 0.02))` records where the concentration of dissolved nitrogen is greater than the total nitrogen concentration and the difference is outside the normal limits of variability.
 
 ### Nitrate and nitrite
 These are the records where the concentration of nitrate (NO3) and nitrite (NO2) exceeds either total nitrogen (UTN) or total dissolved nitrogen (TDN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen or dissolved nitrogen is in the form of nitrate and nitrite, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration (including nitrate and nitrite) is measured from the filtered sample. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
-``` {r chem.NO3NO2}
+``` {r chem.NO3NO2, fig.alt = "Table of records where the concentration of nitrate and nitrite is greater than total nitrogen or total dissolved nitrogen."}
 chem.NO3NO2 <- qcChemNO3NO2(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-chem.NO3NO2 %>%
+chem.NO3NO2 %<>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+if (params$isAccessible == "yes") {
+chem.NO3NO2 %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
+} else {
+chem.NO3NO2 %>%
   reactable(searchable = TRUE)
+}
 ```
 There are `r nrow(chem.NO3NO2)` records where the concentration of nitrate and nitrate is greater than the concentration of either total nitrogen or total dissolved nitrogen.
 
 ### Dissolved phosphorus
 These are the records where the concentration of total dissolved phosphorus exceeds total phosphorus. If the discrepancy falls within precision limits, this indicates that nearly all of the phosphorus is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration is measured from the filtered sample. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
-``` {r chem.TDP}
+``` {r chem.TDP, fig.alt = "Table of records where the concentration of total dissolved phosphorus is greater than total phosphorus."}
 chem.TDP <- qcChemTDP(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-chem.TDP %>%
+chem.TDP %<>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+if (params$isAccessible == "yes") {
+chem.TDP %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
+} else {
+chem.TDP %>%
   reactable(searchable = TRUE)
+}
 ```
 There are `r nrow(chem.TDP %>% filter(TDPvUTP >= 0.003))` records where the concentration of dissolved phosphorus is greater than the total phosphorus concentration and the difference is outside the normal limits of variability.
 
 ### MDL
 Minimum detection level (MDL) is defined by the EPA as the "minimum concentration of a substance that can be measured and reported with 99% confidence that the analyte concentration is greater than zero." Below this concentration, presence of the analyte cannot be confirmed. These are the records where the concentration of a certain analyte was less than or equal to the MDL for that analyte.
-``` {r chem.MDL}
+``` {r chem.MDL, fig.alt = "Table of analyte conentrations that are less than or equal to the minimum detection level for that analyte."}
 lookup <- getMDLLookup()
 chem.MDL <- qcChemMDL(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-chem.MDL %>%
+chem.MDL %<>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+if (params$isAccessible == "yes") {
+chem.MDL %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
+} else {
+chem.MDL %>%
   reactable(searchable = TRUE)
+}
 ```
 There are `r nrow(chem.MDL)` analytes with concentrations less than or equal to the MDL.
 
 ### ML
-Minimum level of quantification (ML) is defined as the "concentration at which the analytical system gives a recognizable signal and acceptable calibration point for the analyte." Below this concentration, the analyte may be detected (if greater than the MDL) but not measured at a known level of confidence. These are the records where the concentration of a certain analyte was less than or equal to the ML for that analyte.
-``` {r chem.ML}
+Minimum level of quantitation (ML) is defined as the "concentration at which the analytical system gives a recognizable signal and acceptable calibration point for the analyte." Below this concentration, the analyte may be detected (if greater than the MDL) but not measured at a known level of confidence. These are the records where the concentration of a certain analyte was less than or equal to the ML for that analyte.
+``` {r chem.ML, fig.alt = "Table of analyte conentrations that are less than or equal to the minimum level of quantitation for that analyte."}
 lookup <- getMDLLookup()
 chem.ML <- qcChemML(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-chem.ML %>%
+chem.ML %<>%
   dplyr::select(-c(SampleFrame)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+if (params$isAccessible == "yes") {
+chem.ML %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
+} else {
+chem.ML %>%
   reactable(searchable = TRUE)
+}
 ```
 There are `r nrow(chem.ML)` analytes with concentrations less than or equal to the ML.
 
@@ -673,7 +874,11 @@ This is a plot of nutrient concentrations for each stream for each field season.
 ``` {r chem.stream.nutrient.plot, warning = FALSE}
 chem.stream.nutrient.plot <- ChemStreamNutrientPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+chem.stream.nutrient.plot
+} else {
 ggplotly(chem.stream.nutrient.plot)
+}
 ```
 
 ### Stream nutrients bar plot
@@ -681,7 +886,11 @@ This is a bar plot of nutrient concentrations for each stream for each field sea
 ``` {r chem.stream.nutrient.bar.plot, warning = FALSE}
 chem.stream.nutrient.bar.plot <- ChemStreamNutrientBarPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+chem.stream.nutrient.bar.plot
+} else {
 ggplotly(chem.stream.nutrient.bar.plot)
+}
 ```
 
 ### Stream ions plot
@@ -691,7 +900,11 @@ Alkalinity is a property of water defined by the USGS as "the buffering capacity
 ``` {r chem.stream.ion.plot, warning = FALSE}
 chem.stream.ion.plot <- ChemStreamIonPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+chem.stream.ion.plot
+} else {
 ggplotly(chem.stream.ion.plot)
+}
 ```
 
 ### Lake nutrients plot
@@ -699,7 +912,11 @@ This is a plot of nutrient concentrations for each lake for each field season. N
 ``` {r chem.lake.nutrient.plot, warning = FALSE}
 chem.lake.nutrient.plot <- ChemLakeNutrientPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+chem.lake.nutrient.plot
+} else {
 ggplotly(chem.lake.nutrient.plot)
+}
 ```
 
 ### Lake nutrients bar plot
@@ -707,7 +924,11 @@ This is a bar plot of nutrient concentrations for each lake for each field seaso
 ``` {r chem.lake.nutrient.bar.plot, warning = FALSE}
 chem.lake.nutrient.bar.plot <- ChemLakeNutrientBarPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+chem.lake.nutrient.bar.plot
+} else {
 ggplotly(chem.lake.nutrient.bar.plot)
+}
 ```
 
 ### Lake ions plot
@@ -717,19 +938,32 @@ Alkalinity is a property of water defined by the USGS as "the buffering capacity
 ``` {r chem.lake.ion.plot, warning = FALSE}
 chem.lake.ion.plot <- ChemLakeIonPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+chem.lake.ion.plot
+} else {
 ggplotly(chem.lake.ion.plot)
+}
 ```
 
-## Benthic macroinvertebrates {.tabset}
+`r if(params$isAccessible == "yes") {"## Benthic macroinvertebrates"} else {"## Benthic macroinvertebrates {.tabset}"}`
+
 ### Discrepancies
 These are stream BMI records with discrepancies between taxa group count (or richness; number of taxa within a group) and taxa group abundance (number of individuals per m2 within a group). Discrepancies include situations where the taxa count is non-zero but abundance is zero and where abundance is non-zero and taxa count is zero. These situations may arise from the standardization of richness-based (taxa group count) metrics to Operational Taxonomic Units (OTUs), while density-based (taxa group abundance) metrics are based on the raw taxa list.
-``` {r bmi.discrepancies}
+``` {r bmi.discrepancies, fig.alt = "Table of records where where is a discrepancy between taxa group count and taxa group abundance."}
 bmi.discrepancies <- qcBMIDiscrepancies(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 bmi.discrepancies %>%
   dplyr::select(-c(Park, SiteShort, VisitType)) %>%
-  dplyr::relocate(FieldSeason, .after = VisitDate) %>%
+  dplyr::relocate(FieldSeason, .after = VisitDate)
+
+if (params$isAccessible == "yes") {
+bmi.discrepancies %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
+} else {
+bmi.discrepancies %>%
   reactable(searchable = TRUE)
+}
 ```
 There are `r nrow(bmi.discrepancies)` metrics with discrepancies between taxa group count and taxa group abundance.
 
@@ -738,7 +972,11 @@ This plot shows total richness (number of unique taxa within a sample) and total
 ``` {r bmi.gen.plot, warning = FALSE}
 bmi.gen.plot <- BMIGeneralMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+bmi.gen.plot
+} else {
 ggplotly(bmi.gen.plot)
+}
 ```
 
 ### Diversity metrics plot
@@ -746,7 +984,11 @@ This plot shows various diversity metrics and indices for stream BMI samples. Sh
 ``` {r bmi.div.plot, warning = FALSE}
 bmi.div.plot <- BMIDiversityMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+bmi.div.plot
+} else {
 ggplotly(bmi.div.plot)
+}
 ```
 
 ### Tolerance metrics plot
@@ -756,7 +998,11 @@ Groups are based on tolerance to disturbance or pollution. The Hilsenhoff Biotic
 ``` {r bmi.tol.plot, warning = FALSE}
 bmi.tol.plot <- BMIToleranceMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+bmi.tol.plot
+} else {
 ggplotly(bmi.tol.plot)
+}
 ```
 
 ### Functional feeding group metrics plot
@@ -766,7 +1012,11 @@ Groups are based on functional feeding groups, which refer to the type of food r
 ``` {r bmi.fun.plot, warning = FALSE}
 bmi.fun.plot <- BMIFunctionalMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
+if (params$isAccessible == "yes") {
+bmi.fun.plot
+} else {
 ggplotly(bmi.fun.plot)
+}
 ```
 
 ### Taxonomic metrics plot
@@ -777,7 +1027,11 @@ Groups are based on taxonomic levels. Insecta is a class of six-legged invertebr
 ``` {r bmi.tax.plot, warning = FALSE}
 bmi.tax.plot <- BMITaxonomicMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-ggplotly(bmi.tax.plot)
+if (params$isAccessible == "yes") {
+bmi.fun.plot
+} else {
+ggplotly(bmi.fun.plot)
+}
 ```
 
 # Usage Notes (required)
