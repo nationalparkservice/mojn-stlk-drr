@@ -366,7 +366,7 @@ string.elevations %>%
 
 ### Benchmark elevation plots
 This is a plot of the final corrected elevations for each benchmark for each field season. Consistent upward or downward trends in the elevation of a benchmark may indicate that the benchmark is unstable. An abrupt change in the elevation of a benchmark may indicate disturbance at the location of the benchmark. Only digital level readings are included, which began in 2018.
-``` {r benchmark.plots, warning = FALSE, fig.alt = "Line graphs of benchmark elevations at each lake since 2018, with field season on the x-axis and elevation in feet on the y-axis. Benchmarks generally appear stable."}
+``` {r benchmark.plots, warning = FALSE, fig.alt = "Line graphs of benchmark elevations at each lake since 2018, with field season on the x-axis and elevation in feet on the y-axis."}
 benchmark.plots <- PlotBenchmarkElevation(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -395,7 +395,7 @@ lake.elevations %>%
 
 ### Lake surface elevation plots
 This is a plot of the final calculated water surface elevations for each lake across all field seasons. Digital level readings began in 2018. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015.
-``` {r lake.elev.plots, warning = FALSE, fig.alt = "Line graphs of lake surface elevations at each lake since 2010, with field season on the x-axis and elevation in feet on the y-axis. Lake surface elevations fluctuate each year, with Dead Lake and Teresa Lake exhibiting the highest fluctuations."}
+``` {r lake.elev.plots, warning = FALSE, fig.alt = "Line graphs of lake surface elevations at each lake since 2010, with field season on the x-axis and elevation in feet on the y-axis."}
 lake.elev.plots <- PlotLakeSurfaceElevation(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -612,7 +612,7 @@ There are `r nrow(wq.lake.flags)` flagged measurements.
 
 ### Lake temperature depth profiles
 This is a plot of temperature depth profiles in units of C for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015. Baker Lake water qualtiy data were not collected in 2017 due to leaky waders and frigid temperatures.
-``` {r temp.dp.plot, warning = FALSE, fig.alt = "Plot of lake water temperature values, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates water temperature in degrees Celsius. Lake water temperature values vary by year and are typically between the range of 2.5 to 22.5 degrees Celsius. Lakes generally have a similar temperature throughout the water column, though they often have a relatively warmer temperature at the surface."}
+``` {r temp.dp.plot, warning = FALSE, fig.alt = "Plots of lake water temperature values by depth, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates water temperature in degrees Celsius. Panel for each lake."}
 temp.dp.plot <- WqPlotTemperatureDepthProfile(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -624,7 +624,7 @@ ggplotly(temp.dp.plot)
 
 ### Lake pH depth profiles
 This is a plot of pH depth profiles for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015. Baker Lake water qualtiy data were not collected in 2017 due to leaky waders and frigid temperatures.
-``` {r ph.dp.plot, warning = FALSE, fig.alt = "Plot of lake pH values, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates pH. Lake pH values vary slightly by year and are typically basic between the range of 7 to 9.5. Lakes generally have a similar pH throughout the water column, though acidity occasionally increases with depth."}
+``` {r ph.dp.plot, warning = FALSE, fig.alt = "Plots of lake pH values by depth, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates pH. Panel for each lake."}
 ph.dp.plot <- WqPlotPHDepthProfile(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -636,7 +636,7 @@ ggplotly(ph.dp.plot)
 
 ### Lake specific conductance depth profiles
 This is a plot of specific conductance depth profiles in units of uS/cm for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015. Baker Lake water qualtiy data were not collected in 2017 due to leaky waders and frigid temperatures.
-``` {r sc.dp.plot, warning = FALSE, fig.alt = "Plot of lake specific conductance values, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates specific conductance in micro-Siemens per centimeter. Lake specific conductance values vary slightly by year and are typically less than 50 micro-Siemens per centimeter, although Brown Lake in 2020 was as high as 162 micro-Siemens per centimeter. Lakes generally have a similar specific conductance throughout the water column."}
+``` {r sc.dp.plot, warning = FALSE, fig.alt = "Plots of lake specific conductance values, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates specific conductance in micro-Siemens per centimeter. Panel for each lake."}
 sc.dp.plot <- WqPlotSpCondDepthProfile(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -648,7 +648,7 @@ ggplotly(sc.dp.plot)
 
 ### Lake dissolved oxygen depth profiles
 This is a plot of dissolved oxygen depth profiles in units of mg/L for each lake and field season. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Johnson Lake and Dead Lake were not visited in 2013 due to the lapse in federal appropriations. Dead Lake was dry in 2015. Baker Lake water qualtiy data were not collected in 2017 due to leaky waders and frigid temperatures.
-``` {r do.dp.plot, warning = FALSE, fig.alt = "Plot of lake dissolved oxygen values, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates dissolved oxygen in milligrams per liter. Lake dissolved oxygen values vary slightly by year and are typically between the range of 6 to 9 milligrams per liter, with some slightly higher values at Teresa Lake in 2014 and lower values at Dead Lake in 2017. Lakes generally have a similar dissolved oxygen throughout the water column. Occasionally there is very low dissolved oxygen at the bottom, likely due to the probe resting on anoxic substrate."}
+``` {r do.dp.plot, warning = FALSE, fig.alt = "Plots of lake dissolved oxygen values, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates dissolved oxygen in milligrams per liter. Panel for each lake."}
 do.dp.plot <- WqPlotDODepthProfile(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -871,7 +871,7 @@ There are `r nrow(chem.ML)` analytes with concentrations less than or equal to t
 
 ### Stream nutrients plot
 This is a plot of nutrient concentrations for each stream for each field season. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Dissolved organic carbon (DOC) is analyzed occasionally as funding allows.
-``` {r chem.stream.nutrient.plot, warning = FALSE}
+``` {r chem.stream.nutrient.plot, warning = FALSE, fig.alt = "Line graphs of stream nutrient concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the nine streams has a vertical panel, and each of the six nutrient analytes has a horizontal panel."}
 chem.stream.nutrient.plot <- ChemStreamNutrientPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -883,8 +883,10 @@ ggplotly(chem.stream.nutrient.plot)
 
 ### Stream nutrients bar plot
 This is a bar plot of nutrient concentrations for each stream for each field season. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Total and dissolved concentrations are plotted on the same graph to show the relative contributions from each form.
-``` {r chem.stream.nutrient.bar.plot, warning = FALSE}
+``` {r chem.stream.nutrient.bar.plot, warning = FALSE, fig.alt = "Bar graphs of stream nutrient concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the nine streams has a vertical panel, and nitrogen and phosphorus each have a horizontal panel. Dissolved and total concentrations are overlain to show the proportional contribution of dissolved and particulate forms to each nutrient."}
 chem.stream.nutrient.bar.plot <- ChemStreamNutrientBarPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
+
+chem.stream.nutrient.bar.plot
 
 if (params$isAccessible == "yes") {
 chem.stream.nutrient.bar.plot
@@ -897,7 +899,7 @@ ggplotly(chem.stream.nutrient.bar.plot)
 This is a plot of ion concentrations for each stream for each field season. Ion concentrations include sodium (Na), magnesium (Mg), potassium (K), calcium (Ca), sulfate as sulfur (SO4-S), and chloride (Cl). Alkalinity (ALK2) is also analyzed.
 
 Alkalinity is a property of water defined by the USGS as "the buffering capacity of a water body; a measure of the ability of the water body to neutralize acids and bases and thus maintain a fairly stable pH level." As alkalinity decreases, the sensitivity of a water body to acidification increases. Alkalinity is expressed as mg-CaCO3/L. In 2009, the laboratory measured alkalinity as HCO3. From 2010 to the present, the laboratory measured alkalinity as CaCO3. The alkalinity values from 2009 were recalculated to match the method from 2010 onward. Due to an error in laboratory software programming, ALK2 values analyzed in 2014 and earlier that are less than 20 mg/L may be overestimated (typically 1.5 to 2.5 mg/L, up to 35% difference), with the discrepancy increasing closer to 0 mg/L.
-``` {r chem.stream.ion.plot, warning = FALSE}
+``` {r chem.stream.ion.plot, warning = FALSE, fig.alt = "Line graphs of stream ion concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the nine streams has a vertical panel, and each of the six ion analytes plus alkanlity has a horizontal panel."}
 chem.stream.ion.plot <- ChemStreamIonPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -909,7 +911,7 @@ ggplotly(chem.stream.ion.plot)
 
 ### Lake nutrients plot
 This is a plot of nutrient concentrations for each lake for each field season. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Dissolved organic carbon (DOC) is analyzed occasionally as funding allows.
-``` {r chem.lake.nutrient.plot, warning = FALSE}
+``` {r chem.lake.nutrient.plot, warning = FALSE, fig.alt = "Line graphs of lake nutrient concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the six lakes has a vertical panel, and each of the six nutrient analytes has a horizontal panel."}
 chem.lake.nutrient.plot <- ChemLakeNutrientPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -921,7 +923,7 @@ ggplotly(chem.lake.nutrient.plot)
 
 ### Lake nutrients bar plot
 This is a bar plot of nutrient concentrations for each lake for each field season. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Total and dissolved concentrations are plotted on the same graph to show the relative contributions from each form.
-``` {r chem.lake.nutrient.bar.plot, warning = FALSE}
+``` {r chem.lake.nutrient.bar.plot, warning = FALSE, fig.alt = "Bar graphs of lake nutrient concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the six lakes has a vertical panel, and nitrogen and phosphorus each have a horizontal panel. Dissolved and total concentrations are overlain to show the proportional contribution of dissolved and particulate forms to each nutrient."}
 chem.lake.nutrient.bar.plot <- ChemLakeNutrientBarPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -935,7 +937,7 @@ ggplotly(chem.lake.nutrient.bar.plot)
 This is a plot of ion concentrations for each lake for each field season. Ion concentrations include sodium (Na), magnesium (Mg), potassium (K), calcium (Ca), sulfate as sulfur (SO4-S), and chloride (Cl). Alkalinity (ALK2) is also analyzed.
 
 Alkalinity is a property of water defined by the USGS as "the buffering capacity of a water body; a measure of the ability of the water body to neutralize acids and bases and thus maintain a fairly stable pH level." As alkalinity decreases, the sensitivity of a water body to acidification increases. Alkalinity is expressed as mg-CaCO3/L. In 2009, the laboratory measured alkalinity as HCO3. From 2010 to the present, the laboratory measured alkalinity as CaCO3. The alkalinity values from 2009 were recalculated to match the method from 2010 onward. Due to an error in laboratory software programming, ALK2 values analyzed in 2014 and earlier that are less than 20 mg/L may be overestimated (typically 1.5 to 2.5 mg/L, up to 35% difference), with the discrepancy increasing closer to 0 mg/L.
-``` {r chem.lake.ion.plot, warning = FALSE}
+``` {r chem.lake.ion.plot, warning = FALSE, fig.alt = "Line graphs of lake ion concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the six lakes has a vertical panel, and each of the six ion analytes plus alkanlity has a horizontal panel."}
 chem.lake.ion.plot <- ChemLakeIonPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -952,8 +954,8 @@ These are stream BMI records with discrepancies between taxa group count (or ric
 ``` {r bmi.discrepancies, fig.alt = "Table of records where where is a discrepancy between taxa group count and taxa group abundance."}
 bmi.discrepancies <- qcBMIDiscrepancies(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-bmi.discrepancies %>%
-  dplyr::select(-c(Park, SiteShort, VisitType)) %>%
+bmi.discrepancies %<>%
+  dplyr::select(-c(Park, SiteShort, VisitType, SampleType, SampleCollectionMethod, BMIMethod, LabSampleNumber)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
 if (params$isAccessible == "yes") {
@@ -969,7 +971,7 @@ There are `r nrow(bmi.discrepancies)` metrics with discrepancies between taxa gr
 
 ### General metrics plot
 This plot shows total richness (number of unique taxa within a sample) and total abundance (number of individuals per m2 within a sample) for stream BMI samples. Richness metrics are standardized to Operational Taxonomic Units (OTUs), while abundance metrics are based on the raw taxa list.
-``` {r bmi.gen.plot, warning = FALSE}
+``` {r bmi.gen.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate general metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and abundance each have a horizontal panel. Counts for the total sample and for dominant family are represented by different line colors."}
 bmi.gen.plot <- BMIGeneralMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -981,7 +983,7 @@ ggplotly(bmi.gen.plot)
 
 ### Diversity metrics plot
 This plot shows various diversity metrics and indices for stream BMI samples. Shannon's Diversity is the measure of richness and evenness (based on relative abundance of each species) weighted toward rare species. Simpson's Diversity is the measure of richness and evenness (based on relative abundance of each species) weighted toward common species. Evenness is the measure of relative abundance indicative of taxa dominance. The Hilsenhoff Biotic Index (HBI) is the abundance-weighted average of family-level pollution tolerances.
-``` {r bmi.div.plot, warning = FALSE}
+``` {r bmi.div.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate diversity metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and each of the four diversity metrics has a horizontal panel."}
 bmi.div.plot <- BMIDiversityMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -995,7 +997,7 @@ ggplotly(bmi.div.plot)
 This plot shows richness (number of taxa within a group) and abundance (number of individuals within a group) for stream BMI samples. Richness metrics are standardized to Operational Taxonomic Units (OTUs), while abundance metrics are based on the raw taxa list.
 
 Groups are based on tolerance to disturbance or pollution. The Hilsenhoff Biotic Index (HBI) is the abundance-weighted average of family-level pollution tolerances, and is plotted in the diversity metrics section. Tolerant taxa have an HBI score >=8 and are able to withstand disturbance and poor water quality. Intolerant taxa have an BMI score <=2 and are not as able to withstand disturbance and poor water quality. EPT refers to the insect orders Ephemeroptera (mayflies), Plecoptera (stoneflies), and Tricoptera (caddisflies), which are sensitive to disturbance and whose presence and abundance can indicate good water quality. Long-lived taxa have 2- to 3-year life cycles can indicate habitat stability and persistent good water quality in their habitat. Clinger taxa have fixed retreats or other strategies for clinging to rocks and are vulnerable to the deposition of fine sediments.
-``` {r bmi.tol.plot, warning = FALSE}
+``` {r bmi.tol.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate tolerance metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and abundance each have a horizontal panel. Counts for the five tolerance groups are represented by different line colors."}
 bmi.tol.plot <- BMIToleranceMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -1009,7 +1011,7 @@ ggplotly(bmi.tol.plot)
 This plot shows richness (number of taxa within a group) and abundance (number of individuals within a group) for stream BMI samples. Richness metrics are standardized to Operational Taxonomic Units (OTUs), while abundance metrics are based on the raw taxa list.
 
 Groups are based on functional feeding groups, which refer to the type of food resource that species utilize in the stream. Shredder taxa consume living or decomposing vascular plant tissue and coarse particulate organic matter (CPOM). Scraper taxa consume periphyton, particularly algae and diatoms. Collector-filterer taxa consume fine particulate organic matter (FPOM) in the water column. Collector-gatherer taxa consume FPOM from benthic deposits. Predator taxa consume living animal tissue, usually other BMI, but occasionally small vertebrates. They can indicate that a habitat supports higher trophic complexity.
-``` {r bmi.fun.plot, warning = FALSE}
+``` {r bmi.fun.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate functional feeding group metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and abundance each have a horizontal panel. Counts for the five functional feeding groups are represented by different line colors."}
 bmi.fun.plot <- BMIFunctionalMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
@@ -1024,17 +1026,19 @@ This plot shows richness (number of taxa within a group) and abundance (number o
 
 Groups are based on taxonomic levels. Insecta is a class of six-legged invertebrates within the arthropod phylum. Coleoptera is an order of insects that includes beetles. Diptera is an order of insects that includes flies and midges. Megaloptera is an order of insects that includes dobsonflies. Plecoptera is an order of insects that includes stoneflies. Chironomidae is a family within Diptera that includes non-biting midges. Elmidae is a family within Coleoptera that includes riffle beetles. Non-insects include all individuals not within the class Insecta. Mollusca is a phylum that includes gastropods (e.g., snails and slugs), cephalopods (e.g., octopus and squids), and bivalves (e.g., clams). Crustacea is another class of invertebrates within the arthropod phylum that includes crabs, lobsters, crayfish, barnacles, and copepods. Oligochaeta is is a subclass of segmented worms within the annelid phylum that includes earthworms.
 
-``` {r bmi.tax.plot, warning = FALSE}
+This is visualization of data that can be found in the BMI.csv file published with the data package.
+
+``` {r bmi.tax.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate taxonomic metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and abundance each have a horizontal panel. Counts for the twelve taxonomic groups are represented by different line colors."}
 bmi.tax.plot <- BMITaxonomicMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
 if (params$isAccessible == "yes") {
-bmi.fun.plot
+bmi.tax.plot
 } else {
-ggplotly(bmi.fun.plot)
+ggplotly(bmi.tax.plot)
 }
 ```
 
-# Usage Notes (required)
+# Usage Notes
 The Usage Notes should contain brief instructions to assist other researchers
 with reuse of the data. This may include discussion of software packages that
 are suitable for analysing the assay data files, suggested downstream processing
@@ -1050,27 +1054,18 @@ the data, and any limitations on data use.
 # Acknowledgements
 The authors would like to acknowledge Geoff Moret, who developed the Streams and Lakes protocol and set in motion over a decade of surface water resource monitoring in Great Basin National Park.
 
-# References (required)
-Bibliographic information for any works cited in the above sections, using the
-standard *NPS NR Publication Series* referencing style.
+# References
+Caudill CC, Moret G, Chung-MacCoubrey A, Baker G, Tallent N, Hughson D, Burke J, Starcevich LH, Steinhorst R. 2012. Mojave Desert Network Inventory and Monitoring streams and lakes monitoring protocol: Protocol narrative version 1.0. Natural Resource Report. NPS/MOJN/NRR—2012/593. National Park Service. Fort Collins, Colorado. Available at: https://irma.nps.gov/DataStore/Reference/Profile/2190889
 
-In line with emerging [industry-wide standards for data
-citation](https://www.nature.com/articles/sdata2018259), references to all
-datasets described or used in the manuscript should be cited in the text and
-listed in the ‘References’ section in the same manner as a conventional
-literature reference.
+Cooperative Chemical Analytical Library (CCAL). 2019. Standard Operating Procedures. CCAL, Oregon State University. Available at: http://ccal.oregonstate.edu/sops
 
-ITIS. 2020. Integrated Taxonomic Information System. Available at: https://www.itis.gov/ (accessed 29 January 2020).
+Miller S, Judson S. 2011. Quality Assurance and Quality Control (QA/QC) Protocols. National Aquatic Monitoring Center (NAMC BugLab), Utah State University. Available at: http://www.usu.edu/buglab/SampleProcessing/QualityStandards
 
-National Park Service (NPS). 2010. Draft Reference Manual RM 66B: Handling Protected Information. National Park Service, Washington, DC. (Available at https://irma.nps.gov/DataStore/Reference/Profile/2224216)
+Moret G, Caudill CC, Burke J. 2012. Mojave Desert Network Inventory and Monitoring streams and lakes protocol: Standard operating procedures and supplementary materials version 1.0. Natural Resource Report. NPS/MOJN/NRR—2012/593.1. National Park Service. Fort Collins, Colorado. Available at: https://irma.nps.gov/DataStore/Reference/Profile/2190896
 
-National Park Service (NPS). 2019. NPSpecies - the National Park Service biodiversity database. Available at: https://irma.nps.gov/NPSpecies/ (accessed xx).
+Motter K, Hartley L, Jones C. 2018. Quality Assurance Plan. Cooperative Chemical Analytical Library (CCAL), Oregon State University. Available at: http://ccal.oregonstate.edu/qaqc
 
-Office of Management and Budget (OMB). 2013. Open Data Policy-Managing Information as an Asset. Office of Management and Budget. (Available at https://digital.gov/open-data-policy-m-13-13/)
-
-U.S. Fish & Wildlife Service (USFWS). 2019. ECOS Environmental Conservation Online System. Available at: https://ecos.fws.gov/ecp/ (accessed xx).
-
-U.S. Government Printing Office (GPO). 2013. Making Open and Machine Readable the New Default for Government Information. Executive Order 13642.(Available at https://www.govinfo.gov/content/pkg/CFR-2014-title3-vol1/pdf/CFR-2014-title3-vol1-eo13642.pdf)
+National Aquatic Monitoring Center (NAMC BugLab). 2011. Laboratory Procedures. NAMC BugLab, Utah State University. Available at: http://www.usu.edu/buglab/SampleProcessing/LaboratoryProcedures
 
 \pagebreak
 
