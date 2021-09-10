@@ -1,0 +1,29 @@
+attributeName	attributeDefinition	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation	class
+Park	Four letter park code	NA	NA	NA	Not applicable or data not collected	character
+SiteShort	Site code without the Park and Site Type prefix	NA	NA	NA	Not applicable or data not collected	character
+SiteCode	Unique alphanumeric site code	NA	NA	NA	Not applicable or data not collected	character
+SiteName	Descriptive name of the site	NA	NA	NA	Not applicable or data not collected	character
+VisitDate	Date that the monitoring occured	NA	NA	NA	Not applicable or data not collected	Date
+FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	NA	NA	NA	Not applicable or data not collected	character
+VisitType	Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown	NA	NA	NA	Not applicable or data not collected	character
+DPL	Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]	NA	NA	NA	Not applicable or data not collected	character
+Instrument	Identifier for the specific theodolite used for this survey	NA	NA	NA	Not applicable or data not collected	character
+RodMaterial	Primary material the rod is made of	NA	NA	NA	Not applicable or data not collected	character
+CTE	Coefficient of thermal expansion of the rod	NA	NA	NA	Not applicable or data not collected	numeric
+InstrumentOperator	Initals of the instrument operator	NA	NA	NA	Not applicable or data not collected	character
+RodOperator	Initials of the rod operator	NA	NA	NA	Not applicable or data not collected	character
+AdditionalCrew	Initials of any additional crew	NA	NA	NA	Not applicable or data not collected	character
+NumberOfInstrumentSetups	Number of instrument setups used during this survey	NA	NA	NA	Not applicable or data not collected	numeric
+RodTemperatureSetup1_F	Temperature of rod at beginning of circuit	NA	NA	NA	Not applicable or data not collected	numeric
+RodTemperatureSetup2_F	Temperature of rod in middle of circuit	NA	NA	NA	Not applicable or data not collected	numeric
+RodTemperatureSetup3_F	Temperature of rod at end of circuit	NA	NA	NA	Not applicable or data not collected	numeric
+NumberOfBenchmarksUsed	Number of benchmarks used in the survey	NA	NA	NA	Not applicable or data not collected	numeric
+RM1_GivenElevation_m	Elevation of reference mark one on artifical scale	m	NA	NA	Not applicable or data not collected	numeric
+RM1	Name of benchmark used for this reference mark	NA	NA	NA	Not applicable or data not collected	character
+RM2	Name of benchmark used for this reference mark	NA	NA	NA	Not applicable or data not collected	character
+RM3	Name of benchmark used for this reference mark	NA	NA	NA	Not applicable or data not collected	character
+RM4	Name of benchmark used for this reference mark	NA	NA	NA	Not applicable or data not collected	character
+RM5	Name of benchmark used for this reference mark	NA	NA	NA	Not applicable or data not collected	character
+RM6	Name of benchmark used for this reference mark	NA	NA	NA	Not applicable or data not collected	character
+SurveyPointType	Description of what function this survey point served	NA	NA	NA	Not applicable or data not collected	character
+Height_ft	Lake level in feet	feet	NA	NA	Not applicable or data not collected	numeric

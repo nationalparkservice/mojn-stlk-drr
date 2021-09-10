@@ -1,0 +1,24 @@
+attributeName	attributeDefinition	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation	class
+Park	Four letter park code	NA	NA	NA	Not applicable or data not collected	character
+FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	NA	NA	NA	Not applicable or data not collected	character
+SiteCode	Unique alphanumeric site code	NA	NA	NA	Not applicable or data not collected	character
+VisitDate	Date that the monitoring occured	NA	NA	NA	Not applicable or data not collected	Date
+VisitType	Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown	NA	NA	NA	Not applicable or data not collected	character
+SampleFrame	Type of hydrologic feature (e.g., lake, stream)	NA	NA	NA	Not applicable or data not collected	character
+MeasurementDepth_m	Depth to measurement location	meters	NA	NA	Not applicable or data not collected	numeric
+TemperatureFlag	Data quality flag: No Flag, Information, Warning, Critical	NA	NA	NA	Not applicable or data not collected	character
+FlagNote	Description of data quality issue	NA	NA	NA	Not applicable or data not collected	character
+DPL	Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]	NA	NA	NA	Not applicable or data not collected	character
+TemperatureMedian_C	Median measured value of temperatue in celcius degrees	C	NA	NA	Not applicable or data not collected	numeric
+TemperatureCount	Number of measurements taken	NA	NA	NA	Not applicable or data not collected	numeric
+SpCondFlag	Data quality flag: No Flag, Information, Warning, Critical	NA	NA	NA	Not applicable or data not collected	character
+SpCondMedian_microS_per_cm	Median measured value of specific conductance in uS/cm	uS/cm	NA	NA	Not applicable or data not collected	numeric
+SpCondCount	Number of measurements taken	NA	NA	NA	Not applicable or data not collected	numeric
+pHFlag	Data quality flag: No Flag, Information, Warning, Critical	NA	NA	NA	Not applicable or data not collected	character
+pHMedian	Median measured value of pH	NA	NA	NA	Not applicable or data not collected	numeric
+pHCount	Number of measurements taken	NA	NA	NA	Not applicable or data not collected	numeric
+DOFlag	Data quality flag: No Flag, Information, Warning, Critical	NA	NA	NA	Not applicable or data not collected	character
+DOMedian_percent	Median measured value of DO %	%	NA	NA	Not applicable or data not collected	numeric
+DOMedian_mg_per_L	Median measured value of DO in mg/L	mg/l	NA	NA	Not applicable or data not collected	numeric
+DOPercentCount	Number of measurements taken	NA	NA	NA	Not applicable or data not collected	numeric
+DOmgLCount	Number of measurements taken	NA	NA	NA	Not applicable or data not collected	numeric

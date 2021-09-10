@@ -1,3 +1,6 @@
 givenName	middleInitial	surName	organizationName	electronicMailAddress	userId	role	projectTitle	fundingAgency	fundingNumber
-Joe	C	DeVivo	National Park Service Inventory & Monitoring Program			creator			
+Jennifer	L	Bailard	National Park Service Inventory & Monitoring Program	jennifer_bailard@nps.gov		creator			
+Jennifer	L	Bailard	National Park Service Inventory & Monitoring Program	jennifer_bailard@nps.gov		PI
+Jennifer	L	Bailard	National Park Service Inventory & Monitoring Program	jennifer_bailard@nps.gov		contact			
+Mark	E	Lehman	National Park Service Inventory & Monitoring Program	mark_lehman@nps.gov		contact			
 National Park Service Inventory & Monitoring Program			National Park Service Inventory & Monitoring Program	irma@nps.gov		contact			

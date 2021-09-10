@@ -1,0 +1,54 @@
+attributeName	code	definition
+CloudCover	Mostly Cloudy	Mostly Cloudy
+CloudCover	No Data	No Data
+CloudCover	Overcast	Overcast
+CloudCover	Partly Cloudy	Partly Cloudy
+CloudCover	Sunny	Sunny
+MonitoringStatus	Not sampled - Inaccessible	The site was inaccessible at this visit
+MonitoringStatus	Not sampled - Site was not found	No site found at this visit
+MonitoringStatus	Not sampled - Resource damage risk	The site was judged to have high potential to suffer resource damage
+MonitoringStatus	Not sampled - Unknown reason	The site was not sampled, but no reason was provided
+MonitoringStatus	Not sampled - Unsafe	The site was unsafe to sample at this visit
+MonitoringStatus	Sampled	The site was sampled at this visit
+MonitoringStatus	Unknown if sampled	It is unclear whether the site was sampled
+Park	CAMO	Castle Mountains National Monument
+Park	DEVA	Death Valley National Park
+Park	GRBA	Great Basin National Park
+Park	JOTR	Joshua Tree National Park
+Park	LAKE	Lake Mead National Recreation Area
+Park	MANZ	Manzanar National Historic Site
+Park	MOJA	Mojave National Preserve
+Park	PARA	Grand Canyon-Parashant National Monument
+Park	TUSK	Tule Springs Fossil Beds National Monument
+Precipitation	HEAVY	Heavy Rain/Snow
+Precipitation	LIGHT	Light Rain/Snow
+Precipitation	MOD	Moderate Rain/Snow
+Precipitation	ND	No Data
+Precipitation	NONE	None
+SiteProtectedStatus	Legally Protected	Covered under existing statue as being exempt from public dissemination
+SiteProtectedStatus	Operationally Protected	Data withheld from release to protect resources or site fidelity but may be subject to release upon request
+SiteProtectedStatus	Not Protected	Data is neither legally nor operationally sensitive and therefore does not have any distribution restrictions conditional on protected status
+SiteProtectedStatus	Not Available	Not Available
+SampleFrame	Lake	Lake
+SampleFrame	Spring	Spring
+SampleFrame	Stream	Stream
+SampleFrame	Well	Well
+Temperature	<35	<35 degrees F
+Temperature	36-50	36 - 50 degrees F
+Temperature	>80	>80 degrees F
+Temperature	51-65	51 - 65 degrees F
+Temperature	No Data	No Data
+Temperature	66-80	66 - 80 degrees F
+VisitType	Auxillary	Auxillary Monitoring Visit
+VisitType	Biweekly	Biweekly stream
+VisitType	Calibration	Crew calibration monitoring visit
+VisitType	Primary	Primary monitoring visit
+VisitType	Replicate	Replicate monitoring visit
+VisitType	Sonde	Sonde deployment
+VisitType	Training	Training monitoring visit
+VisitType	Unknown	To be determined
+WindSpeed	Calm	Calm
+WindSpeed	Gusty Winds	Gusty Winds
+WindSpeed	Light Breeze	Light Breeze
+WindSpeed	Moderate Wind	Moderate Wind
+WindSpeed	No Data	No Data

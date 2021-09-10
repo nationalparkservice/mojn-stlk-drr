@@ -1,0 +1,26 @@
+attributeName	code	definition
+DPL	Accepted	Data that have undergone all QA and QC procedures as defined in a published protocol and associated SOPs. Used in cases where a Quality Assurance Plan has not been developed and approved.
+DPL	Provisional	Data that have undergone all planned QA procedures, have been entered into the system of record, and have passed verification procedures to ensure that data in the system of record match source data (field forms, sensor data files, etc.). Provisional data have not undergone all QC procedures
+DPL	Raw	Data in their state of original collection, either in the form of paper or electronic field forms, eletronic sensor files, or digital media(photo, video, or audio). These data generally have been collected following some QA procedures, but have not undergone any QC procedures.
+Park	CAMO	Castle Mountains National Monument
+Park	DEVA	Death Valley National Park
+Park	GRBA	Great Basin National Park
+Park	JOTR	Joshua Tree National Park
+Park	LAKE	Lake Mead National Recreation Area
+Park	MANZ	Manzanar National Historic Site
+Park	MOJA	Mojave National Preserve
+Park	PARA	Grand Canyon-Parashant National Monument
+Park	TUSK	Tule Springs Fossil Beds National Monument
+TransectSide	Right	Right
+TransectSide	Center	Center
+TransectSide	Left	Left
+TransectSide	Unknown	Unknown
+TransectSide	Not Applicable	Not Applicable
+VisitType	Auxillary	Auxillary Monitoring Visit
+VisitType	Biweekly	Biweekly stream
+VisitType	Calibration	Crew calibration monitoring visit
+VisitType	Primary	Primary monitoring visit
+VisitType	Replicate	Replicate monitoring visit
+VisitType	Sonde	Sonde deployment
+VisitType	Training	Training monitoring visit
+VisitType	Unknown	To be determined

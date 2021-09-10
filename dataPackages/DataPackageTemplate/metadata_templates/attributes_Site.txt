@@ -1,0 +1,13 @@
+attributeName	attributeDefinition	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation	class
+Park	Four letter park code	NA	NA	NA	Not applicable or data not collected	character
+Subunit	Section of the park where site is located	NA	NA	NA	Not applicable or data not collected	character
+SiteShort	Site code without the Park and Site Type prefix	NA	NA	NA	Not applicable or data not collected	character
+SiteCode	Unique alphanumeric site code	NA	NA	NA	Not applicable or data not collected	character
+SiteName	Descriptive name of the site	NA	NA	NA	Not applicable or data not collected	character
+SiteLabel	Combination of [SiteShort] and [SiteName] for visualization purposes	NA	NA	NA	Not applicable or data not collected	character
+SampleFrame	Type of hydrologic feature (e.g., lake, stream)	NA	NA	NA	Not applicable or data not collected	character
+SiteProtectedStatus	Level of protection for sensitive resources	NA	NA	NA	Not applicable or data not collected	character
+Lat_WGS84	Latitude in WGS84 coordinate system	degrees	NA	NA	Not applicable or data not collected	numeric
+Lon_WGS84	Longitude in WGS84 coordinate system	degrees	NA	NA	Not applicable or data not collected	numeric
+X_UTM_NAD83_11N	X UTM value in NAD83 coordinate system	m	NA	NA	Not applicable or data not collected	numeric
+Y_UTM_NAD83_11N	Y UTM value in NAD83 coordinate system	m	NA	NA	Not applicable or data not collected	numeric
