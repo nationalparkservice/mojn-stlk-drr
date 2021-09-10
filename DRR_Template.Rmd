@@ -435,7 +435,10 @@ reactable(dplyr::select(wq.stream.sanity, -FlagNote),
           details = colDef(
             name = "Notes",
             details = function(index) {
-              wq.stream.sanity$FlagNote[index]
+              note <- wq.stream.sanity$FlagNote[index]
+              if (!is.na(note)) {
+                return(note)
+              }
             }
           ),
           resizable = TRUE,
@@ -460,7 +463,10 @@ reactable(dplyr::select(wq.lake.sanity, -FlagNote),
           details = colDef(
             name = "Notes",
             details = function(index) {
-              wq.lake.sanity$FlagNote[index]
+              note <- wq.lake.sanity$FlagNote[index]
+              if (!is.na(note)) {
+                return(note)
+              }
             }
           ),
           resizable = TRUE,
@@ -484,7 +490,10 @@ reactable(dplyr::select(wq.stream.flags, -FlagNote),
           details = colDef(
             name = "Notes",
             details = function(index) {
-              wq.stream.flags$FlagNote[index]
+              note <- wq.stream.flags$FlagNote[index]
+              if (!is.na(note)) {
+                return(note)
+              }
             }
           ),
           resizable = TRUE,
@@ -509,7 +518,10 @@ reactable(dplyr::select(wq.lake.flags, -FlagNote),
           details = colDef(
             name = "Notes",
             details = function(index) {
-              wq.lake.flags$FlagNote[index]
+              note <- wq.lake.flags$FlagNote[index]
+              if (!is.na(note)) {
+                return(note)
+              }
             }
           ),
           resizable = TRUE,
@@ -590,7 +602,10 @@ reactable(dplyr::select(lab.dupes, -RPDFlag),
           details = colDef(
             name = "Notes",
             details = function(index) {
-              lab.dupes$RPDFlag[index]
+              note <- lab.dupes$RPDFlag[index]
+              if (!is.na(note)) {
+                return(note)
+              }
             }
           ),
           resizable = TRUE,
@@ -614,7 +629,10 @@ field.dupes %<>%
           details = colDef(
             name = "Notes",
             details = function(index) {
-              field.dupes$RPDFlag[index]
+              note <- field.dupes$RPDFlag[index]
+              if (!is.na(note)) {
+                return(note)
+              }
             }
           ),
           resizable = TRUE,
@@ -652,7 +670,10 @@ reactable(dplyr::select(chem.TDN, -TDNFlag),
           details = colDef(
             name = "Notes",
             details = function(index) {
-              chem.TDN$TDNFlag[index]
+              note <- chem.TDN$TDNFlag[index]
+              if (!is.na(note)) {
+                return(note)
+              }
             }
           ),
           resizable = TRUE,
@@ -676,7 +697,10 @@ reactable(dplyr::select(chem.NO3NO2, -NO3NO2Flag),
           details = colDef(
             name = "Notes",
             details = function(index) {
-              chem.NO3NO2$NO3NO2Flag[index]
+              note <- chem.NO3NO2$NO3NO2Flag[index]
+              if (!is.na(note)) {
+                return(note)
+              }
             }
           ),
           resizable = TRUE,
@@ -700,7 +724,10 @@ reactable(dplyr::select(chem.TDP, -TDPFlag),
           details = colDef(
             name = "Notes",
             details = function(index) {
-              chem.TDP$TDPFlag[index]
+              note <- chem.TDP$TDPFlag[index]
+              if (!is.na(note)) {
+                return(note)
+              }
             }
           ),
           resizable = TRUE,
@@ -725,7 +752,10 @@ reactable(dplyr::select(chem.MDL, -MDLFlag),
           details = colDef(
             name = "Notes",
             details = function(index) {
-              chem.MDL$MDLFlag[index]
+              note <- chem.MDL$MDLFlag[index]
+              if (!is.na(note)) {
+                return(note)
+              }
             }
           ),
           resizable = TRUE,
@@ -740,7 +770,7 @@ Minimum level of quantification (ML) is defined as the "concentration at which t
 lookup <- getMDLLookup()
 chem.ML <- qcChemML(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource)
 
-chem.ML %>%
+chem.ML %<>%
   dplyr::select(-c(SampleFrame)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
@@ -750,7 +780,10 @@ reactable(dplyr::select(chem.ML, -MLFlag),
           details = colDef(
             name = "Notes",
             details = function(index) {
-              chem.ML$MLFlag[index]
+              note <- chem.ML$MLFlag[index]
+              if (!is.na(note)) {
+                return(note)
+              }
             }
           ),
           resizable = TRUE,
@@ -827,7 +860,10 @@ reactable(dplyr::select(bmi.discrepancies, -LabNotes),
           details = colDef(
             name = "Notes",
             details = function(index) {
-              bmi.discrepancies$LabNotes[index]
+              note <- bmi.discrepancies$LabNotes[index]
+              if (!is.na(note)) {
+                return(note)
+              }
             }
           ),
           resizable = TRUE,
