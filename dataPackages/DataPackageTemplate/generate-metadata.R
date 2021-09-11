@@ -26,12 +26,21 @@ lapply(pkgList, library, character.only = TRUE, quietly = TRUE)
 ###  2. xml metadata file (EML format)
 ###  3. data package manifest (data package info and listing of files)
 
-#### Step 1: zip the data ####
+#### Step 0: knit the DRR
+## YOU MUST DO THIS FIRST ##
+
+#### Step 1: zip the data and also copy raw data to data_objects ####
 # STLK data is stored in a set of .csv files in the data/raw folder.
 # Zip these files and save them in data/final (since zipping them is the only processing that occurs)
 
-data_files <- list.files(path = here::here("data", "raw"), pattern = ".csv$")
-zip::zip(here::here("data", "final", "data.zip"), files = data_files, root = here::here("data", "raw"))
+# Get table names and descriptions
+tables <- read_tsv(here::here("data", "dictionary", "data-dictionary-tables.txt"), lazy = FALSE) %>%
+  mutate(File_Name = paste0(Table_Name, ".csv"))
+
+zip::zip(here::here("data", "final", "data.zip"), files = tables$File_Name, root = here::here("data", "raw"))
+file.copy(here::here("data", "raw", tables$File_Name),
+          here::here("dataPackages", "DataPackageTemplate", "data_objects"), 
+          overwrite = TRUE)
 
 #### Step 2: generate the metadata file ####
 ### Step 2a: Review or edit "Easy" template files
@@ -46,7 +55,7 @@ zip::zip(here::here("data", "final", "data.zip"), files = data_files, root = her
 ## Get attributes
 # Columns are attributeName, attributeDefinition, class, unit, dateTimeFormatString, missingValueCode, missingValueCodeExplanation
 # Retrieve from data dictionary
-data_dict <- readxl::read_xlsx(here::here("data", "dictionary", "DataDictionary_Field_Descriptions.xlsx")) %>%
+data_dict <- readr::read_tsv(here::here("data", "dictionary", "data-dictionary-fields.txt"), lazy = FALSE) %>%
   dplyr::select(TableName, FieldName, FieldDescription, Unit, dateTimeFormatString, missingValueCode, missingValueCodeExplanation)
 
 # Get R datatypes for STLK data - first, get a list of all the data as dataframes, then use sapply and typeof() to get each column type
@@ -88,7 +97,7 @@ data_dict %<>% dplyr::rename(attributeName = FieldName, attributeDefinition = Fi
                 missingValueCodeExplanation = "Not applicable or data not collected")
 
 ## Get categorical vars
-cat_vars <- readxl::read_xlsx(here::here("data", "dictionary", "STLK_Categories.xlsx"))
+cat_vars <- readr::read_tsv(here::here("data", "dictionary", "data-dictionary-categories.txt"), lazy = FALSE)
 
 # Write attributes and categorical vars to tab separated text files
 for (datafile in unique(data_dict$TableName)) {
@@ -138,11 +147,123 @@ writeLines(methodstext,here::here("dataPackages", "DataPackageTemplate", "metada
 make_eml(
   path = here::here("dataPackages", "DataPackageTemplate", "metadata_templates"),
   data.path = here::here("dataPackages", "DataPackageTemplate", "data_objects"),
-  data.table = data_files,
+  data.table = tables$File_Name,
+  data.table.name = tables$Table_Name,
+  data.table.description = tables$Table_Description,
   eml.path = here::here("dataPackages", "DataPackageTemplate", "eml"),
   dataset.title = params$dataPackage1Title, 
   temporal.coverage = c(as.Date(beginDate), as.Date(endDate)),
   maintenance.description = 'completed',
-  package.id = paste0(params$dataPackage1Description, params$dataPackage1RefID, "-metadata")
+  package.id = paste0(params$dataPackage1Description, "_", params$dataPackage1RefID, "_metadata")
 )
 
+#### Step 6: Create Manifest File and zip up the package ####
+
+manifestfilename <- here::here("dataPackages", "DataPackageTemplate", "eml", paste0(params$dataPackage1Description, "_", params$dataPackage1RefID, "_manifest.txt"))
+metadatafilename <- here::here("dataPackages", "DataPackageTemplate", "eml", paste0(params$dataPackage1Description, "_", params$dataPackage1RefID, "_metadata.xml"))
+datafilename <- here::here("dataPackages", "DataPackageTemplate", "eml", paste0(params$dataPackage1Description, "_", params$dataPackage1RefID, "_data.zip"))
+datapackagefilename <- here::here("dataPackages", "DataPackageTemplate", "eml", paste0(params$dataPackage1Description, "_", params$dataPackage1RefID, "_datapackage.zip"))
+
+cat("This data package was produced by the National Park Service (NPS) Inventory and Monitoring Division and can be downloaded from the [NPS Data Store](https://irma.nps.gov/DataStore/Reference/Profile/",params$dataPackage1RefID,").",file=manifestfilename,"\n",sep="") 
+cat("These data are provided under the Creative Commons CC0 1.0 “No Rights Reserved” (see: https://creativecommons.org/publicdomain/zero/1.0/).",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("DATA PRODUCT INFORMATION",file=manifestfilename,sep="\n",append=TRUE)
+cat("------------------------",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+# ID
+cat("ID: ", params$dataPackage1RefID, " Data Store Code.",file=manifestfilename,"\n",sep="",append=TRUE) 
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+#Title
+cat("Title: ",params$dataPackage1Title, file=manifestfilename,"\n",sep="",append=TRUE) 
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+#Description
+cat("Description: ",params$dataPackage1Description,file=manifestfilename,"\n",sep="",append=TRUE) 
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+#Abstract
+cat("Abstract: ",abstract,file=manifestfilename,"\n",sep="",append=TRUE) 
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+#Brief Study Area Description
+cat("Brief Study Area Description: ",geographicDescription,file=manifestfilename,"\n",sep="",append=TRUE) 
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+#Keywords
+cat("Keywords:",unlist(themekeywords),file=manifestfilename,"\n",sep=" ",append=TRUE) 
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("Date for Data Publication: ",as.character(today()),file=manifestfilename,"\n",sep="",append=TRUE) 
+cat("This zip package was generated on: ",as.character(today()),file=manifestfilename,"\n",sep="",append=TRUE) 
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("DATA PACKAGE CONTENTS",file=manifestfilename,sep="\n",append=TRUE)
+cat("------------------------",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("This zip package contains the following documentation files:",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("- This readme file: ", manifestfilename,"\n",file=manifestfilename,sep="",append=TRUE)
+
+cat("- Machine-readable metadata file describing the data set(s): ", params$dataPackage1Description, "_", params$dataPackage1RefID, "_metadata.xml. This file uses the Ecological Metadata Language (EML) schema. Learn more about this format at https://knb.ecoinformatics.org/external//emlparser/docs/eml-2.1.1/index.html#N1022A.",file=manifestfilename, "\n",sep="",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("This zip package contains the following data set(s):",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat(params$dataPackage1Description, "_", params$dataPackage1RefID, "_data.zip",file=manifestfilename,sep="",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("ADDITIONAL INFORMATION",file=manifestfilename,sep="\n",append=TRUE)
+cat("------------------------",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("Primary related products: The following product(s) were created concurrently with this dataset:",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("1. Data Release Report. Document describing the methods and the analysis code used to generate data set. Available at ", "https://irma.nps.gov/DataStore/Reference/Profile/", params$reportRefID, ".", "\n",file=manifestfilename,sep="",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("CHANGE LOG",file=manifestfilename,sep="\n",append=TRUE)
+cat("------------------------",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("N/A",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("ADDITIONAL REMARKS",file=manifestfilename,sep="\n",append=TRUE)
+cat("------------------------",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("N/A",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+
+cat("NPS DATA POLICY AND CITATION GUIDELINES",file=manifestfilename,sep="\n",append=TRUE)
+cat("------------------------",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("See NPS Inventory and Monitoring Division's data policy and citation guidelines at https://irma.nps.gov/content/portal/about/.",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+
+cat("DATA QUALITY AND VERSIONING",file=manifestfilename,sep="\n",append=TRUE)
+cat("------------------------",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+cat("The data contained in this file are considered Accepted under the IMD Data Certification Guidance (https://www.google.com/url?q=https://irma.nps.gov/DataStore/Reference/Profile/2227397). Updates to the data, QA/QC and/or processing algorithms over time will occur on an as-needed basis.  Please check back to this site for updates tracked in change logs.",file=manifestfilename,sep="\n",append=TRUE)
+cat(" ",file=manifestfilename,sep="\n",append=TRUE)
+
+
+
+### Zip up file
+
+# Zip the data
+zip::zip(datafilename, files = tables$File_Name, root = here::here("data", "raw"))
+# Zip the whole package
+zip::zipr(datapackagefilename,c(datafilename,manifestfilename,metadatafilename), recurse=FALSE)

@@ -1,21 +1,21 @@
 attributeName	attributeDefinition	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation	class
-Park	Four letter park code	NA	NA	NA	Not applicable or data not collected	character
-Subunit	Section of the park where site is located	NA	NA	NA	Not applicable or data not collected	character
-SiteShort	Site code without the Park and Site Type prefix	NA	NA	NA	Not applicable or data not collected	character
-SiteCode	Unique alphanumeric site code	NA	NA	NA	Not applicable or data not collected	character
-SiteName	Descriptive name of the site	NA	NA	NA	Not applicable or data not collected	character
-VisitDate	Date that the monitoring occured	NA	NA	NA	Not applicable or data not collected	Date
-FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	NA	NA	NA	Not applicable or data not collected	character
-VisitType	Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown	NA	NA	NA	Not applicable or data not collected	character
-MonitoringStatus	Result of monitoring visit: Sampled or reason unable to sample	NA	NA	NA	Not applicable or data not collected	character
-SampleFrame	Type of hydrologic feature (e.g., lake, stream)	NA	NA	NA	Not applicable or data not collected	character
-IsLakeDry	Was lake dry during this site visit	NA	NA	NA	Not applicable or data not collected	character
-SiteProtectedStatus	Is the location of this site protected	NA	NA	NA	Not applicable or data not collected	character
-CloudCover	Cloud cover during visit [Sunny, Partly Cloudy, Mostly Cloudy, Overcast]	NA	NA	NA	Not applicable or data not collected	character
-Precipitation	Precipitation during visit [Heavy, Moderate, Light, None]	NA	NA	NA	Not applicable or data not collected	character
-Temperature	Temperature (F) during visit [<35, 36-50,51-65,66-80,>80]	NA	NA	NA	Not applicable or data not collected	character
-WindSpeed	Wind during visit [Calm, Light Breeze, Moderate Wind, Gusty]	NA	NA	NA	Not applicable or data not collected	character
-Protocol	Protocol package used for this visit	NA	NA	NA	Not applicable or data not collected	character
-DataStoreReferenceCode	Datastore reference number for protocol package	NA	NA	NA	Not applicable or data not collected	numeric
-Notes	Notes about this visit	NA	NA	NA	Not applicable or data not collected	character
-DataProcessingLevel	Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]	NA	NA	NA	Not applicable or data not collected	character
+Park	Four letter park code	NA	NA	Empty string	Not applicable or data not collected	character
+Subunit	Section of the park where site is located	NA	NA	Empty string	Not applicable or data not collected	character
+SiteShort	Site code without the Park and Site Type prefix	NA	NA	Empty string	Not applicable or data not collected	character
+SiteCode	Unique alphanumeric site code	NA	NA	Empty string	Not applicable or data not collected	character
+SiteName	Descriptive name of the site	NA	NA	Empty string	Not applicable or data not collected	character
+VisitDate	Date that the monitoring occured	NA	YYYY-MM-DD	Empty string	Not applicable or data not collected	Date
+FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	NA	NA	Empty string	Not applicable or data not collected	character
+VisitType	Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown	NA	NA	Empty string	Not applicable or data not collected	character
+MonitoringStatus	Result of monitoring visit: Sampled or reason unable to sample	NA	NA	Empty string	Not applicable or data not collected	character
+SampleFrame	Type of hydrologic feature (e.g., lake, stream)	NA	NA	Empty string	Not applicable or data not collected	character
+IsLakeDry	Was lake dry during this site visit	NA	NA	Empty string	Not applicable or data not collected	character
+SiteProtectedStatus	Is the location of this site protected	NA	NA	Empty string	Not applicable or data not collected	character
+CloudCover	Cloud cover during visit [Sunny, Partly Cloudy, Mostly Cloudy, Overcast]	NA	NA	Empty string	Not applicable or data not collected	character
+Precipitation	Precipitation during visit [Heavy, Moderate, Light, None]	NA	NA	Empty string	Not applicable or data not collected	character
+Temperature	Temperature (F) during visit [<35, 36-50,51-65,66-80,>80]	NA	NA	Empty string	Not applicable or data not collected	character
+WindSpeed	Wind during visit [Calm, Light Breeze, Moderate Wind, Gusty]	NA	NA	Empty string	Not applicable or data not collected	character
+Protocol	Protocol package used for this visit	NA	NA	Empty string	Not applicable or data not collected	character
+DataStoreReferenceCode	Datastore reference number for protocol package	dimensionless	NA	Empty string	Not applicable or data not collected	numeric
+Notes	Notes about this visit	NA	NA	Empty string	Not applicable or data not collected	character
+DataProcessingLevel	Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]	NA	NA	Empty string	Not applicable or data not collected	character

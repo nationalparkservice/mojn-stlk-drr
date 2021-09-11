@@ -1,17 +1,17 @@
 attributeName	attributeDefinition	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation	class
-Park	Four letter park code	NA	NA	NA	Not applicable or data not collected	character
-SiteShort	Site code without the Park and Site Type prefix	NA	NA	NA	Not applicable or data not collected	character
-SiteCode	Unique alphanumeric site code	NA	NA	NA	Not applicable or data not collected	character
-SiteName	Descriptive name of the site	NA	NA	NA	Not applicable or data not collected	character
-VisitDate	Date that the monitoring occured	NA	NA	NA	Not applicable or data not collected	Date
-FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	NA	NA	NA	Not applicable or data not collected	character
-WQDataCollected	Yes or reason for sampling failure	NA	NA	NA	Not applicable or data not collected	character
-MeasurementNum	Index of measurement	NA	NA	NA	Not applicable or data not collected	numeric
-MeasurementDepth_m	Depth to measurement location	meters	NA	NA	Not applicable or data not collected	numeric
-pH	Measured value of pH	NA	NA	NA	Not applicable or data not collected	numeric
-Flag	Data quality flag: No Flag, Information, Warning, Critical	NA	NA	NA	Not applicable or data not collected	character
-FlagNote	Description of data quality issue	NA	NA	NA	Not applicable or data not collected	character
-pHInstrument	Identifier for instrument used to measure pH	NA	NA	NA	Not applicable or data not collected	character
-VisitType	Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown	NA	NA	NA	Not applicable or data not collected	character
-DPL	Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]	NA	NA	NA	Not applicable or data not collected	character
-MonitoringStatus	Result of monitoring visit: Sampled or reason unable to sample	NA	NA	NA	Not applicable or data not collected	character
+Park	Four letter park code	NA	NA	Empty string	Not applicable or data not collected	character
+SiteShort	Site code without the Park and Site Type prefix	NA	NA	Empty string	Not applicable or data not collected	character
+SiteCode	Unique alphanumeric site code	NA	NA	Empty string	Not applicable or data not collected	character
+SiteName	Descriptive name of the site	NA	NA	Empty string	Not applicable or data not collected	character
+VisitDate	Date that the monitoring occured	NA	YYYY-MM-DD	Empty string	Not applicable or data not collected	Date
+FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	NA	NA	Empty string	Not applicable or data not collected	character
+WQDataCollected	Yes or reason for sampling failure	NA	NA	Empty string	Not applicable or data not collected	character
+MeasurementNum	Index of measurement	number	NA	Empty string	Not applicable or data not collected	numeric
+MeasurementDepth_m	Depth to measurement location	meter	NA	Empty string	Not applicable or data not collected	numeric
+pH	Measured value of pH	dimensionless	NA	Empty string	Not applicable or data not collected	numeric
+Flag	Data quality flag: No Flag, Information, Warning, Critical	NA	NA	Empty string	Not applicable or data not collected	character
+FlagNote	Description of data quality issue	NA	NA	Empty string	Not applicable or data not collected	character
+pHInstrument	Identifier for instrument used to measure pH	NA	NA	Empty string	Not applicable or data not collected	character
+VisitType	Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown	NA	NA	Empty string	Not applicable or data not collected	character
+DPL	Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]	NA	NA	Empty string	Not applicable or data not collected	character
+MonitoringStatus	Result of monitoring visit: Sampled or reason unable to sample	NA	NA	Empty string	Not applicable or data not collected	character
