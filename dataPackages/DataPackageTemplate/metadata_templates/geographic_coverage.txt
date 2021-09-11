@@ -1,0 +1,2 @@
+geographicDescription	northBoundingCoordinate	southBoundingCoordinate	eastBoundingCoordinate	westBoundingCoordinate
+GRBA	38.957422	38.957422	-114.310364	-114.310364

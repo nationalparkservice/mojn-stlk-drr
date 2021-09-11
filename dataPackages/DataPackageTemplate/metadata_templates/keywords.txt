@@ -1,2 +1,9 @@
 keyword	keywordThesaurus
-Protected Data Rules	theme
+streams	
+lakes	
+ecological monitoring	
+water quality	
+streamflow	
+lake levels	
+lake depth	
+benthic macroinvertebrates	

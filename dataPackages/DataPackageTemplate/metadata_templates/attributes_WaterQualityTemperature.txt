@@ -1,0 +1,17 @@
+attributeName	attributeDefinition	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation	class
+Park	Four letter park code	NA	NA	Empty string	Not applicable or data not collected	character
+SiteShort	Site code without the Park and Site Type prefix	NA	NA	Empty string	Not applicable or data not collected	character
+SiteCode	Unique alphanumeric site code	NA	NA	Empty string	Not applicable or data not collected	character
+SiteName	Descriptive name of the site	NA	NA	Empty string	Not applicable or data not collected	character
+VisitDate	Date that the monitoring occured	NA	YYYY-MM-DD	Empty string	Not applicable or data not collected	Date
+FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	NA	NA	Empty string	Not applicable or data not collected	character
+WQDataCollected	Yes or reason for sampling failure	NA	NA	Empty string	Not applicable or data not collected	character
+MeasurementNum	Index of measurement	number	NA	Empty string	Not applicable or data not collected	numeric
+MeasurementDepth_m	Depth to measurement location	meter	NA	Empty string	Not applicable or data not collected	numeric
+WaterTemperature_C	Measured value of temperatue in celcius degrees	celsius	NA	Empty string	Not applicable or data not collected	numeric
+Flag	Data quality flag: No Flag, Information, Warning, Critical	NA	NA	Empty string	Not applicable or data not collected	character
+FlagNote	Description of data quality issue	NA	NA	Empty string	Not applicable or data not collected	character
+TempInstrument	Identifier for instrument used to measure temperature	NA	NA	Empty string	Not applicable or data not collected	character
+VisitType	Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown	NA	NA	Empty string	Not applicable or data not collected	character
+DPL	Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]	NA	NA	Empty string	Not applicable or data not collected	character
+MonitoringStatus	Result of monitoring visit: Sampled or reason unable to sample	NA	NA	Empty string	Not applicable or data not collected	character

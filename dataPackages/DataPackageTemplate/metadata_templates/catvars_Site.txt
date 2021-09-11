@@ -1,0 +1,18 @@
+attributeName	code	definition
+Park	CAMO	Castle Mountains National Monument
+Park	DEVA	Death Valley National Park
+Park	GRBA	Great Basin National Park
+Park	JOTR	Joshua Tree National Park
+Park	LAKE	Lake Mead National Recreation Area
+Park	MANZ	Manzanar National Historic Site
+Park	MOJA	Mojave National Preserve
+Park	PARA	Grand Canyon-Parashant National Monument
+Park	TUSK	Tule Springs Fossil Beds National Monument
+SiteProtectedStatus	Legally Protected	Covered under existing statue as being exempt from public dissemination
+SiteProtectedStatus	Operationally Protected	Data withheld from release to protect resources or site fidelity but may be subject to release upon request
+SiteProtectedStatus	Not Protected	Data is neither legally nor operationally sensitive and therefore does not have any distribution restrictions conditional on protected status
+SiteProtectedStatus	Not Available	Not Available
+SampleFrame	Lake	Lake
+SampleFrame	Spring	Spring
+SampleFrame	Stream	Stream
+SampleFrame	Well	Well

@@ -1,0 +1,37 @@
+attributeName	code	definition
+DPL	Accepted	Data that have undergone all QA and QC procedures as defined in a published protocol and associated SOPs. Used in cases where a Quality Assurance Plan has not been developed and approved.
+DPL	Provisional	Data that have undergone all planned QA procedures, have been entered into the system of record, and have passed verification procedures to ensure that data in the system of record match source data (field forms, sensor data files, etc.). Provisional data have not undergone all QC procedures
+DPL	Raw	Data in their state of original collection, either in the form of paper or electronic field forms, eletronic sensor files, or digital media(photo, video, or audio). These data generally have been collected following some QA procedures, but have not undergone any QC procedures.
+Flag	C	Critical - There are serious concerns about the quality of this record
+Flag	I	Information - There is additional information associated with this record
+Flag	NF	No Flags - No data quality flag associated with this record
+Flag	W	Warning - Care should be taken when including this record in data analysis
+MonitoringStatus	Not sampled - Inaccessible	The site was inaccessible at this visit
+MonitoringStatus	Not sampled - Site was not found	No site found at this visit
+MonitoringStatus	Not sampled - Resource damage risk	The site was judged to have high potential to suffer resource damage
+MonitoringStatus	Not sampled - Unknown reason	The site was not sampled, but no reason was provided
+MonitoringStatus	Not sampled - Unsafe	The site was unsafe to sample at this visit
+MonitoringStatus	Sampled	The site was sampled at this visit
+MonitoringStatus	Unknown if sampled	It is unclear whether the site was sampled
+Park	CAMO	Castle Mountains National Monument
+Park	DEVA	Death Valley National Park
+Park	GRBA	Great Basin National Park
+Park	JOTR	Joshua Tree National Park
+Park	LAKE	Lake Mead National Recreation Area
+Park	MANZ	Manzanar National Historic Site
+Park	MOJA	Mojave National Preserve
+Park	PARA	Grand Canyon-Parashant National Monument
+Park	TUSK	Tule Springs Fossil Beds National Monument
+VisitType	Auxillary	Auxillary Monitoring Visit
+VisitType	Biweekly	Biweekly stream
+VisitType	Calibration	Crew calibration monitoring visit
+VisitType	Primary	Primary monitoring visit
+VisitType	Replicate	Replicate monitoring visit
+VisitType	Sonde	Sonde deployment
+VisitType	Training	Training monitoring visit
+VisitType	Unknown	To be determined
+WQDataCollected	Yes	Yes
+WQDataCollected	No - Insufficent water	No - Insufficent water
+WQDataCollected	No - Other reason	No - Other reason
+WQDataCollected	No - Unknown reason	No - Unknown reason
+WQDataCollected	No - Instrument faliure	No - Instrument faliure
