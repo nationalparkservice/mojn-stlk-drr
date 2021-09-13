@@ -150,6 +150,10 @@ if (params$dataSource == "database") {
 raw_data_path <- here::here("data", "raw")
 ```
 
+```{r GenerateMetadata}
+source(here::here("dataPackages", "DataPackageTemplate", "generate-metadata.R"))
+```
+
 ```{r LoadData, include=FALSE}
 # Load datasets for use
 
