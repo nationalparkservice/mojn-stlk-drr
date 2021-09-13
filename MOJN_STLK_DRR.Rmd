@@ -12,7 +12,7 @@ params:
   dataPackage2Title: "Dataset 2 FULL TITLE"               # Should match title in data store.
   dataPackage2Description: "SHORT TITLE FOR DATASET 1"  
   dataSource: "local"  # Either "local" or "database". If "local", csv data must be in data/raw folder. If database, must be able to connect to the MOJN STLK SQL Server db.
-  isAccessible: "yes" # Either "yes" for a version that is screen-readable or "no" for a version with interactive table and plot formatting.
+  isAccessible: "no" # Either "yes" for a version that is screen-readable or "no" for a version with interactive table and plot formatting.
   
 title: |
     | Mojave Desert Network Streams and Lakes
@@ -433,7 +433,6 @@ if (params$isAccessible == "yes") {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
 } else {
   depths.exceed.lake %>%
-    dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
     reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 }
 ```
@@ -453,7 +452,6 @@ if (params$isAccessible == "yes") {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
 } else {
   lake.dry.depths.exist %>%
-    dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
     reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 }
 ```
@@ -473,7 +471,6 @@ if (params$isAccessible == "yes") {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
 } else {
   lake.not.dry.no.clarity %>%
-    dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
     reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 }
 ```
@@ -493,7 +490,6 @@ if (params$isAccessible == "yes") {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
 } else {
   lake.not.dry.no.depths %>%
-    dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
     reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 }
 ```
