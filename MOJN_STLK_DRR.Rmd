@@ -433,7 +433,6 @@ if (params$isAccessible == "yes") {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
 } else {
   depths.exceed.lake %>%
-    dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
     reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 }
 ```
@@ -453,7 +452,6 @@ if (params$isAccessible == "yes") {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
 } else {
   lake.dry.depths.exist %>%
-    dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
     reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 }
 ```
@@ -473,7 +471,6 @@ if (params$isAccessible == "yes") {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
 } else {
   lake.not.dry.no.clarity %>%
-    dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
     reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 }
 ```
@@ -493,7 +490,6 @@ if (params$isAccessible == "yes") {
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
 } else {
   lake.not.dry.no.depths %>%
-    dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
     reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 }
 ```
@@ -817,7 +813,6 @@ if (params$isAccessible == "yes") {
     knitr::kable() %>%
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
 } else {
-  chem.TDN %>%
     reactable(dplyr::select(chem.TDN, -TDNFlag),
               defaultColDef = colDef(minWidth = 50),
               searchable = TRUE,
@@ -851,7 +846,6 @@ if (params$isAccessible == "yes") {
     knitr::kable() %>%
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
 } else {
-  chem.NO3NO2 %>%
     reactable(dplyr::select(chem.NO3NO2, -NO3NO2Flag),
               defaultColDef = colDef(minWidth = 50),
               searchable = TRUE,
@@ -885,7 +879,6 @@ if (params$isAccessible == "yes") {
     knitr::kable() %>%
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
 } else {
-  chem.TDP %>%
     reactable(dplyr::select(chem.TDP, -TDPFlag),
               defaultColDef = colDef(minWidth = 50),
               searchable = TRUE,
@@ -920,7 +913,6 @@ if (params$isAccessible == "yes") {
     knitr::kable() %>%
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
 } else {
-  chem.MDL %>%
     reactable(dplyr::select(chem.MDL, -MDLFlag),
               defaultColDef = colDef(minWidth = 50),
               searchable = TRUE,
@@ -955,7 +947,6 @@ if (params$isAccessible == "yes") {
     knitr::kable() %>%
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
 } else {
-  chem.ML %>%
     reactable(dplyr::select(chem.ML, -MLFlag),
               defaultColDef = colDef(minWidth = 50),
               searchable = TRUE,
@@ -1069,7 +1060,6 @@ if (params$isAccessible == "yes") {
     knitr::kable() %>%
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
 } else {
-  bmi.discrepancies %>%
     reactable(dplyr::select(bmi.discrepancies, -LabNotes),
               defaultColDef = colDef(minWidth = 50),
               searchable = TRUE,
