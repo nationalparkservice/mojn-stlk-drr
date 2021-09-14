@@ -12,7 +12,7 @@ params:
   dataPackage2Title: "Dataset 2 FULL TITLE"               # Should match title in data store.
   dataPackage2Description: "SHORT TITLE FOR DATASET 1"  
   dataSource: "local"  # Either "local" or "database". If "local", csv data must be in data/raw folder. If database, must be able to connect to the MOJN STLK SQL Server db.
-  isAccessible: "yes" # Either "yes" for a version that is screen-readable or "no" for a version with interactive table and plot formatting.
+  isAccessible: "no" # Either "yes" for a version that is screen-readable or "no" for a version with interactive table and plot formatting.
   
 title: |
     | Mojave Desert Network Streams and Lakes
@@ -172,14 +172,14 @@ The following information is summarized from the *Mojave Desert Network Inventor
 Streams and lakes in Great Basin National Park (GRBA) provide habitat for aquatic and terrestrial organisms, contribute to local water supplies, and serve as popular visitor destinations. Aquatic and riparian habitats are important compared to their relatively small land cover because they often host endemic biota and support higher levels of biodiversity. Up to 80% of all vertebrates in the western United States depend on riparian habitats for at least part of their life cycles, and more than half are completely dependent on riparian habitats. Recently, the regionally-endemic Bonneville cutthroat trout has been reintroduced to streams and lakes in the park.
 
 ## Threats and Stressors
-Climate change poses a threat to surface water resources in GRBA. Climate change affects precipitation and snowmelt patterns, which control stream flow regime--the amount and variability in discharge--as well as lake hydrology and physical limnology. Flow regime is the key driver of ecosystem processes in streams. In addition, climate change affects water temperatures and thermal regimes, which are also important determinants of biotic communities and ecosystem processes in streams and lakes.
+Climate change poses a threat to surface water resources in GRBA. Climate change affects precipitation and snowmelt patterns, which control stream flow regime (i.e., the amount and variability of discharge) as well as lake hydrology and physical limnology. Flow regime is the key driver of ecosystem processes in streams. In addition, climate change affects water temperatures and thermal regimes, which are also important determinants of biotic communities and ecosystem processes in streams and lakes.
 
 Other potential threats include groundwater pumping in valleys adjacent to GRBA, cultural eutrophication, sedimentation, acid rain, input of contaminants, fishing, and the introduction of non-native species. Cultural eutrophication through the atmospheric deposition of anthropogenic nitrogen and phosphorus may lead to changes in food webs and fisheries and can exacerbate hypoxia events in lakes. Acid rain may decrease pH and alter the nutrient status of lakes. Lakes such as those at GRBA with low natural buffering capacity are particularly vulnerable to the effects of acidification. The combined effects of invasive grasses, past fire suppression, and climate change may result in large and catastrophic fires within the park. Large fires, particularly those burning entire watersheds, could be major disturbances for aquatic biota in streams and lakes.
 
 ## Sample Design
 The Mojave Desert Network Inventory and Monitoring Program (MOJN I&M) monitors nine perennial streams and six subalpine lakes in GRBA as part of the Streams and Lakes protocol (Figure 1).
 
-All nine streams are visited annually in August to collect water quality channel cross sections, water chemistry samples, and benthic macroinvertebrate samples. In addition, five permanent gaging stations on four of the streams are visited biweekly throughout the summer to calibrate sondes that record continuous water quality during the period of high flow. Four of these permanent gaging stations also have pressure transducers that record continuous stage, which is later converted to discharge through a rating curve. Discharge at the fifth permanent gaging station is monitored by the US Geological Survey (USGS).
+All nine streams are visited annually in August to collect water quality channel cross sections, water chemistry samples, and benthic macroinvertebrate (BMI) samples. In addition, five permanent gaging stations on four of the streams are visited biweekly throughout the summer to calibrate sondes that record continuous water quality during the period of high flow. Four of these permanent gaging stations also have pressure transducers that record continuous stage, which is later converted to discharge through a rating curve. Discharge at the fifth permanent gaging station is monitored by the US Geological Survey (USGS).
 
 The lakes are visited annually in September to collect water quality depth profiles, water chemistry samples, water clarity through Secchi depth measurements, and water surface elevations through digital level surveys. These water surface elevations are tied to continuous lake level recorded by pressure transducers.
 
