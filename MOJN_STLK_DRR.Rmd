@@ -12,7 +12,7 @@ params:
   dataPackage2Title: "Dataset 2 FULL TITLE"               # Should match title in data store.
   dataPackage2Description: "SHORT TITLE FOR DATASET 1"  
   dataSource: "local"  # Either "local" or "database". If "local", csv data must be in data/raw folder. If database, must be able to connect to the MOJN STLK SQL Server db.
-  isAccessible: "yes" # Either "yes" for a version that is screen-readable or "no" for a version with interactive table and plot formatting.
+  isAccessible: "no" # Either "yes" for a version that is screen-readable or "no" for a version with interactive table and plot formatting.
   
 title: |
     | Mojave Desert Network Streams and Lakes
@@ -150,7 +150,7 @@ if (params$dataSource == "database") {
 raw_data_path <- here::here("data", "raw")
 ```
 
-```{r GenerateMetadata}
+```{r GenerateMetadata, include=FALSE}
 source(here::here("dataPackages", "DataPackageTemplate", "generate-metadata.R"))
 ```
 

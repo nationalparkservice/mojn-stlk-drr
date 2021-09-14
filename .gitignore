@@ -8,3 +8,9 @@ scratchpad
 DRR_Template.html
 DRR_Template.md
 reportParameters.RData
+data/final
+data/raw
+dataPackages/DataPackageTemplate/eml
+MOJN_STLK_DRR.html
+data/temp
+dataPackages/DataPackageTemplate/data_objects
