@@ -34,6 +34,7 @@ csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa
 link-citations: yes
 output:
   html_document:
+    self_contained: true
     df_print: kable
     fig_caption: true
     dev: svg
@@ -219,7 +220,7 @@ Summaries of these laboratory methods are also described in *Mojave Desert Netwo
 Data were evaluated using a collection of QC checks that are part of the MOJN I&M Streams and Lakes R package. These evaluations are summarized in Section 4 of this document. Where unresolvable data quality issues existed, they have been described by a flag note in the data record, and a flag has been assigned to indicate the level of concern. These flags include Information (not expected to impact the validity of this data), Warning (care should be taken when including this record in analyses), and Critical (serious concerns about the quality of this record and it should not be used in analyses).
 
 ## Code Availability
-All of the code used in the preparation of this data package is available in the MOJN I&M Streams and Lakes R Package <INSERT LINK>.
+All of the code used in the preparation of this data package is available in the MOJN I&M Streams and Lakes R Package: https://github.com/nationalparkservice/mojn-stlk-rpackage/releases/tag/1.0.0
 
 # Data Records
 Ten CSV data files are provided that contain raw values suitable for use with the MOJN I&M Streams and Lakes R package. Three additional CSV data files are provided that contain calculated values generated using this R package. These files are clearly labeled as "calculated" (Table 1).
@@ -1201,7 +1202,7 @@ if (params$isAccessible == "yes") {
 ```
 
 # Usage Notes
-A MOJN Streams and Lakes R Package that is designed to work with the datasets in their published format is available on GitHub. This package was used to implement the quality checks that are included in this report and to generate the three calculated datasets that are included in this data package.
+A MOJN Streams and Lakes R Package that is designed to work with the datasets in their published format is available on GitHub: https://github.com/nationalparkservice/mojn-stlk-rpackage/releases/tag/1.0.0 . This package was used to implement the quality checks that are included in this report and to generate the three calculated datasets that are included in this data package.
 
 # Acknowledgements
 The authors would like to acknowledge Geoff Moret, who developed the Streams and Lakes protocol and set in motion over a decade of surface water resource monitoring in Great Basin National Park.
