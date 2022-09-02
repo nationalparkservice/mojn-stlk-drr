@@ -225,9 +225,9 @@ The goal of this protocol is to gather information that will aid in the assessme
 ## Data Collection and Sample Processing
 Field methods used are described in *Mojave Desert Network Inventory and Monitoring Streams and Lakes Protocol: Standard Operating Procedures and Supplementary Materials Version 1.0* (NPS/MOJN/NRR—2012/593.1), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190896. Specific methods include SOP 6: Handheld Water Quality Instruments, SOP 7: Sample Handling, Storage, and Shipping, SOP 9: Stream Discharge, SOP 10: Lakes Field Procedures, SOP 11: Continuous Water Quality Sonde, and SOP 12: Stream Chemistry and BMI Sampling.
 
-Water chemistry samples were analyzed by the Oregon State University Cooperative Chemical Analytical Laboratory (CCAL). Their laboratory methods can be found here: http://ccal.oregonstate.edu/sops, and their QA/QC measures can be found here: http://ccal.oregonstate.edu/qaqc.
+Water chemistry samples were analyzed by the Oregon State University Cooperative Chemical Analytical Laboratory (OSU CCAL). Their laboratory methods can be found here: http://ccal.oregonstate.edu/sops, and their QA/QC measures can be found here: http://ccal.oregonstate.edu/qaqc.
 
-Benthic macroinvertebrate samples were analyzed by the Utah State University BugLab. Their laboratory methods can be found here: https://www.usu.edu/buglab/SampleProcessing/LaboratoryProcedures/, and their QA/QC measures can be found here: https://www.usu.edu/buglab/SampleProcessing/QualityStandards/. These samples are stored by the BugLab at their facility in Logan, UT.
+Benthic macroinvertebrate samples were analyzed by the Utah State University National Aquatic Monitoring Center (USU NAMC). Their laboratory methods can be found here: https://namc-usu.org/SampleProcessing/LaboratoryProcedures, and their QA/QC measures can be found here: https://namc-usu.org/SampleProcessing/QualityStandards. These samples are stored by the BugLab at their facility in Logan, UT.
 
 Summaries of these laboratory methods are also described in *Mojave Desert Network Inventory and Monitoring Streams and Lakes Protocol: Standard Operating Procedures and Supplementary Materials Version 1.0* (NPS/MOJN/NRR—2012/593.1), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190896. Specific methods include SOP 13: Laboratory Analysis of BMI and SOP 14: Laboratory Analysis of Water Chemistry.
 
@@ -262,11 +262,11 @@ reactable(Table,
 
 The data within the data records listed above have been reviewed by staff in the NPS Inventory and Monitoring Division to ensure accuracy, completeness, and consistency with documented data quality standards, as well as for usability and reproducibility. For additional information on data quality standards for this protocol, refer to *Mojave Desert Network Inventory and Monitoring Streams and Lakes Protocol: Standard Operating Procedures and Supplementary Materials Version 1.0* (NPS/MOJN/NRR—2012/593.1), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190896. Specific methods include SOP 15: Quality Assurance Project Plan (QAPP) and SOP 16: Cumulative Measurement Bias.
 
-This data release report focuses primarily on data collected in WY2021. These data have been summarized and plotted with previously published years of data (WY2018 to WY2020) in order to visualize the data in a broader context and detect outliers. The  tabular dataset accompanying this report is comprehensive of all years of data from WY2009 to WY2021. The decision to publish a comprehensive dataset was intended to promote data usability by providing all years of data in one set of CSVs with consistent formatting.
+This data release report focuses primarily on data collected in WY2021. These data have been summarized and plotted with previously published years of data (WY2018 to WY2020) in order to visualize the data in a broader context and detect outliers. The CSV data files accompanying this report are comprehensive of all years of data from WY2009-2021. The decision to publish a comprehensive dataset was intended to promote data usability by providing all years of data in one set of CSVs with consistent formatting.
 
 ## Advice and Caveats
 - In 2021, no data were collected at Dead Lake because the lake was entirely dry.
-- In 2022, the Utah State University National Aquatic Monitoring Center (USU NAMC) revised its benthic macroinvertebrate sample reporting methods. They now refer to abundance metrics more accurately as density metrics. In addition, they now use unique taxonomy instead of applying a generic operational taxonomic unit (OTU) scheme. USU NAMC regenerated all previous sample reports, which have been integrated into this data release. As a result, there may be minor discrepancies in metrics values between the WY2009-2020 dataset and this WY2021 dataset.
+- In 2022, the Utah State University National Aquatic Monitoring Center (USU NAMC) revised its benthic macroinvertebrate sample reporting methods. They now refer to abundance metrics as density metrics. In addition, they now use unique taxonomy instead of applying a generic operational taxonomic unit (OTU) scheme. USU NAMC regenerated all previous sample reports, which have been integrated into this data release. As a result, there may be minor discrepancies in metrics values between the earlier WY2009-2020 dataset and this WY2009-2021 dataset.
 
 ## Errata
 - In the WY2009-2020 dataset, three lakes had incorrect benchmark and lake surface elevations in 2012: Brown Lake, Stella Lake, and Teresa Lake. These elevations have been corrected in the WY2021 dataset.
@@ -1102,29 +1102,16 @@ These are stream BMI records with discrepancies between taxa group count (or ric
 bmi.discrepancies <- qcBMIDiscrepancies(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 bmi.discrepancies %<>%
-  dplyr::select(-c(Park, SiteShort, VisitType, SampleType, SampleCollectionMethod, BMIMethod, LabSampleNumber)) %>%
+  dplyr::select(-c(Park, SiteShort, VisitType, SampleType, SampleCollectionMethod, BMIMethod, LabNotes)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
 if (params$isAccessible == "yes") {
   bmi.discrepancies %>%
     knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
+    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")  
 } else {
-    reactable(dplyr::select(bmi.discrepancies, -LabNotes),
-              defaultColDef = colDef(minWidth = 50),
-              searchable = TRUE,
-              details = colDef(
-                name = "Notes",
-                details = function(index) {
-                  note <- bmi.discrepancies$LabNotes[index]
-                  if (!is.na(note)) {
-                    return(note)
-                  }
-                }
-              ),
-              resizable = TRUE,
-              compact = TRUE,
-              striped = TRUE)
+  bmi.discrepancies %>%
+    reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 }
 ```
 There are `r nrow(bmi.discrepancies)` metrics with discrepancies between taxa group count and taxa group abundance.
