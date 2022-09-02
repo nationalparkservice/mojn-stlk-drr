@@ -1096,9 +1096,9 @@ if (params$isAccessible == "yes") {
 `r if(params$isAccessible == "yes") {"## Benthic macroinvertebrates"} else {"## Benthic macroinvertebrates {.tabset}"}`
 
 ### Discrepancies
-These are stream BMI records with discrepancies between taxa group count (or richness; number of taxa within a group) and taxa group abundance (number of individuals per m2 within a group). Discrepancies include situations where the taxa count is non-zero but abundance is zero and where abundance is non-zero and taxa count is zero. These situations may arise from the standardization of richness-based (taxa group count) metrics to Operational Taxonomic Units (OTUs), while density-based (taxa group abundance) metrics are based on the raw taxa list.
+These are stream BMI records with discrepancies between taxa group richness (number of taxa within a group) and taxa group density (number of individuals per m2 within a group). Discrepancies include situations where the taxa richness is non-zero but density is zero and where density is non-zero and taxa richness is zero. These situations may arise from the standardization of richness-based metrics to Operational Taxonomic Units (OTUs), while density-based metrics are based on the raw taxa list.
 
-``` {r bmi.discrepancies, fig.alt = "Table of records where where is a discrepancy between taxa group count and taxa group abundance."}
+``` {r bmi.discrepancies, fig.alt = "Table of records where where is a discrepancy between taxa group richness and taxa group density."}
 bmi.discrepancies <- qcBMIDiscrepancies(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 bmi.discrepancies %<>%
@@ -1114,12 +1114,12 @@ if (params$isAccessible == "yes") {
     reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 }
 ```
-There are `r nrow(bmi.discrepancies)` metrics with discrepancies between taxa group count and taxa group abundance.
+There are `r nrow(bmi.discrepancies)` metrics with discrepancies between taxa group richness and taxa group density.
 
 ### General metrics plot
 This plot shows total richness (number of unique taxa within a sample) and total density (number of individuals per m2 within a sample) for stream BMI samples.
 
-``` {r bmi.gen.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate general metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and abundance each have a horizontal panel. Counts for the total sample and for dominant family are represented by different line colors."}
+``` {r bmi.gen.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate general metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and density each have a horizontal panel. Counts for the total sample and for dominant family are represented by different line colors."}
 bmi.gen.plot <- BMIGeneralMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
@@ -1147,7 +1147,7 @@ This plot shows richness (number of taxa within a group) and density (number of 
 
 Groups are based on tolerance to disturbance or pollution. The Hilsenhoff Biotic Index (HBI) is the abundance-weighted average of family-level pollution tolerances, and is plotted in the diversity metrics section. Tolerant taxa have an HBI score >=8 and are able to withstand disturbance and poor water quality. Intolerant taxa have an BMI score <=2 and are not as able to withstand disturbance and poor water quality. EPT refers to the insect orders Ephemeroptera (mayflies), Plecoptera (stoneflies), and Tricoptera (caddisflies), which are sensitive to disturbance and whose presence and abundance can indicate good water quality. Long-lived taxa have 2- to 3-year life cycles can indicate habitat stability and persistent good water quality in their habitat. Clinger taxa have fixed retreats or other strategies for clinging to rocks and are vulnerable to the deposition of fine sediments.
 
-``` {r bmi.tol.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate tolerance metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and abundance each have a horizontal panel. Counts for the five tolerance groups are represented by different line colors."}
+``` {r bmi.tol.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate tolerance metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and density each have a horizontal panel. Counts for the five tolerance groups are represented by different line colors."}
 bmi.tol.plot <- BMIToleranceMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
@@ -1158,11 +1158,11 @@ if (params$isAccessible == "yes") {
 ```
 
 ### Functional feeding group metrics plot
-This plot shows richness (number of taxa within a group) and abundance (number of individuals per m2 within a group) for stream BMI samples.
+This plot shows richness (number of taxa within a group) and density (number of individuals per m2 within a group) for stream BMI samples.
 
 Groups are based on functional feeding groups, which refer to the type of food resource that species utilize in the stream. Shredder taxa consume living or decomposing vascular plant tissue and coarse particulate organic matter (CPOM). Scraper taxa consume periphyton, particularly algae and diatoms. Collector-filterer taxa consume fine particulate organic matter (FPOM) in the water column. Collector-gatherer taxa consume FPOM from benthic deposits. Predator taxa consume living animal tissue, usually other BMI, but occasionally small vertebrates. They can indicate that a habitat supports higher trophic complexity.
 
-``` {r bmi.fun.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate functional feeding group metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and abundance each have a horizontal panel. Counts for the five functional feeding groups are represented by different line colors."}
+``` {r bmi.fun.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate functional feeding group metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and density each have a horizontal panel. Counts for the five functional feeding groups are represented by different line colors."}
 bmi.fun.plot <- BMIFunctionalMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
@@ -1189,7 +1189,7 @@ Groups are based on taxonomic levels.
 - Crustacea is another class of invertebrates within the arthropod phylum that includes crabs, lobsters, crayfish, barnacles, and copepods.
 - Oligochaeta is is a subclass of segmented worms within the annelid phylum that includes earthworms.
 
-``` {r bmi.tax.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate taxonomic metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and abundance each have a horizontal panel. Counts for the twelve taxonomic groups are represented by different line colors."}
+``` {r bmi.tax.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate taxonomic metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and density each have a horizontal panel. Counts for the twelve taxonomic groups are represented by different line colors."}
 bmi.tax.plot <- BMITaxonomicMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
