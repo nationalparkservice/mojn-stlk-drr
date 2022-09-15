@@ -4,7 +4,7 @@ params:
   reportNumber: ""    # Optional. Only include this if publishing in the semi-official Data Release Report Series. Contact Joe if you are.
   reportRefID: XXXXXXX
   packageAbstract: >-
-    This report summarizes data quality evaluations of discrete data collected for the Mojave Desert Network Inventory and Monitoring Program (MOJN I&M) Streams and Lakes (STLK) protocol from 2021. This protocol is designed to monitor the hydrologic and ecosystem health of nine streams and six subalpine lakes in Great Basin National Park (GRBA) and to identify and assess the effects of stressors such as climate change, groundwater withdrawal, and atmospheric nutrient deposition. Data collected include lake level surveys, water quality measurements, water chemistry samples, and benthic macroinvertebrate samples.
+    This report summarizes data quality evaluations of discrete data collected for the Mojave Desert Network Inventory and Monitoring Program (MOJN I&M) Streams and Lakes protocol from 2021. This protocol is designed to monitor the hydrologic and ecosystem health of nine streams and six subalpine lakes in Great Basin National Park (GRBA) and to identify and assess the effects of stressors such as climate change, groundwater withdrawal, and atmospheric nutrient deposition. Data collected include lake level surveys, water quality measurements, water chemistry samples, and benthic macroinvertebrate samples.
   dataPackage1RefID: XXXXXXX
   dataPackage1Title: "MOJN I&M Streams and Lakes Data Package 2021"               # Should match title in data store.
   dataPackage1Description: "MOJN I&M STLK 2021"  
@@ -151,6 +151,7 @@ if (params$dataSource == "database") {
 } 
 raw_data_path <- here::here("data", "raw")
 
+# Convert start and end water years assigned in the params to a year range that can be applied to functions through the field.season parameter
 wy <- as.numeric(params$wateryearStart)
 end <- as.numeric(params$wateryearEnd)
 
@@ -163,6 +164,17 @@ years <- tibble::tibble(wy) %>%
 years <- paste0(years$wy)
 
 year.range <- years
+
+# Function to adjust position of axis and legend labels in plotly objects
+layout_ggplotly <- function(gg, x = -0.1, y = -0.05, x_legend=1.05, y_legend=0.95, mar=list(l=50, r=150)){
+  # The 1 and 2 goes into the list that contains the options for the x and y axis labels respectively
+  gg[['x']][['layout']][['annotations']][[1]][['y']] <- x
+  gg[['x']][['layout']][['annotations']][[2]][['x']] <- y
+  # gg[['x']][['layout']][['annotations']][[0]][['x']] <- x_legend # the legend title was the 11-th list element in my case!
+  gg[['x']][['layout']][['legend']][['y']] <- y_legend
+  gg[['x']][['layout']][['legend']][['x']] <- x_legend
+  gg %>% layout(margin = mar)
+}
   
 ```
 
@@ -182,15 +194,15 @@ if (file.exists(file = here::here("data", "temp", "projectMetadata.RData"))) {
 
 <hr>
 # Background & Introduction
-The following information is summarized from the *Mojave Desert Network Inventory and Monitoring streams and lakes monitoring protocol: Protocol narrative version 1.0* (NPS/MOJN/NRR—2012/593), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190889. Refer to the protocol narrative for more detailed information.
+The following background information is summarized from the *Mojave Desert Network Inventory and Monitoring streams and lakes monitoring protocol: Protocol narrative version 1.0* (NPS/MOJN/NRR—2012/593), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190889. Refer to the protocol narrative for more detailed information.
 
 ## Significance
-Streams and lakes in Great Basin National Park (GRBA) provide habitat for aquatic and terrestrial organisms, contribute to local water supplies, and serve as popular visitor destinations. Aquatic and riparian habitats are important compared to their relatively small land cover because they often host endemic biota and support higher levels of biodiversity. Up to 80% of all vertebrates in the western United States depend on riparian habitats for at least part of their life cycles, and more than half are completely dependent on riparian habitats. Recently, the regionally-endemic Bonneville cutthroat trout has been reintroduced to streams and lakes in the park.
+Streams and lakes in Great Basin National Park (GRBA) provide habitat for aquatic and terrestrial organisms, contribute to local water supplies, and serve as popular visitor destinations. Aquatic and riparian habitats are important despite their relatively small land cover because they often host endemic biota and support higher levels of biodiversity than surrounding terrestrial habitats. Up to 80% of all vertebrates in the western United States depend on riparian habitats for at least part of their life cycles, and more than half are completely dependent on riparian habitats. Recently, the regionally-endemic Bonneville cutthroat trout has been reintroduced to streams and lakes in the park.
 
 ## Threats and Stressors
 Climate change poses a threat to surface water resources in GRBA. Climate change affects precipitation and snowmelt patterns, which control stream flow regime (i.e., the amount and variability of discharge) as well as lake hydrology and physical limnology. Flow regime is the key driver of ecosystem processes in streams. In addition, climate change affects water temperatures and thermal regimes, which are also important determinants of biotic communities and ecosystem processes in streams and lakes.
 
-Other potential threats include groundwater pumping in valleys adjacent to GRBA, cultural eutrophication, sedimentation, acid rain, input of contaminants, fishing, and the introduction of non-native species. Cultural eutrophication through the atmospheric deposition of anthropogenic nitrogen and phosphorus may lead to changes in food webs and fisheries and can exacerbate hypoxia events in lakes. Acid rain may decrease pH and alter the nutrient status of lakes. Lakes such as those at GRBA with low natural buffering capacity are particularly vulnerable to the effects of acidification. The combined effects of invasive grasses, past fire suppression, and climate change may result in large and catastrophic fires within the park. Large fires, particularly those burning entire watersheds, could be major disturbances for aquatic biota in streams and lakes.
+Other potential threats include groundwater pumping in valleys adjacent to GRBA, cultural eutrophication, sedimentation, acid rain, input of contaminants, and the introduction of non-native species. Cultural eutrophication through the atmospheric deposition of anthropogenic nitrogen and phosphorus may lead to changes in food webs and fisheries and can exacerbate hypoxia events in lakes. Acid rain may decrease pH and alter the nutrient status of lakes. Lakes such as those at GRBA with low natural buffering capacity are particularly vulnerable to the effects of acidification. The combined effects of invasive grasses, past fire suppression, and climate change may result in large and catastrophic fires within the park. Large fires, particularly those burning entire watersheds, could be major disturbances for aquatic biota in streams and lakes.
 
 ## Sample Design
 The Mojave Desert Network Inventory and Monitoring Program (MOJN I&M) monitors nine perennial streams and six subalpine lakes in GRBA as part of the Streams and Lakes protocol (Figure 1).
@@ -232,23 +244,23 @@ Benthic macroinvertebrate samples were analyzed by the Utah State University Nat
 Summaries of these laboratory methods are also described in *Mojave Desert Network Inventory and Monitoring Streams and Lakes Protocol: Standard Operating Procedures and Supplementary Materials Version 1.0* (NPS/MOJN/NRR—2012/593.1), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190896. Specific methods include SOP 13: Laboratory Analysis of BMI and SOP 14: Laboratory Analysis of Water Chemistry.
 
 ## Data Processing
-Data were evaluated using a collection of QC checks that are part of the MOJN I&M Streams and Lakes R package. These evaluations are summarized in Section 4 of this document. Where unresolvable data quality issues existed, they have been described by a flag note in the data record, and a flag has been assigned to indicate the level of concern. These flags include Information (not expected to impact the validity of this data), Warning (care should be taken when including this record in analyses), and Critical (serious concerns about the quality of this record and it should not be used in analyses).
+Data were evaluated using a collection of QC checks that are part of the MOJN I&M Streams and Lakes R package. These evaluations are summarized in Section 4 of this document. Where unresolvable data quality issues exist, the data have been assigned a flag to indicate the level of concern and further described by a flag note. These flags include Information (not expected to impact the validity of the data), Warning (care should be taken when including the data in analyses), and Critical (serious concerns about the quality of the data, and they should not be used in analyses).
 
 ## Code Availability
-All of the code used in the preparation of this data package is available in the MOJN I&M Streams and Lakes R Package <INSERT LINK>.
+All of the code used in the preparation of this data package is available in the MOJN I&M Streams and Lakes R Package [INSERT LINK PRIOR TO PUBLICATION].
 
 # Data Records
-Ten CSV data files are provided that contain raw values suitable for use with the MOJN I&M Streams and Lakes R package. Three additional CSV data files are provided that contain calculated values generated using this R package. These files are clearly labeled as "calculated" (Table 1).
+The published product is one data package containing multiple CSV data files:
+
+* **`r params$dataPackage1Title`.** Comma-separated text files containing data from the MOJN I&M Streams and Lakes protocol. These data were compiled by the MOJN I&M and were last updated on September 1, 2021. Available at `r paste0("https://irma.nps.gov/DataStore/Reference/Profile/", params$dataPackage1RefID)`.
+
+Ten CSV data files contain raw values suitable for use with the MOJN I&M Streams and Lakes R package. Three additional CSV data files contain calculated values generated using this R package. These files are clearly labeled as "calculated" (Table 1).
 
 A data dictionary for all of the tables and fields in the published CSV files is provided in XML format with this data package. 
 
-The published product is one data package containing multiple CSV data files:
-
-* **`r params$dataPackage1Title`.** Comma-separated text files containing data from the MOJN I&M Streams and Lakes protocol. These data were compiled by the MOJN I&M and were last updated on September 1, 2021. Available at `r paste0("https://irma.nps.gov/DataStore/Reference/Profile/", params$dataPackage1RefID)`. 
-
-```{r Table1, echo=FALSE, alt.text = "Table with the file name of each CSV published as part of the data package and a brief description of each file. There are thirteen raw files and and additional three calculated files."}
+```{r Table1, echo=FALSE, fig.cap = "**Table 1.** File names and descriptions of published CSVs accompanying this data release report.", alt.text = "Table with the file name of each CSV published as part of the data package and a brief description of each file. There are thirteen raw files and and additional three calculated files."}
 FileName<-c("Site","Visit","BMI","Channel","Chemistry","Clarity","LakeLevelString","LakeLevelSurvey","WaterQualityDO","WaterQualitypH","WaterQualitySpCond","WaterQualityTemperature","WQStreamXSection","LakeLevel_CALCULATED","WaterQuality_CALCULATED","WQStreamXSection_CALCULATED")
-Description<-c("A full description of each of the site codes used in this dataset (Streams and Lakes)","General attributes of the monitoring site visit (Streams and Lakes)","All benthic macroinvertebrate data from all sites (Streams)","Channel characteristics associated with the BMI measurements (Streams)","Laboratory analysis of water chemistry (Streams and Lakes)","Depth and secchi depth measurements (Lakes)","Lake level measured using a string-based survey","Lake level measured using a theodolite-based survey","Dissolved oxygen measured in situ through a depth profile (Lakes)","pH measured in situ through a depth profile (Lakes)","Specific conductance measured in situ through a depth profile (Lakes)","Temperature measured in situ through a depth profile (Lakes)","In situ water quality measured through stream crosssections (Streams)","The calculated lake surface level calculated from the raw data in LakeLevel String and LakeLevelSurvey using the MOJN Streams and Lakes R package (Lakes)","The median water quality values calculated from the four raw WaterQuality data tables (Lakes)","The median water quality values calculated from the raw values in the WQStreamXSection data table (Streams)")
+Description<-c("A full description of each of the site codes used in this dataset (Streams and Lakes)","General attributes of the monitoring site visit (Streams and Lakes)","All benthic macroinvertebrate data from all sites (Streams)","Channel characteristics associated with the BMI measurements (Streams)","Laboratory analysis of water chemistry (Streams and Lakes)","Depth and Secchi depth measurements (Lakes)","Lake level measured using a string-based survey","Lake level measured using a digital level-based survey","Dissolved oxygen measured in situ through a depth profile (Lakes)","pH measured in situ through a depth profile (Lakes)","Specific conductance measured in situ through a depth profile (Lakes)","Temperature measured in situ through a depth profile (Lakes)","In situ water quality measured through stream cross sections (Streams)","The calculated lake surface level calculated from the raw data in LakeLevelString and LakeLevelSurvey using the MOJN Streams and Lakes R package (Lakes)","The median water quality values calculated from the four raw WaterQuality data tables (Lakes)","The median water quality values calculated from the raw values in the WQStreamXSection data table (Streams)")
 Table<-data.frame(FileName,Description)
 
 reactable(Table,
@@ -266,10 +278,11 @@ This data release report focuses primarily on data collected in WY2021. These da
 
 ## Advice and Caveats
 - In 2021, no data were collected at Dead Lake because the lake was entirely dry.
-- In 2022, the Utah State University National Aquatic Monitoring Center (USU NAMC) revised its benthic macroinvertebrate sample reporting methods. They now refer to abundance metrics as density metrics. In addition, they now use unique taxonomy instead of applying a generic operational taxonomic unit (OTU) scheme. USU NAMC regenerated all previous sample reports, which have been integrated into this data release. As a result, there may be minor discrepancies in metrics values between the earlier WY2009-2020 dataset and this WY2009-2021 dataset.
+- In 2022, the Utah State University National Aquatic Monitoring Center (USU NAMC) revised their benthic macroinvertebrate sample reporting methods. They now refer to abundance metrics as density metrics. In addition, they now use unique taxonomy instead of applying a generic operational taxonomic unit (OTU) scheme. USU NAMC regenerated all previous sample reports, which have been integrated into this data release. As a result, there may be minor discrepancies in metrics values between the earlier WY2009-2020 dataset and this WY2009-2021 dataset.
+- In 2022, MOJN I&M standardized the flags applied to water chemistry data that did not meet certain standards or expectations (e.g., below minimum detection level). As a result, there may be occasional discrepancies in flags between the earlier WY2009-2020 dataset and this WY2009-2021 dataset.
 
-## Errata
-- In the WY2009-2020 dataset, three lakes had incorrect benchmark and lake surface elevations in 2012: Brown Lake, Stella Lake, and Teresa Lake. These elevations have been corrected in the WY2021 dataset.
+## Corrections
+In the WY2009-2020 dataset, three lakes had incorrect benchmark and lake surface elevations for WY2012: Brown Lake, Stella Lake, and Teresa Lake. These elevations have been corrected in the WY2009-2021 dataset.
 
 `r if(params$isAccessible == "yes") {"## Sites not visited"} else {"## Sites not visited {.tabset}"}`
 
@@ -317,7 +330,6 @@ if (params$isAccessible == "yes") {
     },
     compact = TRUE, striped = TRUE)
 }
-
 ```
 `r if(nrow(dpl.check) == 0){"All records have been accepted."}`
 `r if(nrow(dpl.check) > 0){"The above records need to be reviewed and accepted before publication."}`
@@ -325,13 +337,13 @@ if (params$isAccessible == "yes") {
 `r if(params$isAccessible == "yes") {"## Lake surface and benchmark elevations"} else {"## Lake surface and benchmark elevations {.tabset}"}`
 
 ### Benchmark elevations
-These are the mean values and standard deviations of final corrected elevations for each benchmark across recent field seasons. Digital level readings began in 2018.
+These are the final calculated benchmark elevations for each lake across recent field seasons. Digital level readings began in 2018.
 
 ``` {r benchmark.elevations, fig.alt = "Table with calculated elevations for each lake benchmark and water surface since 2018 when the use of digital level surveys began."}
 benchmark.elevations <- SurveyPointElevation(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 benchmark.elevations$ClosureError_ft <- round(benchmark.elevations$ClosureError_ft, 4)
-benchmark.elevations$FinalCorrectedElevation_ft <- round(benchmark.elevations$FinalCorrectedElevation_ft, 4)
+benchmark.elevations$FinalCorrectedElevation_ft <- round(benchmark.elevations$FinalCorrectedElevation_ft, 3)
 
 if (params$isAccessible == "yes") {
   benchmark.elevations %>%
@@ -346,10 +358,36 @@ if (params$isAccessible == "yes") {
 
 ```
 
-### String survey heights
-These are the mean values and standard deviations of string survey heights for each benchmark for each field season. The height of the benchmark above the water surface was typically measured seven times during the string survey. String surveys ended in 2018 and were replaced by digit level readings during that same field season, which have higher accuracy and precision.
+### Benchmark consistencies
 
-``` {r string.heights, include = FALSE, fig.alt = "Table with mean string heights and standard deviations for each lake benchmark from 2010 until the string method was last used in 2018."}
+These are the means and standard deviations of final calculated elevations for each benchmark across recent field seasons. Digital level readings began in 2018. The reference mark designated Benchmark 1 was assumed to have an elevation of 100 m (328.084 ft) and used to calculate the final lake level at each lake.
+
+``` {r benchmark.consistency, fig.alt = "Table with mean elevations and standard deviations for each lake benchmark and water surface since 2018 when the use of digital level surveys began."}
+benchmark.qc <- qcBenchmarkElevation(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
+
+benchmark.qc$MeanElevation_ft <- round(benchmark.qc$MeanElevation_ft, 3)
+benchmark.qc$StDevElevation_ft <- round(benchmark.qc$StDevElevation_ft, 3)
+
+benchmark.qc %<>% dplyr::select(-c(Park, SiteShort))
+
+if (params$isAccessible == "yes") {
+  benchmark.qc %>%
+    knitr::kable() %>%
+    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
+} else {
+  benchmark.qc %>%
+    reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
+}
+
+```
+
+`r if(as.numeric(params$wateryearStart) < 2018) {"### String survey heights"}`
+
+`r if(as.numeric(params$wateryearStart) < 2018) {"These are the means and standard deviations of string survey heights for each benchmark for each field season. The height of the benchmark above the water surface was typically measured seven times during the string survey. String surveys ended in 2018 and were replaced by digit level readings during that same field season, which have higher accuracy and precision."}`
+
+``` {r string.heights, fig.alt = "Table with mean string heights and standard deviations for each lake benchmark from 2010 until the string method was last used in 2018."}
+#| include = as.numeric(params$wateryearStart) < 2018
+
 string.heights <- qcStringSurveyHeights(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 string.heights$MeanHeight_ft <- round(string.heights$MeanHeight_ft, 4)
@@ -369,10 +407,14 @@ if (params$isAccessible == "yes") {
 }
 ```
 
-### String survey elevations
-These are the mean values and standard deviations of string survey lake level elevations for each field season. The reference mark designated Benchmark 1 was typically used to calculate the final lake level at each lake. String surveys ended in 2018 and were replaced by digit level readings during that same field season, which have higher accuracy and precision.
+
+`r if(as.numeric(params$wateryearStart) < 2018) {"### String survey elevations"}`
+
+`r if(as.numeric(params$wateryearStart) < 2018) {"These are the means and standard deviations of string survey lake level elevations for each field season. The reference mark designated Benchmark 1 was typically used to calculate the final lake level at each lake. String surveys ended in 2018 and were replaced by digit level readings during that same field season, which have higher accuracy and precision."}`
 
 ``` {r string.elevations, include = FALSE, fig.alt = "Table with calculated elevations for each lake water surface from 2010 until the string method was last used in 2018."}
+#| include = as.numeric(params$wateryearStart) < 2018
+
 string.elevations <- qcStringSurveyElevations(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 string.elevations$MeanFinalElevation_ft <- round(string.elevations$MeanFinalElevation_ft, 4)
@@ -399,7 +441,7 @@ benchmark.plots <- PlotBenchmarkElevation(conn = conn, path.to.data = raw_data_p
 if (params$isAccessible == "yes") {
   benchmark.plots
 } else {
-  ggplotly(benchmark.plots)
+  ggplotly(benchmark.plots, tooltip = "text")
 }
 ```
 
@@ -408,6 +450,9 @@ These are the final calculated water surface elevations for each lake across rec
 
 ``` {r lake.elevations, fig.alt = "Table with all calcuated lake water surface elevations, including string and digital level methods."}
 lake.elevations <- LakeSurfaceElevation(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
+
+lake.elevations$ClosureError_ft <- round(lake.elevations$ClosureError_ft, 4)
+lake.elevations$FinalElevation_ft <- round(lake.elevations$FinalElevation_ft, 3)
 
 if (params$isAccessible == "yes") {
   lake.elevations %>%
@@ -430,7 +475,7 @@ lake.elev.plots <- PlotLakeSurfaceElevation(conn = conn, path.to.data = raw_data
 if (params$isAccessible == "yes") {
   lake.elev.plots
 } else {
-  lake.elev.plots <- ggplotly(lake.elev.plots)
+  lake.elev.plots <- plotly::ggplotly(lake.elev.plots, tooltip = "text")
   
   for (i in 1:length(lake.elev.plots$x$data)){
     if (!is.null(lake.elev.plots$x$data[[i]]$name)){
@@ -501,7 +546,7 @@ if (params$isAccessible == "yes") {
     reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 }
 ```
-There are `r nrow(lake.not.dry.no.clarity)` records with missing data.
+There are `r nrow(lake.not.dry.no.clarity)` records with missing data. For both records, lake depth (depth to bottom) was inadvertently not measured when Secchi depth was measured.
 
 ### Lake not dry, no depths
 This is a list of records where the Secchi disk **is not** visible on the bottom of the lake and Secchi depth measurements **do not** exist.
@@ -664,7 +709,7 @@ if (params$isAccessible == "yes") {
 There are `r nrow(wq.lake.flags)` flagged measurements.
 
 ### Lake temperature depth profiles
-This is a plot of temperature depth profiles in units of C for each lake across recent field seasons. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Dead Lake was dry in 2021.
+This is a plot of temperature depth profiles in units of degrees C for each lake across recent field seasons. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Dead Lake was dry in 2021.
 
 ``` {r temp.dp.plot, warning = FALSE, fig.alt = "Plots of lake water temperature values by depth, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates water temperature in degrees Celsius. Panel for each lake."}
 temp.dp.plot <- WqPlotTemperatureDepthProfile(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
@@ -672,7 +717,9 @@ temp.dp.plot <- WqPlotTemperatureDepthProfile(conn = conn, path.to.data = raw_da
 if (params$isAccessible == "yes") {
   temp.dp.plot
 } else {
-  ggplotly(temp.dp.plot)
+  ggplotly(temp.dp.plot
+           # , tooltip = "text"
+           )
 }
 ```
 
@@ -685,7 +732,9 @@ ph.dp.plot <- WqPlotPHDepthProfile(conn = conn, path.to.data = raw_data_path, da
 if (params$isAccessible == "yes") {
   ph.dp.plot
 } else {
-  ggplotly(ph.dp.plot)
+  ggplotly(ph.dp.plot
+           # , tooltip = "text"
+           )
 }
 ```
 
@@ -698,7 +747,9 @@ sc.dp.plot <- WqPlotSpCondDepthProfile(conn = conn, path.to.data = raw_data_path
 if (params$isAccessible == "yes") {
   sc.dp.plot
 } else {
-  ggplotly(sc.dp.plot)
+  ggplotly(sc.dp.plot,
+           # , tooltip = "text"
+           )
 }
 ```
 
@@ -711,7 +762,9 @@ do.dp.plot <- WqPlotDODepthProfile(conn = conn, path.to.data = raw_data_path, da
 if (params$isAccessible == "yes") {
   do.dp.plot
 } else {
-  ggplotly(do.dp.plot)
+  ggplotly(do.dp.plot,
+           # , tooltip = "text"
+           )
 }
 ```
 
@@ -780,7 +833,7 @@ if (params$isAccessible == "yes") {
             striped = TRUE)
 }
 ```
-There are `r nrow(lab.dupes %>% filter(RPD > 30))` duplicates with RPD values above the 30% MQO threshold.
+Of the `r nrow(lab.dupes)` total lab duplicates, there are `r nrow(lab.dupes %>% filter(RPD > 30))` duplicates with RPD values above the 30% MQO threshold.
 
 ### Field duplicates
 Field duplicates are additional samples collected from the same location at approximately the same time and using the same methods as the primary sample. These duplicates can help to detect inconsistency in collection methods or variability in water chemistry at a location. This is a list of the relative percent difference (RPD) values for field duplicates and triplicates. Results that exceed the 30% method quality objective (MQO) threshold are flagged.
@@ -814,7 +867,7 @@ if (params$isAccessible == "yes") {
             striped = TRUE)
 }
 ```
-There are `r nrow(field.dupes %>% filter(RPD > 30))` duplicates with RPD values above the 30% MQO threshold.
+Of the `r nrow(field.dupes)` total field duplicates, there are `r nrow(field.dupes %>% filter(RPD > 30))` duplicates with RPD values above the 30% MQO threshold.
 
 ### Field blanks
 Field blanks are bottles filled with distilled water as opposed to water sampled at the location. They are handled the same way as primary samples in the field and can help to detect and identify sources of contamination during sampling. This is a list of analyte concentrations that exceed the method detection limit (MDL) for that analyte.
@@ -840,7 +893,7 @@ if (params$isAccessible == "yes") {
 There are `r nrow(field.blanks)` analytes from blanks with concentrations greater than the MDL for that analyte.
 
 ### Dissolved nitrogen
-These are the records where the concentration of total dissolved nitrogen (TDN) exceeds total nitrogen (UTN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration is measured from the filtered sample. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
+These are the records where the concentration of total dissolved nitrogen (TDN) exceeds total nitrogen (UTN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration is measured from the filtered sample. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations. Whether the discrepancy falls within or outside precision limits is documented in the notes field.
 
 ``` {r chem.TDN, fig.alt = "Table of records where the concentration of total dissolved nitrogen is greater than total nitrogen."}
 chem.TDN <- qcChemTDN(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
@@ -874,7 +927,7 @@ if (params$isAccessible == "yes") {
 There are `r nrow(chem.TDN %>% filter(TDNvUTN >= 0.02))` records where the concentration of dissolved nitrogen is greater than the total nitrogen concentration and the difference is outside the normal limits of variability.
 
 ### Nitrate and nitrite
-These are the records where the concentration of nitrate (NO3) and nitrite (NO2) exceeds either total nitrogen (UTN) or total dissolved nitrogen (TDN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen or dissolved nitrogen is in the form of nitrate and nitrite, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration (including nitrate and nitrite) is measured from the filtered sample. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
+These are the records where the concentration of nitrate (NO3) and nitrite (NO2) exceeds either total nitrogen (UTN) or total dissolved nitrogen (TDN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen or dissolved nitrogen is in the form of nitrate and nitrite, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration (including nitrate and nitrite) is measured from the filtered sample. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations. Whether the discrepancy falls within or outside precision limits is documented in the notes field.
 
 ``` {r chem.NO3NO2, fig.alt = "Table of records where the concentration of nitrate and nitrite is greater than total nitrogen or total dissolved nitrogen."}
 chem.NO3NO2 <- qcChemNO3NO2(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
@@ -908,7 +961,7 @@ if (params$isAccessible == "yes") {
 There are `r nrow(chem.NO3NO2)` records where the concentration of nitrate and nitrate is greater than the concentration of either total nitrogen or total dissolved nitrogen.
 
 ### Dissolved phosphorus
-These are the records where the concentration of total dissolved phosphorus exceeds total phosphorus. If the discrepancy falls within precision limits, this indicates that nearly all of the phosphorus is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration is measured from the filtered sample. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations.
+These are the records where the concentration of total dissolved phosphorus exceeds total phosphorus. If the discrepancy falls within precision limits, this indicates that nearly all of the phosphorus is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration is measured from the filtered sample. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations. Whether the discrepancy falls within or outside precision limits is documented in the notes field.
 
 ``` {r chem.TDP, fig.alt = "Table of records where the concentration of total dissolved phosphorus is greater than total phosphorus."}
 chem.TDP <- qcChemTDP(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
@@ -1014,26 +1067,30 @@ There are `r nrow(chem.ML)` analytes with concentrations less than or equal to t
 ### Stream nutrients plot
 This is a plot of nutrient concentrations for each stream across recent field seasons. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Dissolved organic carbon (DOC) is analyzed occasionally as funding allows.
 
-``` {r chem.stream.nutrient.plot, warning = FALSE, fig.alt = "Line graphs of stream nutrient concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the nine streams has a vertical panel, and each of the six nutrient analytes has a horizontal panel."}
+``` {r chem.stream.nutrient.plot, fig.width = 8, warning = FALSE, fig.alt = "Line graphs of stream nutrient concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the nine streams has a vertical panel, and each of the six nutrient analytes has a horizontal panel."}
 chem.stream.nutrient.plot <- ChemStreamNutrientPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
   chem.stream.nutrient.plot
 } else {
-  ggplotly(chem.stream.nutrient.plot)
+  ggplotly(chem.stream.nutrient.plot,
+           tooltip = "text") %>%
+    layout_ggplotly(x = -0.02, y = -0.02, x_legend = 0, y_legend = 0)
 }
 ```
 
 ### Stream nutrients bar plot
 This is a bar plot of nutrient concentrations for each stream across recent field seasons. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Total and dissolved concentrations are plotted on the same graph to show the relative contributions from each form.
 
-``` {r chem.stream.nutrient.bar.plot, warning = FALSE, fig.alt = "Bar graphs of stream nutrient concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the nine streams has a vertical panel, and nitrogen and phosphorus each have a horizontal panel. Dissolved and total concentrations are overlain to show the proportional contribution of dissolved and particulate forms to each nutrient."}
+``` {r chem.stream.nutrient.bar.plot, fig.width = 8, warning = FALSE, fig.alt = "Bar graphs of stream nutrient concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the nine streams has a vertical panel, and nitrogen and phosphorus each have a horizontal panel. Dissolved and total concentrations are overlain to show the proportional contribution of dissolved and particulate forms to each nutrient."}
 chem.stream.nutrient.bar.plot <- ChemStreamNutrientBarPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
   chem.stream.nutrient.bar.plot
 } else {
-  ggplotly(chem.stream.nutrient.bar.plot)
+  ggplotly(chem.stream.nutrient.bar.plot,
+           tooltip = "text") %>%
+    layout_ggplotly(x = -0.02, y = -0.02)
 }
 ```
 
@@ -1042,39 +1099,45 @@ This is a plot of ion concentrations for each stream across recent field seasons
 
 Alkalinity is a property of water defined by the USGS as "the buffering capacity of a water body; a measure of the ability of the water body to neutralize acids and bases and thus maintain a fairly stable pH level." As alkalinity decreases, the sensitivity of a water body to acidification increases. Alkalinity is expressed as mg-CaCO3/L. In 2009, the laboratory measured alkalinity as HCO3. From 2010 to the present, the laboratory measured alkalinity as CaCO3. The alkalinity values from 2009 were recalculated to match the method from 2010 onward. Due to an error in laboratory software programming, ALK2 values analyzed in 2014 and earlier that are less than 20 mg/L may be overestimated (typically 1.5 to 2.5 mg/L, up to 35% difference), with the discrepancy increasing closer to 0 mg/L.
 
-``` {r chem.stream.ion.plot, warning = FALSE, fig.alt = "Line graphs of stream ion concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the nine streams has a vertical panel, and each of the six ion analytes plus alkanlity has a horizontal panel."}
+``` {r chem.stream.ion.plot, fig.width = 8, warning = FALSE, fig.alt = "Line graphs of stream ion concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the nine streams has a vertical panel, and each of the six ion analytes plus alkanlity has a horizontal panel."}
 chem.stream.ion.plot <- ChemStreamIonPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
   chem.stream.ion.plot
 } else {
-  ggplotly(chem.stream.ion.plot)
+  ggplotly(chem.stream.ion.plot,
+           tooltip = "text") %>%
+    layout_ggplotly(x = -0.02, y = -0.02, x_legend = 0, y_legend = 0)
 }
 ```
 
 ### Lake nutrients plot
 This is a plot of nutrient concentrations for each lake across recent field seasons. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Dissolved organic carbon (DOC) is analyzed occasionally as funding allows.
 
-``` {r chem.lake.nutrient.plot, warning = FALSE, fig.alt = "Line graphs of lake nutrient concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the six lakes has a vertical panel, and each of the six nutrient analytes has a horizontal panel."}
+``` {r chem.lake.nutrient.plot, fig.width = 8, warning = FALSE, fig.alt = "Line graphs of lake nutrient concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the six lakes has a vertical panel, and each of the six nutrient analytes has a horizontal panel."}
 chem.lake.nutrient.plot <- ChemLakeNutrientPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
   chem.lake.nutrient.plot
 } else {
-  ggplotly(chem.lake.nutrient.plot)
+  ggplotly(chem.lake.nutrient.plot,
+           tooltip = "text") %>%
+    layout_ggplotly(x = -0.02, y = -0.03, x_legend = 0, y_legend = 0)
 }
 ```
 
 ### Lake nutrients bar plot
 This is a bar plot of nutrient concentrations for each lake across recent field seasons. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Total and dissolved concentrations are plotted on the same graph to show the relative contributions from each form.
 
-``` {r chem.lake.nutrient.bar.plot, warning = FALSE, fig.alt = "Bar graphs of lake nutrient concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the six lakes has a vertical panel, and nitrogen and phosphorus each have a horizontal panel. Dissolved and total concentrations are overlain to show the proportional contribution of dissolved and particulate forms to each nutrient."}
+``` {r chem.lake.nutrient.bar.plot, fig.width = 8, warning = FALSE, fig.alt = "Bar graphs of lake nutrient concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the six lakes has a vertical panel, and nitrogen and phosphorus each have a horizontal panel. Dissolved and total concentrations are overlain to show the proportional contribution of dissolved and particulate forms to each nutrient."}
 chem.lake.nutrient.bar.plot <- ChemLakeNutrientBarPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
   chem.lake.nutrient.bar.plot
 } else {
-  ggplotly(chem.lake.nutrient.bar.plot)
+  ggplotly(chem.lake.nutrient.bar.plot,
+           tooltip = "text") %>%
+    layout_ggplotly(x = -0.02, y = -0.03)
 }
 ```
 
@@ -1083,13 +1146,15 @@ This is a plot of ion concentrations for each lake across recent field seasons. 
 
 Alkalinity is a property of water defined by the USGS as "the buffering capacity of a water body; a measure of the ability of the water body to neutralize acids and bases and thus maintain a fairly stable pH level." As alkalinity decreases, the sensitivity of a water body to acidification increases. Alkalinity is expressed as mg-CaCO3/L. In 2009, the laboratory measured alkalinity as HCO3. From 2010 to the present, the laboratory measured alkalinity as CaCO3. The alkalinity values from 2009 were recalculated to match the method from 2010 onward. Due to an error in laboratory software programming, ALK2 values analyzed in 2014 and earlier that are less than 20 mg/L may be overestimated (typically 1.5 to 2.5 mg/L, up to 35% difference), with the discrepancy increasing closer to 0 mg/L.
 
-``` {r chem.lake.ion.plot, warning = FALSE, fig.alt = "Line graphs of lake ion concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the six lakes has a vertical panel, and each of the six ion analytes plus alkanlity has a horizontal panel."}
+``` {r chem.lake.ion.plot, fig.width = 8, warning = FALSE, fig.alt = "Line graphs of lake ion concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the six lakes has a vertical panel, and each of the six ion analytes plus alkanlity has a horizontal panel."}
 chem.lake.ion.plot <- ChemLakeIonPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
   chem.lake.ion.plot
 } else {
-  ggplotly(chem.lake.ion.plot)
+  ggplotly(chem.lake.ion.plot,
+           tooltip = "text") %>%
+    layout_ggplotly(x = -0.02, y = -0.01, x_legend = 0, y_legend = 0)
 }
 ```
 
@@ -1119,41 +1184,47 @@ There are `r nrow(bmi.discrepancies)` metrics with discrepancies between taxa gr
 ### General metrics plot
 This plot shows total richness (number of unique taxa within a sample) and total density (number of individuals per m2 within a sample) for stream BMI samples.
 
-``` {r bmi.gen.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate general metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and density each have a horizontal panel. Counts for the total sample and for dominant family are represented by different line colors."}
+``` {r bmi.gen.plot, fig.width = 8, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate general metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and density each have a horizontal panel. Counts for the total sample and for dominant family are represented by different line colors."}
 bmi.gen.plot <- BMIGeneralMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
   bmi.gen.plot
 } else {
-  ggplotly(bmi.gen.plot)
+  ggplotly(bmi.gen.plot,
+           tooltip = "text") %>%
+    layout_ggplotly(x = -0.02, y = -0.03)
 }
 ```
 
 ### Diversity metrics plot
 This plot shows various diversity metrics and indices for stream BMI samples. Shannon's Diversity is the measure of richness and evenness (based on relative abundance of each species) weighted toward rare species. Simpson's Diversity is the measure of richness and evenness (based on relative abundance of each species) weighted toward common species. Evenness is the measure of relative abundance indicative of taxa dominance. The Hilsenhoff Biotic Index (HBI) is the abundance-weighted average of family-level pollution tolerances.
 
-``` {r bmi.div.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate diversity metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and each of the four diversity metrics has a horizontal panel."}
+``` {r bmi.div.plot, fig.width = 8, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate diversity metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and each of the four diversity metrics has a horizontal panel."}
 bmi.div.plot <- BMIDiversityMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
   bmi.div.plot
 } else {
-  ggplotly(bmi.div.plot)
+  ggplotly(bmi.div.plot,
+           tooltip = "text") %>%
+    layout_ggplotly(x = -0.02, y = 0, x_legend = 0, y_legend = 0)
 }
 ```
 
 ### Tolerance metrics plot
 This plot shows richness (number of taxa within a group) and density (number of individuals per m2 within a group) for stream BMI samples.
 
-Groups are based on tolerance to disturbance or pollution. The Hilsenhoff Biotic Index (HBI) is the abundance-weighted average of family-level pollution tolerances, and is plotted in the diversity metrics section. Tolerant taxa have an HBI score >=8 and are able to withstand disturbance and poor water quality. Intolerant taxa have an BMI score <=2 and are not as able to withstand disturbance and poor water quality. EPT refers to the insect orders Ephemeroptera (mayflies), Plecoptera (stoneflies), and Tricoptera (caddisflies), which are sensitive to disturbance and whose presence and abundance can indicate good water quality. Long-lived taxa have 2- to 3-year life cycles can indicate habitat stability and persistent good water quality in their habitat. Clinger taxa have fixed retreats or other strategies for clinging to rocks and are vulnerable to the deposition of fine sediments.
+Groups are based on tolerance to disturbance or pollution. The Hilsenhoff Biotic Index (HBI) is the abundance-weighted average of family-level pollution tolerances, and is plotted in the diversity metrics section. Tolerant taxa have an HBI score >=8 and are able to withstand disturbance and poor water quality. Intolerant taxa have an BMI score <=2 and are not as able to withstand disturbance and poor water quality. EPT refers to the insect orders Ephemeroptera (mayflies), Plecoptera (stoneflies), and Tricoptera (caddisflies), which are sensitive to disturbance and whose presence and abundance can indicate good water quality. Long-lived taxa have 2- to 3-year life cycles and can indicate habitat stability and persistent good water quality in their habitat. Clinger taxa have fixed retreats or other strategies for clinging to rocks and are vulnerable to the deposition of fine sediments.
 
-``` {r bmi.tol.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate tolerance metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and density each have a horizontal panel. Counts for the five tolerance groups are represented by different line colors."}
+``` {r bmi.tol.plot, fig.width = 8, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate tolerance metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and density each have a horizontal panel. Counts for the five tolerance groups are represented by different line colors."}
 bmi.tol.plot <- BMIToleranceMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
   bmi.tol.plot
 } else {
-  ggplotly(bmi.tol.plot)
+  ggplotly(bmi.tol.plot,
+           tooltip = "text") %>%
+    layout_ggplotly(x = -0.02, y = -0.03)
 }
 ```
 
@@ -1162,13 +1233,15 @@ This plot shows richness (number of taxa within a group) and density (number of 
 
 Groups are based on functional feeding groups, which refer to the type of food resource that species utilize in the stream. Shredder taxa consume living or decomposing vascular plant tissue and coarse particulate organic matter (CPOM). Scraper taxa consume periphyton, particularly algae and diatoms. Collector-filterer taxa consume fine particulate organic matter (FPOM) in the water column. Collector-gatherer taxa consume FPOM from benthic deposits. Predator taxa consume living animal tissue, usually other BMI, but occasionally small vertebrates. They can indicate that a habitat supports higher trophic complexity.
 
-``` {r bmi.fun.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate functional feeding group metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and density each have a horizontal panel. Counts for the five functional feeding groups are represented by different line colors."}
+``` {r bmi.fun.plot, fig.width = 8, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate functional feeding group metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and density each have a horizontal panel. Counts for the five functional feeding groups are represented by different line colors."}
 bmi.fun.plot <- BMIFunctionalMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
   bmi.fun.plot
 } else {
-  ggplotly(bmi.fun.plot)
+  ggplotly(bmi.fun.plot,
+           tooltip = "text") %>%
+    layout_ggplotly(x = -0.02, y = -0.03)
 }
 ```
 
@@ -1180,22 +1253,26 @@ Groups are based on taxonomic levels.
 - Insecta is a class of six-legged invertebrates within the arthropod phylum.
 - Coleoptera is an order of insects that includes beetles.
 - Diptera is an order of insects that includes flies and midges.
+- Ephemeroptera is an order of insects that includes mayflies.
 - Megaloptera is an order of insects that includes dobsonflies.
 - Plecoptera is an order of insects that includes stoneflies.
+- Trichoptera is an order of insects that includes caddisflies.
 - Chironomidae is a family within Diptera that includes non-biting midges.
 - Elmidae is a family within Coleoptera that includes riffle beetles.
-- Non-insects include all individuals not within the class Insecta.
+- Non-Insecta include all individuals not within the class Insecta.
 - Mollusca is a phylum that includes gastropods (e.g., snails and slugs), cephalopods (e.g., octopus and squids), and bivalves (e.g., clams).
 - Crustacea is another class of invertebrates within the arthropod phylum that includes crabs, lobsters, crayfish, barnacles, and copepods.
-- Oligochaeta is is a subclass of segmented worms within the annelid phylum that includes earthworms.
+- Oligochaeta is is a subclass of segmented worms within the annelid phylum that includes earthworms and other aquatic worms.
 
-``` {r bmi.tax.plot, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate taxonomic metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and density each have a horizontal panel. Counts for the twelve taxonomic groups are represented by different line colors."}
+``` {r bmi.tax.plot, fig.width = 8, warning = FALSE, fig.alt = "Line graphs of stream benthic macroinvertebrate taxonomic metrics, with field season on the x-axis and count on the y-axis. Each of the nine streams has a vertical panel, and richness and density each have a horizontal panel. Counts for the twelve taxonomic groups are represented by different line colors."}
 bmi.tax.plot <- BMITaxonomicMetricsPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 if (params$isAccessible == "yes") {
   bmi.tax.plot
 } else {
-  ggplotly(bmi.tax.plot)
+  ggplotly(bmi.tax.plot,
+           tooltip = "text") %>%
+    layout_ggplotly(x = -0.02, y = -0.03)
 }
 ```
 
