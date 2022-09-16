@@ -1301,7 +1301,7 @@ if (params$isAccessible == "yes") {
 A MOJN Streams and Lakes R Package that is designed to work with the datasets in their published format is available on GitHub. This package was used to implement the quality checks that are included in this report and to generate the three calculated datasets that are included in this data package.
 
 # Acknowledgements
-The authors would like to acknowledge Geoff Moret, who developed the Streams and Lakes protocol and set in motion over a decade of surface water resource monitoring in Great Basin National Park.
+The authors would like to acknowledge Geoff Moret, who developed the Streams and Lakes protocol and set in motion over a decade of surface water resource monitoring in Great Basin National Park. We would also like to thank Lise Grace for providing review and editing assistance on this data release report.
 
 # References
 Caudill CC, Moret G, Chung-MacCoubrey A, Baker G, Tallent N, Hughson D, Burke J, Starcevich LH, Steinhorst R. 2012. Mojave Desert Network Inventory and Monitoring streams and lakes monitoring protocol: Protocol narrative version 1.0. Natural Resource Report. NPS/MOJN/NRR—2012/593. National Park Service. Fort Collins, Colorado. Available at: https://irma.nps.gov/DataStore/Reference/Profile/2190889
