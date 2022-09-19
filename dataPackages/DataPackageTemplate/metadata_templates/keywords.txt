@@ -1,9 +1,5 @@
-keyword	keywordThesaurus
-streams	
-lakes	
-ecological monitoring	
-water quality	
-streamflow	
-lake levels	
-lake depth	
-benthic macroinvertebrates	
+keyword	keywordThesaurus	keywordType
+ecological monitoring		
+long-term monitoring		
+ecological data		
+national parks		
