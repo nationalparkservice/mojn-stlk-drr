@@ -199,19 +199,19 @@ capFig = function(x){
 }
 ```
 
-```{r GenerateMetadata, warning = FALSE, message = FALSE}
-source(here::here("dataPackages", "DataPackageTemplate", "generate-metadata.R"))
-```
-
-```{r LoadData, include = FALSE}
+#```{r GenerateMetadata, warning = FALSE, message = FALSE}
+#source(here::here("dataPackages", "DataPackageTemplate", "generate-metadata.R"))
+#```
+#
+#```{r LoadData, include = FALSE}
 # Load datasets for use
-
-if (file.exists(file = here::here("data", "temp", "projectMetadata.RData"))) {
-  load(file = here::here("data", "temp", "projectMetadata.RData"))
-} else{
-  projectMetadata <- list()
-}
-```
+#
+#if (file.exists(file = here::here("data", "temp", "projectMetadata.RData"))) {
+#  load(file = here::here("data", "temp", "projectMetadata.RData"))
+#} else{
+#  projectMetadata <- list()
+#}
+#```
 
 <hr>
 # Background & Introduction

@@ -1,0 +1,136 @@
+attributeName	code	definition
+BMIMethod	Channel	Channel
+BMIMethod	EMAP	EMAP
+BMIMethod	Large Pool	Large Pool
+BMIMethod	Multi-Pool Grab	Multi-Pool Grab
+BMIMethod	Shallow Pool	Shallow Pool
+BMIMethod	Unknown	Unknown
+ChannelType	Label	Summary
+ChannelType	Pool	Still water, low velocity, smooth
+ChannelType	Glide	Water moving slowly with smooth unbroken surface; low turbulence
+ChannelType	Riffle	Small ripples, waves, and eddies; babbling; surface tension is not broken
+ChannelType	Rapid	Turbulent, intermittent white water, continuous rushing sound
+CloudCover	Mostly Cloudy	Mostly Cloudy
+CloudCover	No Data	No Data
+CloudCover	Overcast	Overcast
+CloudCover	Partly Cloudy	Partly Cloudy
+CloudCover	Sunny	Sunny
+DPL	Accepted	Data that have undergone all QA and QC procedures as defined in a published protocol and associated SOPs. Used in cases where a Quality Assurance Plan has not been developed and approved.
+DPL	Provisional	Data that have undergone all planned QA procedures, have been entered into the system of record, and have passed verification procedures to ensure that data in the system of record match source data (field forms, sensor data files, etc.). Provisional data have not undergone all QC procedures
+DPL	Raw	Data in their state of original collection, either in the form of paper or electronic field forms, eletronic sensor files, or digital media(photo, video, or audio). These data generally have been collected following some QA procedures, but have not undergone any QC procedures.
+Flag	C	Critical - There are serious concerns about the quality of this record
+Flag	I	Information - There is additional information associated with this record
+Flag	NF	No Flags - No data quality flag associated with this record
+Flag	W	Warning - Care should be taken when including this record in data analysis
+OnBottom	N	No
+OnBottom	Y	Yes
+OnBottom	ND	NoData
+MonitoringStatus	Not sampled - Inaccessible	The site was inaccessible at this visit
+MonitoringStatus	Not sampled - Site was not found	No site found at this visit
+MonitoringStatus	Not sampled - Resource damage risk	The site was judged to have high potential to suffer resource damage
+MonitoringStatus	Not sampled - Unknown reason	The site was not sampled, but no reason was provided
+MonitoringStatus	Not sampled - Unsafe	The site was unsafe to sample at this visit
+MonitoringStatus	Sampled	The site was sampled at this visit
+MonitoringStatus	Unknown if sampled	It is unclear whether the site was sampled
+Park	CAMO	Castle Mountains National Monument
+Park	DEVA	Death Valley National Park
+Park	GRBA	Great Basin National Park
+Park	JOTR	Joshua Tree National Park
+Park	LAKE	Lake Mead National Recreation Area
+Park	MANZ	Manzanar National Historic Site
+Park	MOJA	Mojave National Preserve
+Park	PARA	Grand Canyon-Parashant National Monument
+Park	TUSK	Tule Springs Fossil Beds National Monument
+Precipitation	HEAVY	Heavy Rain/Snow
+Precipitation	LIGHT	Light Rain/Snow
+Precipitation	MOD	Moderate Rain/Snow
+Precipitation	ND	No Data
+Precipitation	NONE	None
+SiteProtectedStatus	Legally Protected	Covered under existing statue as being exempt from public dissemination
+SiteProtectedStatus	Operationally Protected	Data withheld from release to protect resources or site fidelity but may be subject to release upon request
+SiteProtectedStatus	Not Protected	Data is neither legally nor operationally sensitive and therefore does not have any distribution restrictions conditional on protected status
+SiteProtectedStatus	Not Available	Not Available
+SampleCollectionMethod	Grab	Hand-dipped
+SampleCollectionMethod	Bottle	Kemmerer/Nansen Bottle
+SampleCollectionMethod	Composite	Composite
+SampleCollectionMethod	Unknown	Unknown
+SampleCollectionMethod	Kick Net	Kick Net
+SampleCollectionMethod	Dip Net	Dip Net
+SampleCollectionMethod	Other	Other
+SampleType	Routine	Routine
+SampleType	Field Blank	Field Blank
+SampleType	Field Replicate	Field Replicate
+SampleType	Lab Duplicate	Lab Duplicate
+SampleType	Lab Triplicate	Lab Triplicate
+SampleFrame	Lake	Lake
+SampleFrame	Spring	Spring
+SampleFrame	Stream	Stream
+SampleFrame	Well	Well
+Substrate	Fine/Sand	Up to ladybug size (2mm)
+Substrate	Gravel	Ladybug to tennis ball size; 2mm - 64mm diameter
+Substrate	Coarse	Tennis ball to car size; 64mm to 4000mm
+Substrate	Other	Bedrock, wood, vegetation, describe in notes
+SurfaceCalm	N	No
+SurfaceCalm	Y	Yes
+SurfaceCalm	ND	NoData
+Temperature	<35	<35 degrees F
+Temperature	36-50	36 - 50 degrees F
+Temperature	>80	>80 degrees F
+Temperature	51-65	51 - 65 degrees F
+Temperature	No Data	No Data
+Temperature	66-80	66 - 80 degrees F
+TransectSide	Right	Right
+TransectSide	Center	Center
+TransectSide	Left	Left
+TransectSide	Unknown	Unknown
+TransectSide	Not Applicable	Not Applicable
+Transect	A	Transect A
+Transect	B	Transect B
+Transect	C	Transect C
+Transect	D	Transect D
+Transect	E	Transect E
+Transect	F	Transect F
+Transect	G	Transect G
+Transect	H	Transect H
+Transect	I	Transect I
+Transect	J	Transect J
+Transect	K	Transect K
+VisitType	Auxillary	Auxillary Monitoring Visit
+VisitType	Biweekly	Biweekly stream
+VisitType	Calibration	Crew calibration monitoring visit
+VisitType	Primary	Primary monitoring visit
+VisitType	Replicate	Replicate monitoring visit
+VisitType	Sonde	Sonde deployment
+VisitType	Training	Training monitoring visit
+VisitType	Unknown	To be determined
+WQDataCollected	Yes	Yes
+WQDataCollected	No - Insufficent water	No - Insufficent water
+WQDataCollected	No - Other reason	No - Other reason
+WQDataCollected	No - Unknown reason	No - Unknown reason
+WQDataCollected	No - Instrument faliure	No - Instrument faliure
+WindSpeed	Calm	Calm
+WindSpeed	Gusty Winds	Gusty Winds
+WindSpeed	Light Breeze	Light Breeze
+WindSpeed	Moderate Wind	Moderate Wind
+WindSpeed	No Data	No Data
+LabName	Oregon St CCAL	http://ccal.oregonstate.edu/
+LabName	USU Bug Lab	USU Bug Lab
+RodMaterial	Fib	Fiberglass rod
+RodMaterial	Inv	Invar rod
+Characteristic	ALK	Alkalinity HCO3-C
+Characteristic	ALK2	Alkalinity CaCO3
+Characteristic	ANC	Acid neutralization capacity
+Characteristic	Ca	Calcium
+Characteristic	Cl	Chloride
+Characteristic	COND	Conductance
+Characteristic	DOC	Dissolved Organic Carbon
+Characteristic	K	Potassium
+Characteristic	Mg	Magnesium
+Characteristic	Na	Sodium
+Characteristic	NO3NO2-N	Nitrite + Nitrate as N
+Characteristic	pH	pH
+Characteristic	SO4-S	Sulfate
+Characteristic	TDN	Total dissolved nitrogen
+Characteristic	TDP	Total dissolved phosphorous
+Characteristic	UTN	Total nitrogen
+Characteristic	UTP	Total phosphorus
