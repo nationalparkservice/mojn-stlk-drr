@@ -386,7 +386,7 @@ These are the means and standard deviations of final calculated elevations for e
 ``` {r benchmark.consistency, fig.cap = capTab("Elevation means and standard deviations for each lake benchmark since 2018 when the use of digital level surveys began.")}
 benchmark.qc <- qcBenchmarkElevation(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
-benchmark.qc$MeanElevation_ft <- round(benchmark.qc$MeanElevation_ft, 3)
+benchmark.qc$AverageElevation_ft <- round(benchmark.qc$AverageElevation_ft, 3)
 benchmark.qc$StDevElevation_ft <- round(benchmark.qc$StDevElevation_ft, 3)
 
 benchmark.qc %<>% dplyr::select(-c(Park, SiteShort))
