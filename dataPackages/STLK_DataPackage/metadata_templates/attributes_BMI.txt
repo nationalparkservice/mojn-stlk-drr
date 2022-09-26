@@ -1,0 +1,79 @@
+attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
+Park	Four letter park code	character	NA	NA	Empty string	Not applicable or data not collected
+SiteShort	Site code without the Park and Site Type prefix	character	NA	NA	Empty string	Not applicable or data not collected
+SiteCode	Unique alphanumeric site code	character	NA	NA	Empty string	Not applicable or data not collected
+SiteName	Descriptive name of the site	character	NA	NA	Empty string	Not applicable or data not collected
+FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character	NA	NA	Empty string	Not applicable or data not collected
+VisitDate	Date that the monitoring occured	Date	NA	YYYY-MM-DD	Empty string	Not applicable or data not collected
+VisitType	Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown	character	NA	NA	Empty string	Not applicable or data not collected
+SampleType	Type of sample: Routine, Field Blank, Field Replicate, Lab Duplicate	character	NA	NA	Empty string	Not applicable or data not collected
+SampleCollectionMethod	Sample collection method: Kicknet, Dipnet, Other, Unknown	character	NA	NA	Empty string	Not applicable or data not collected
+DPL	Data Processing Level: Raw - entered into database; Provisional - data have undergone the first review; Accepted - provisional data have gone through the data certification process	character	NA	NA	Empty string	Not applicable or data not collected
+BMIMethod	BMI Sample collection method: EMAP, Channel, Shallow Pool, Large Pool, Multi-Pool Grab, Unkown	character	NA	NA	Empty string	Not applicable or data not collected
+LabSampleNumber	Sample number assigned by the lab	character	NA	NA	Empty string	Not applicable or data not collected
+DateCollected	Date and time of the sample collection	Date	NA	YYYY-MM-DD	Empty string	Not applicable or data not collected
+FieldSplit	% sample submitted for processing	numeric	percent	NA	Empty string	Not applicable or data not collected
+LabSplit	% sample processed to obtain 600 random individuals (if present)	numeric	percent	NA	Empty string	Not applicable or data not collected
+SampleArea_m2	Total area sampled in square meters	numeric	meterSquared	NA	Empty string	Not applicable or data not collected
+Abundance	Estimated # of individuals per square meter for quantitative samples	numeric	numberPerMeterSquared	NA	Empty string	Not applicable or data not collected
+Richness	# of unique taxa, standardized to operational taxonomic unit (OTU)	numeric	number	NA	Empty string	Not applicable or data not collected
+DominantTaxaPercent	([DominantTaxaAbundance]/[Abundance])*100	numeric	percent	NA	Empty string	Not applicable or data not collected
+LabNotes	Notes from the lab	character	NA	NA	Empty string	Not applicable or data not collected
+FieldNotes	Notes from the field	character	NA	NA	Empty string	Not applicable or data not collected
+SplitCount	# of organisms randomly subsampled from [LabSplit] for identification	numeric	number	NA	Empty string	Not applicable or data not collected
+FixedCount	# of computationally resampled organisms	numeric	number	NA	Empty string	Not applicable or data not collected
+BigRareCount	# of """"""""big and rare"""""""" organisms selected non-randomly for identification from the sample	numeric	number	NA	Empty string	Not applicable or data not collected
+ShannonsDiversity	Measure of richness and evenness (based on relative abundance of each species); weighted toward rare species	numeric	dimensionless	NA	Empty string	Not applicable or data not collected
+SimpsonsDiversity	Measure of richness and evenness (based on relative abundance of each species); weighted toward common species	numeric	dimensionless	NA	Empty string	Not applicable or data not collected
+Evenness	Measure of relative abundance indicative of taxa dominance [Shannon's Diversity]/ln([Richness])	numeric	dimensionless	NA	Empty string	Not applicable or data not collected
+EPTTaxaCount	Richness of Ephemeroptera, Plecoptera, and Trichoptera taxa	numeric	number	NA	Empty string	Not applicable or data not collected
+EPTTaxaAbundance	Abundance of Ephemeroptera, Plecoptera, and Trichoptera taxa	numeric	number	NA	Empty string	Not applicable or data not collected
+DominantFamilyAbundance	Abundance of the dominant family	numeric	number	NA	Empty string	Not applicable or data not collected
+DominantFamily	Taxonomic family with the highest abundance	character	NA	NA	Empty string	Not applicable or data not collected
+DominantTaxa	Taxon with the highest abundance	character	NA	NA	Empty string	Not applicable or data not collected
+DominantTaxaAbundance	Abundance of dominant taxon	numeric	number	NA	Empty string	Not applicable or data not collected
+Hilsenhoff	Abundance-weighted average of family-level pollution tolerances	numeric	number	NA	Empty string	Not applicable or data not collected
+IntolerantTaxaCount	# of taxa with a Hilsenhoff Biotic Index score of <= 2	numeric	number	NA	Empty string	Not applicable or data not collected
+IntolerantTaxaAbundance	Abundance of taxa with a Hilsenhoff Biotic Index score of <= 2	numeric	number	NA	Empty string	Not applicable or data not collected
+TolerantTaxaCount	# of taxa with a Hilsenhoff Biotic Index score of >=8	numeric	number	NA	Empty string	Not applicable or data not collected
+TolerantTaxaAbundance	Abundance of taxa with a Hilsenhoff Biotic Index score of >=8	numeric	number	NA	Empty string	Not applicable or data not collected
+USFSCommunityToleranceQuo	Dominance weighted community tolerance quotient	numeric	number	NA	Empty string	Not applicable or data not collected
+ShredderTaxaCount	# of taxa utilizing living or decomposing vascular plant tissue and coarse particulate organic matter (CPOM)	numeric	number	NA	Empty string	Not applicable or data not collected
+ShredderAbundance	Abundance of taxa utilizing valsular plant tissue and coarse particulate organic matter (CPOM)	numeric	number	NA	Empty string	Not applicable or data not collected
+ScraperTaxaCount	# of taxa utilizing periphyton, particularly algae and diatoms	numeric	number	NA	Empty string	Not applicable or data not collected
+ScraperAbundance	Abundance of taxa utilizing periphyton, particularly algae and diatoms	numeric	number	NA	Empty string	Not applicable or data not collected
+CollectorFiltererCount	# of taxa utilizing fine particulate organic matter in the water column	numeric	number	NA	Empty string	Not applicable or data not collected
+CollectorFiltererAbundance	Abundance of taxa utilizing fine particulate organic matter in the water column	numeric	number	NA	Empty string	Not applicable or data not collected
+CollectorGathererCount	# of taxa utilizing fine particulate organic matter from benthic deposits	numeric	number	NA	Empty string	Not applicable or data not collected
+CollectorGathererAbundance	Abundance of taxa utilizing fine particulate organic matter from benthic deposits	numeric	number	NA	Empty string	Not applicable or data not collected
+PredatorTaxaCount	# of taxa utilizing living animal tissue	numeric	number	NA	Empty string	Not applicable or data not collected
+PredatorTaxaAbundance	Abundance of taxa utilizing living animal tissue	numeric	number	NA	Empty string	Not applicable or data not collected
+ClingerTaxaCount	# of taxa with fixed retreats or other strategies for clinging to rocks	numeric	number	NA	Empty string	Not applicable or data not collected
+LongLivedTaxa	# of taxa with 2 to 3 year life cycles	numeric	number	NA	Empty string	Not applicable or data not collected
+EphemeropteraTaxaCount	# of Ephemeroptera taxa in the sample	numeric	number	NA	Empty string	Not applicable or data not collected
+EphemeropteraTaxaAbundance	Abundance of Ephemeroptera	numeric	number	NA	Empty string	Not applicable or data not collected
+PlecopteraTaxa	# of Plecoptera taxa in the sample	numeric	number	NA	Empty string	Not applicable or data not collected
+PlecopteraTaxaAbundance	Abundance of Plecoptera	numeric	number	NA	Empty string	Not applicable or data not collected
+TrichopteraTaxaCount	# of Tricoptera taxa in the sample	numeric	number	NA	Empty string	Not applicable or data not collected
+TrichopteraAbundance	Abundance of Tricoptera	numeric	number	NA	Empty string	Not applicable or data not collected
+ColeopteraTaxaCount	# of Coleoptera taxa in the sample	numeric	number	NA	Empty string	Not applicable or data not collected
+ColeopteraAbundance	Abundance of Coleoptera	numeric	number	NA	Empty string	Not applicable or data not collected
+ElmidaeTaxaCount	# of Elmidae taxa in the sample	numeric	number	NA	Empty string	Not applicable or data not collected
+ElmidaeAbundance	Abundance of Elmidae	numeric	number	NA	Empty string	Not applicable or data not collected
+MegalopteraTaxaCount	# of Megaloptera taxa in the sample	numeric	number	NA	Empty string	Not applicable or data not collected
+MegalopteraAbundance	Abundance of Megaloptera	numeric	number	NA	Empty string	Not applicable or data not collected
+DipteraTaxaCount	# of Diptera taxa in the sample	numeric	number	NA	Empty string	Not applicable or data not collected
+DipteraAbundance	Abundance of Diptera	numeric	number	NA	Empty string	Not applicable or data not collected
+ChironomidaeTaxaCount	# of Chironomidae taxa in the sample	numeric	number	NA	Empty string	Not applicable or data not collected
+ChironomidaeAbundance	Abundance of Chironomidae	numeric	number	NA	Empty string	Not applicable or data not collected
+CrustaceaTaxaCount	# of Crustacea taxa in the sample	numeric	number	NA	Empty string	Not applicable or data not collected
+CrustaceaAbundance	Abundance of Crustacea	numeric	number	NA	Empty string	Not applicable or data not collected
+OligochaeteTaxaCount	# of Oligochaete taxa in the sample	numeric	number	NA	Empty string	Not applicable or data not collected
+OligochaeteAbundance	Abundance of Oligochaete	numeric	number	NA	Empty string	Not applicable or data not collected
+MolluscaTaxaCount	# of Mollusca taxa in the sample	numeric	number	NA	Empty string	Not applicable or data not collected
+MolluscaAbundance	Abundance of Mollusca	numeric	number	NA	Empty string	Not applicable or data not collected
+InsectTaxaCount	# of insect taxa in the sample	numeric	number	NA	Empty string	Not applicable or data not collected
+InsectAbundance	Abundance of insects	numeric	number	NA	Empty string	Not applicable or data not collected
+NonInsectTaxaCount	# of non-insect taxa in the sample	numeric	number	NA	Empty string	Not applicable or data not collected
+NonInsectAbundance	Abundance of non-insects	numeric	number	NA	Empty string	Not applicable or data not collected
+LabName	Name of lab analyzing samples	character	NA	NA	Empty string	Not applicable or data not collected

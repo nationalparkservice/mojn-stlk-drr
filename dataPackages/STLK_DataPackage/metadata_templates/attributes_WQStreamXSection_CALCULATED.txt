@@ -1,0 +1,21 @@
+attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
+Park	Four letter park code	character	NA	NA	Empty string	Not applicable or data not collected
+FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character	NA	NA	Empty string	Not applicable or data not collected
+SiteCode	Unique alphanumeric site code	character	NA	NA	Empty string	Not applicable or data not collected
+VisitDate	Date that the monitoring occured	Date	NA	YYYY-MM-DD	Empty string	Not applicable or data not collected
+VisitType	Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown	character	NA	NA	Empty string	Not applicable or data not collected
+SampleFrame	Type of hydrologic feature (e.g., lake, stream)	character	NA	NA	Empty string	Not applicable or data not collected
+pHFlag	Data quality flag: No Flag, Information, Warning, Critical	character	NA	NA	Empty string	Not applicable or data not collected
+DOFlag	Data quality flag: No Flag, Information, Warning, Critical	character	NA	NA	Empty string	Not applicable or data not collected
+SpCondFlag	Data quality flag: No Flag, Information, Warning, Critical	character	NA	NA	Empty string	Not applicable or data not collected
+TemperatureFlag	Data quality flag: No Flag, Information, Warning, Critical	character	NA	NA	Empty string	Not applicable or data not collected
+FlagNote	Description of data quality issue	character	NA	NA	Empty string	Not applicable or data not collected
+DPL	Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]	character	NA	NA	Empty string	Not applicable or data not collected
+TemperatureMedian_C	Median measured value of temperatue in celcius degrees	numeric	celsius	NA	Empty string	Not applicable or data not collected
+TemperatureCount	Number of measurements taken	numeric	number	NA	Empty string	Not applicable or data not collected
+pHMedian	Median measured value of pH	numeric	dimensionless	NA	Empty string	Not applicable or data not collected
+pHCount	Number of measurements taken	numeric	number	NA	Empty string	Not applicable or data not collected
+DOMedian_mg_per_L	Median measured value of DO in mg/L	numeric	milligramPerLiter	NA	Empty string	Not applicable or data not collected
+DOmgLCount	Number of measurements taken	numeric	number	NA	Empty string	Not applicable or data not collected
+SpCondMedian_microS_per_cm	Median measured value of specific conductance in uS/cm	numeric	microsiemensPerCentimeter	NA	Empty string	Not applicable or data not collected
+SpCondCount	Number of measurements taken	numeric	number	NA	Empty string	Not applicable or data not collected

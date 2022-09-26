@@ -1,0 +1,13 @@
+attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
+Park	Four letter park code	character	NA	NA	Empty string	Not applicable or data not collected
+SiteShort	Site code without the Park and Site Type prefix	character	NA	NA	Empty string	Not applicable or data not collected
+SiteCode	Unique alphanumeric site code	character	NA	NA	Empty string	Not applicable or data not collected
+SiteName	Descriptive name of the site	character	NA	NA	Empty string	Not applicable or data not collected
+FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character	NA	NA	Empty string	Not applicable or data not collected
+VisitDate	Date of visit	Date	NA	YYYY-MM-DD	Empty string	Not applicable or data not collected
+DPL	Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]	character	NA	NA	Empty string	Not applicable or data not collected
+Transect	Transect where channel characteristics were observed; ordered alphabetically from downstream to upstream	character	NA	NA	Empty string	Not applicable or data not collected
+TransectSide	Right, center, or left side of channel, or unknown or not applicable	character	NA	NA	Empty string	Not applicable or data not collected
+ChannelType	Flow characteristic at the sample location: Pool, Glide, Riffle, Rapid	character	NA	NA	Empty string	Not applicable or data not collected
+Substrate	Material along the bottom of the channel at the sample location: Fine/Sand, Gravel, Coarse, Other	character	NA	NA	Empty string	Not applicable or data not collected
+Notes	Notes about the channel data	character	NA	NA	Empty string	Not applicable or data not collected
