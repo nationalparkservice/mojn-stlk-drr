@@ -8,7 +8,17 @@ scratchpad
 DRR_Template.html
 DRR_Template.md
 reportParameters.RData
+<<<<<<< HEAD
 *abstract.txt
 *methods.txt
 *.zip
 MOJN_STLK_DRR.html
+=======
+data/final
+data/raw
+dataPackages/DataPackageTemplate/eml
+MOJN_STLK_DRR.html
+MOJN_STLK_DRR_508.html
+data/temp
+dataPackages/DataPackageTemplate/data_objects
+>>>>>>> master
