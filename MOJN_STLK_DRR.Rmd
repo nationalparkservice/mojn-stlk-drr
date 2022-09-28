@@ -2,10 +2,10 @@
 params:
 
   reportNumber: ""    # Optional. Only include this if publishing in the semi-official Data Release Report Series. Contact Joe if you are.
-  reportRefID: XXXXXXX
+  reportRefID: 2294499
   packageAbstract: >-
     This report summarizes data quality evaluations of discrete data collected for the Mojave Desert Network Inventory and Monitoring Program (MOJN I&M) Streams and Lakes protocol from 2021. This protocol is designed to monitor the hydrologic and ecosystem health of nine streams and six subalpine lakes in Great Basin National Park (GRBA) and to identify and assess the effects of stressors such as climate change, groundwater withdrawal, and atmospheric nutrient deposition. Data collected include lake level surveys, water quality measurements, water chemistry samples, and benthic macroinvertebrate samples.
-  dataPackage1RefID: XXXXXXX
+  dataPackage1RefID: 2294499
   dataPackage1Title: "MOJN I&M Streams and Lakes Data Package 2021"               # Should match title in data store.
   dataPackage1Description: "MOJN I&M STLK 2021"  
   dataPackage2RefID: 0                              # Data Store reference ID for data set associated with this report. You must have at least one.
@@ -290,7 +290,7 @@ reactable(Table,
 
 # Data Quality Evaluation
 
-The data within the data records listed above have been reviewed by staff in the NPS Inventory and Monitoring Division to ensure accuracy, completeness, and consistency with documented data quality standards, as well as for usability and reproducibility. For additional information on data quality standards for this protocol, refer to *Mojave Desert Network Inventory and Monitoring Streams and Lakes Protocol: Standard Operating Procedures and Supplementary Materials Version 1.0* (NPS/MOJN/NRR—2012/593.1), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190896. Specific methods include SOP 15: Quality Assurance Project Plan (QAPP) and SOP 16: Cumulative Measurement Bias.
+The data in the data package described above have been reviewed by staff in the NPS Inventory and Monitoring Division to ensure accuracy, completeness, and consistency with documented data quality standards, as well as for usability and reproducibility. For additional information on data quality standards for this protocol, refer to *Mojave Desert Network Inventory and Monitoring Streams and Lakes Protocol: Standard Operating Procedures and Supplementary Materials Version 1.0* (NPS/MOJN/NRR—2012/593.1), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190896. Specific methods include SOP 15: Quality Assurance Project Plan (QAPP) and SOP 16: Cumulative Measurement Bias.
 
 This data release report focuses primarily on data collected in WY2021. These data have been summarized and plotted with previously published years of data (WY2018 to WY2020) in order to visualize the data in a broader context and detect outliers. The CSV data files accompanying this report are comprehensive of all years of data from WY2009-2021. The decision to publish a comprehensive dataset was intended to promote data usability by providing all years of data in one set of CSVs with consistent formatting.
 
@@ -383,7 +383,7 @@ These are the means and standard deviations of final calculated elevations for e
 ``` {r benchmark.consistency, fig.cap = capTab("Elevation means and standard deviations for each lake benchmark since 2018 when the use of digital level surveys began.")}
 benchmark.qc <- qcBenchmarkElevation(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
-benchmark.qc$AverageElevation_ft <- round(benchmark.qc$AverageElevation_ft, 3)
+benchmark.qc$MeanElevation_ft <- round(benchmark.qc$MeanElevation_ft, 3)
 benchmark.qc$StDevElevation_ft <- round(benchmark.qc$StDevElevation_ft, 3)
 
 benchmark.qc %<>% dplyr::select(-c(Park, SiteShort))
@@ -474,12 +474,12 @@ lake.elevations$FinalElevation_ft <- round(lake.elevations$FinalElevation_ft, 3)
 
 if (params$isAccessible == "yes") {
   lake.elevations %>%
-    dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
+    dplyr::select(-c(Park, SiteShort, VisitType)) %>%
     knitr::kable() %>%
     kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
 } else {
   lake.elevations %>%
-    dplyr::select(-c(Park, SiteShort, VisitType, DPL)) %>%
+    dplyr::select(-c(Park, SiteShort, VisitType)) %>%
     reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
 }
 ```
@@ -942,7 +942,7 @@ if (params$isAccessible == "yes") {
               striped = TRUE)
 }
 ```
-There are `r nrow(chem.TDN %>% filter(TDNvUTN >= 0.02))` records where the concentration of dissolved nitrogen is greater than the total nitrogen concentration and the difference is outside the normal limits of variability.
+Of the `r nrow(chem.TDN)` records where the concentration of dissolved nitrogen is greater than the concentration of total nitrogen, there are `r nrow(chem.TDN %>% filter(TDNvUTN >= 0.02))` records where the difference is outside the normal limits of variability.
 
 ### Nitrate and nitrite
 These are the records where the concentration of nitrate (NO3) and nitrite (NO2) exceeds either total nitrogen (UTN) or total dissolved nitrogen (TDN). If the discrepancy falls within precision limits, this indicates that nearly all of the nitrogen or dissolved nitrogen is in the form of nitrate and nitrite, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration (including nitrate and nitrite) is measured from the filtered sample. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations. Whether the discrepancy falls within or outside precision limits is documented in the notes field.
@@ -976,7 +976,7 @@ if (params$isAccessible == "yes") {
               striped = TRUE)
 }
 ```
-There are `r nrow(chem.NO3NO2)` records where the concentration of nitrate and nitrate is greater than the concentration of either total nitrogen or total dissolved nitrogen.
+There are `r nrow(chem.NO3NO2)` records where the concentration of nitrate and nitrite is greater than the concentration of either total nitrogen or total dissolved nitrogen.
 
 ### Dissolved phosphorus
 These are the records where the concentration of total dissolved phosphorus exceeds total phosphorus. If the discrepancy falls within precision limits, this indicates that nearly all of the phosphorus is dissolved, and the two concentrations are essentially equal to each other. If the discrepancy falls outside of precision limits, this may indicate contamination of the sample. Alternatively, this may be a consequence of the natural heterogeneity of the water body. The total nutrient concentration is measured from the unfiltered sample, while the dissolved nutrient concentration is measured from the filtered sample. These two samples are collected at approximately the same time and location, but there may be some variability that becomes more evident at low concentrations. Whether the discrepancy falls within or outside precision limits is documented in the notes field.
@@ -1010,7 +1010,7 @@ if (params$isAccessible == "yes") {
               striped = TRUE)
 }
 ```
-There are `r nrow(chem.TDP %>% filter(TDPvUTP >= 0.003))` records where the concentration of dissolved phosphorus is greater than the total phosphorus concentration and the difference is outside the normal limits of variability.
+Of the `r nrow(chem.TDP)` records where the concentration of dissolved phosphorous is greater than the concentration of total phosphorous, there are `r nrow(chem.TDP %>% filter(TDPvUTP >= 0.003))` records where the difference is outside the normal limits of variability.
 
 ### MDL
 Minimum detection level (MDL) is defined by the EPA as the "minimum concentration of a substance that can be measured and reported with 99% confidence that the analyte concentration is greater than zero." Below this concentration, presence of the analyte cannot be confirmed. These are the records where the concentration of a certain analyte was less than or equal to the MDL for that analyte.
