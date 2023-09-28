@@ -6,21 +6,23 @@ params:
   packageAbstract: >-
     This report summarizes data quality evaluations of discrete data collected for the Mojave Desert Network Inventory and Monitoring Program (MOJN I&M) Streams and Lakes protocol from 2021. This protocol is designed to monitor the hydrologic and ecosystem health of nine streams and six subalpine lakes in Great Basin National Park (GRBA) and to identify and assess the effects of stressors such as climate change, groundwater withdrawal, and atmospheric nutrient deposition. Data collected include lake level surveys, water quality measurements, water chemistry samples, and benthic macroinvertebrate samples.
   dataPackage1RefID: 2294499
-  dataPackage1Title: "MOJN I&M Streams and Lakes Data Package 2021"               # Should match title in data store.
-  dataPackage1Description: "MOJN I&M STLK 2021"  
+  dataPackage1Title: "MOJN I&M Streams and Lakes Data QC Report 2022"               # Should match title in data store.
+  dataPackage1Description: "MOJN I&M STLK 2022"  
   dataPackage2RefID: 0                              # Data Store reference ID for data set associated with this report. You must have at least one.
   dataPackage2Title: "Dataset 2 FULL TITLE"               # Should match title in data store.
   dataPackage2Description: "SHORT TITLE FOR DATASET 1"  
   dataSource: "database"  # Either "local" or "database". If "local", csv data must be in data/raw folder. If database, must be able to connect to the MOJN STLK SQL Server db.
   isAccessible: "no" # Either "yes" for a version that is screen-readable or "no" for a version with interactive table and plot formatting.
-  wateryearStart: "2018"
-  wateryearEnd: "2021"
-  
+  wateryearStart: "2019"
+  wateryearEnd: "2022"
+
+pagetitle: "MOJN STLK QC 2022"
+lang: "en"
 title: |
-    | Mojave Desert Network Streams and Lakes
-    | Data Package 2021          
+    | Mojave Desert Network Streams and Lakes Protocol
+    | Data Quality Control Report 2022 `r params$reportNumber`        
 subtitle: |
-  | Data Release Report `r params$reportNumber` 
+  | Data Package 2022  
 author:
   - name: "Jennifer Bailard, Mark Lehman, and Sarah Wright"
     affiliation: |
@@ -37,10 +39,11 @@ link-citations: yes
 output:
   html_document:
     self_contained: true
+    template: template_new.html
     df_print: kable
     fig_caption: true
     dev: svg
-    highlight: haddock
+    highlight: null
     smart: no
     theme: journal
     css: !expr here::here('common', 'journalnps.min.css')
@@ -276,7 +279,7 @@ Ten CSV files contain raw values suitable for use with the MOJN I&M Streams and 
 
 A data dictionary for all of the tables and fields in the published CSV files is provided in XML format with this data package. 
 
-```{r Table1, echo=FALSE, fig.cap = capTab("File names and descriptions of published CSVs accompanying this data release report. There are ten raw files and and additional three calculated files.")}
+```{r Table1, echo=FALSE, fig.cap = capTab("File names and descriptions of published CSVs accompanying this data QC report. There are ten raw files and and additional three calculated files.")}
 FileName <- c("Site","Visit","BMI","Channel","Chemistry","Clarity","LakeLevelString","LakeLevelSurvey","WaterQualityDO","WaterQualitypH","WaterQualitySpCond","WaterQualityTemperature","WQStreamXSection","LakeLevel_CALCULATED","WaterQuality_CALCULATED","WQStreamXSection_CALCULATED")
 Description <- c("A full description of each of the site codes used in this dataset (Streams and Lakes)","General attributes of the monitoring site visit (Streams and Lakes)","All benthic macroinvertebrate data from all sites (Streams)","Channel characteristics associated with the BMI measurements (Streams)","Laboratory analysis of water chemistry (Streams and Lakes)","Depth and Secchi depth measurements (Lakes)","Lake level measured using a string-based survey","Lake level measured using a digital level-based survey","Dissolved oxygen measured in situ through a depth profile (Lakes)","pH measured in situ through a depth profile (Lakes)","Specific conductance measured in situ through a depth profile (Lakes)","Temperature measured in situ through a depth profile (Lakes)","In situ water quality measured through stream cross sections (Streams)","The calculated lake surface level calculated from the raw data in LakeLevelString and LakeLevelSurvey using the MOJN Streams and Lakes R package (Lakes)","The median water quality values calculated from the four raw WaterQuality data tables (Lakes)","The median water quality values calculated from the raw values in the WQStreamXSection data table (Streams)")
 Table <- data.frame(FileName,Description)
@@ -292,88 +295,123 @@ reactable(Table,
 
 The data in the data package described above have been reviewed by staff in the NPS Inventory and Monitoring Division to ensure accuracy, completeness, and consistency with documented data quality standards, as well as for usability and reproducibility. For additional information on data quality standards for this protocol, refer to *Mojave Desert Network Inventory and Monitoring Streams and Lakes Protocol: Standard Operating Procedures and Supplementary Materials Version 1.0* (NPS/MOJN/NRR—2012/593.1), available here: https://irma.nps.gov/DataStore/Reference/Profile/2190896. Specific methods include SOP 15: Quality Assurance Project Plan (QAPP) and SOP 16: Cumulative Measurement Bias.
 
-This data release report focuses primarily on data collected in WY2021. These data have been summarized and plotted with previously published years of data (WY2018 to WY2020) in order to visualize the data in a broader context and detect outliers. The CSV data files accompanying this report are comprehensive of all years of data from WY2009-2021. The decision to publish a comprehensive dataset was intended to promote data usability by providing all years of data in one set of CSVs with consistent formatting.
+This data QC report focuses primarily on data collected in WY2022. These data have been summarized and plotted with previously published years of data (WY2019 to WY2021) in order to visualize the data in a broader context and detect outliers. The CSV data files accompanying this report are comprehensive of all years of data from WY2009-2022. The decision to publish a comprehensive dataset was intended to promote data usability by providing all years of data in one set of CSVs with consistent formatting.
 
 ## Advice and Caveats
-- In 2021, no data were collected at Dead Lake because the lake was entirely dry.
-- In 2022, the Utah State University National Aquatic Monitoring Center (USU NAMC) revised their benthic macroinvertebrate sample reporting methods. They now refer to abundance metrics as density metrics. In addition, they now use unique taxonomy instead of applying a generic operational taxonomic unit (OTU) scheme. USU NAMC regenerated all previous sample reports, which have been integrated into this data release. As a result, there may be minor discrepancies in metrics values between the earlier WY2009-2020 dataset and this WY2009-2021 dataset.
-- In 2022, MOJN I&M standardized the flags applied to water chemistry data that did not meet certain standards or expectations (e.g., below minimum detection level). As a result, there may be occasional discrepancies in flags between the earlier WY2009-2020 dataset and this WY2009-2021 dataset.
+- In 2021 and 2022, no data were collected at Dead Lake because the lake was entirely dry.
+- In 2021, the Utah State University National Aquatic Monitoring Center (USU NAMC) revised their benthic macroinvertebrate sample reporting methods. They now refer to abundance metrics as density metrics. In addition, they now use unique taxonomy instead of applying a generic operational taxonomic unit (OTU) scheme. USU NAMC regenerated all previous sample reports, which have been integrated into this data release. As a result, there may be minor discrepancies in metrics values between the earlier WY2009-2020 dataset and this WY2009-2022 dataset.
+- In 2021, MOJN I&M standardized the flags applied to water chemistry data that did not meet certain standards or expectations (e.g., below minimum detection level). As a result, there may be occasional discrepancies in flags between the earlier WY2009-2020 dataset and this WY2009-2022 dataset.
+- In 2022, NO3-N concentration was reported instead of NO3NO2-N. Because nitrite is usually zero in aerobic samples, the NO3-N concentration should be very close to NO3NO2-N.
 
 ## Corrections
-In the WY2009-2020 dataset, three lakes had incorrect benchmark and lake surface elevations for WY2012: Brown Lake, Stella Lake, and Teresa Lake. These elevations have been corrected in the WY2009-2021 dataset.
+In the WY2009-2020 dataset, three lakes had incorrect benchmark and lake surface elevations for WY2012: Brown Lake, Stella Lake, and Teresa Lake. These elevations were corrected in the WY2009-2021 and later datasets.
 
-`r if(params$isAccessible == "yes") {"## Sites not visited"} else {"## Sites not visited {.tabset}"}`
+## Sites not visited {.tabset .tabset-pills}
 
-This is a list of sites that were not visited for annual monitoring during a field season. While Dead Lake was monitored in 2021, no data were collected because the lake was entirely dry.
+This is a list of sites that were not visited for annual monitoring during a field season. While Dead Lake was monitored in 2021 and 2022, no data were collected because the lake was entirely dry.
 
 ``` {r no.visits, warning = FALSE, fig.cap = capTab("Streams or lakes that were not visited during any given field season.")}
 no.visits <- qcNoAnnualVisit(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
-if (params$isAccessible == "yes") {
-  knitr::kable(no.visits) %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
-} else {
-  no.visits %>%
-    dplyr::select(-c(VisitDate, Park, SiteShort)) %>%
-    reactable(groupBy = "SiteCode", 
-              columns = list(SiteName = colDef(aggregate = "unique"),
-                             SampleFrame = colDef(aggregate = "unique"),
-                             FieldSeason = colDef(aggregate = "unique")))
-}
+no.visits %>%
+  dplyr::select(-c(VisitDate, Park, SiteShort)) %>%
+  dplyr::group_by(SiteCode, SiteName, SampleFrame) %>%
+  dplyr::mutate(FieldSeason = paste0(sort(FieldSeason), collapse = ", ")) %>%
+  dplyr::ungroup() %>%
+  unique() %>%
+  reactable::reactable(
+              sortable = TRUE,
+              filterable = TRUE,
+              compact = TRUE,
+              striped = TRUE,
+              bordered = TRUE,
+              highlight = TRUE,
+              resizable = TRUE,
+              defaultColDef = reactable::colDef(
+                header = function(value) snakecase::to_title_case(value)))
 ```
 
-`r if(params$isAccessible == "yes") {"## Data processing levels"} else {"## Data processing levels {.tabset}"}`
+## Data processing levels {.tabset .tabset-pills}
 
 This is a list of site visits that have any data labeled as "Raw" or "Provisional." These data need to be reviewed and moved to "Accepted" status before publication of the dataset.
 
-``` {r dpl.check, warning = FALSE, fig.cap = capTab("Records with data still labeled as Raw or Provisional.")}
+``` {r dpl.check.lake, warning = FALSE, fig.cap = capTab("Lake records with data still labeled as Raw or Provisional.")}
 dpl.check <- qcDPLCheck(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
-if (params$isAccessible == "yes") {
-  dpl.check %>%
-    rename_with(~ gsub(".DPL", "", .x)) %>%
-    rename(XSection = Xsection,
-           Temp = TempC) %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")
-} else {
-  dpl.check %>%
-    dplyr::select(SiteCode, SiteName, VisitDate, FieldSeason, SampleFrame, VisitType) %>%
-    reactable(details = function(index) {
-      dpl <- dpl.check[index,] %>% 
-        dplyr::select(ends_with(".DPL")) %>%
-        rename_with(~ gsub(".DPL", "", .x)) %>%
-        pivot_longer(everything(), names_to = "SOP", values_to = "DPL")
-      reactable(dpl, outlined = TRUE)
-    },
-    compact = TRUE, striped = TRUE)
-}
+dpl.check.lakes <- dpl.check %>%
+  dplyr::filter(SampleFrame == "Lake") %>%
+  dplyr::rename_with(~ gsub(".DPL", "", .x)) %>%
+  dplyr::rename(Temperature = TempC) %>%
+  dplyr::select(-c("SampleFrame", "BMI", "Channel", "Xsection", "LakeString")) %>%
+  reactable::reactable(
+    sortable = TRUE,
+    filterable = TRUE,
+    compact = TRUE,
+    striped = TRUE,
+    bordered = TRUE,
+    highlight = TRUE,
+    resizable = TRUE,
+    defaultColDef = reactable::colDef(header = function(value) if (value %in% c("pH", "DO")) {
+      value
+      } else {
+      snakecase::to_title_case(value)
+      }))
+
+dpl.check.lakes
 ```
 `r if(nrow(dpl.check) == 0){"All records have been accepted."}`
 `r if(nrow(dpl.check) > 0){"The above records need to be reviewed and accepted before publication."}`
 
-`r if(params$isAccessible == "yes") {"## Lake surface and benchmark elevations"} else {"## Lake surface and benchmark elevations {.tabset}"}`
+``` {r dpl.check.stream, warning = FALSE, fig.cap = capTab("Stream records with data still labeled as Raw or Provisional.")}
+dpl.check <- qcDPLCheck(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
+
+dpl.check.streams <- dpl.check %>%
+  dplyr::filter(SampleFrame == "Stream") %>%
+  dplyr::rename_with(~ gsub(".DPL", "", .x)) %>%
+  dplyr::rename(Temperature = TempC) %>%
+  dplyr::select(-c("SampleFrame", "Clarity", "LakeSurvey", "LakeString", "Temperature", "pH", "SpCond", "DO")) %>%
+  reactable::reactable(
+    sortable = TRUE,
+    filterable = TRUE,
+    compact = TRUE,
+    striped = TRUE,
+    bordered = TRUE,
+    highlight = TRUE,
+    resizable = TRUE,
+    defaultColDef = reactable::colDef(header = function(value) if (value %in% c("BMI")) {
+      value
+      } else {
+      snakecase::to_title_case(value)
+      }))
+
+dpl.check.streams
+```
+`r if(nrow(dpl.check) == 0){"All records have been accepted."}`
+`r if(nrow(dpl.check) > 0){"The above records need to be reviewed and accepted before publication."}`
+
+## Lake surface and benchmark elevations {.tabset .tabset-pills}
 
 ### Benchmark elevations
 These are the final calculated benchmark elevations for each lake across recent field seasons. Digital level readings began in 2018.
 
-``` {r benchmark.elevations, fig.cap = capTab("Calculated elevations for each lake benchmark and water surface since 2018 when the use of digital level surveys began.")}
+``` {r benchmark.elevations, warning = FALSE, fig.cap = capTab("Calculated elevations for each lake benchmark and water surface since 2018 when the use of digital level surveys began.")}
 benchmark.elevations <- SurveyPointElevation(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 benchmark.elevations$ClosureError_ft <- round(benchmark.elevations$ClosureError_ft, 4)
 benchmark.elevations$FinalCorrectedElevation_ft <- round(benchmark.elevations$FinalCorrectedElevation_ft, 3)
 
-if (params$isAccessible == "yes") {
-  benchmark.elevations %>%
-    dplyr::select(-c(Park, SiteShort, DPL, VisitType)) %>%  
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
-} else {
-  benchmark.elevations %>%
-    dplyr::select(-c(Park, SiteShort, DPL, VisitType)) %>%
-    reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
-}
-
+benchmark.elevations %>%
+  dplyr::select(-c(Park, SiteShort, DPL, VisitType)) %>%
+  reactable::reactable(
+              sortable = TRUE,
+              filterable = TRUE,
+              compact = TRUE,
+              striped = TRUE,
+              bordered = TRUE,
+              highlight = TRUE,
+              resizable = TRUE,
+              defaultColDef = reactable::colDef(
+                header = function(value) snakecase::to_title_case(value)))
 ```
 
 ### Benchmark consistencies
@@ -386,17 +424,21 @@ benchmark.qc <- qcBenchmarkElevation(conn = conn, path.to.data = raw_data_path, 
 benchmark.qc$MeanElevation_ft <- round(benchmark.qc$MeanElevation_ft, 3)
 benchmark.qc$StDevElevation_ft <- round(benchmark.qc$StDevElevation_ft, 3)
 
-benchmark.qc %<>% dplyr::select(-c(Park, SiteShort))
+benchmark.qc %<>%
+  dplyr::select(-c(Park, SiteShort)) %>%
+  dplyr::rename(StDev_ft = StDevElevation_ft)
 
-if (params$isAccessible == "yes") {
-  benchmark.qc %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
-} else {
-  benchmark.qc %>%
-    reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
-}
-
+benchmark.qc %>%
+  reactable::reactable(
+              sortable = TRUE,
+              filterable = TRUE,
+              compact = TRUE,
+              striped = TRUE,
+              bordered = TRUE,
+              highlight = TRUE,
+              resizable = TRUE,
+              defaultColDef = reactable::colDef(
+                header = function(value) snakecase::to_title_case(value)))
 ```
 
 `r if(as.numeric(params$wateryearStart) < 2018) {"### String survey heights"}`
@@ -411,18 +453,19 @@ string.heights <- qcStringSurveyHeights(conn = conn, path.to.data = raw_data_pat
 string.heights$MeanHeight_ft <- round(string.heights$MeanHeight_ft, 4)
 string.heights$StDevHeight_ft <- round(string.heights$StDevHeight_ft, 4)
 
-if (params$isAccessible == "yes") {
-  string.heights %>%
-    dplyr::select(-c(Park, SiteShort, VisitType)) %>%
-    dplyr::ungroup() %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
-} else {
-  string.heights %>%
-    dplyr::select(-c(Park, SiteShort, VisitType)) %>%
-    dplyr::ungroup() %>%
-    reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
-}
+string.heights %>%
+  dplyr::select(-c(Park, SiteShort, VisitType)) %>%
+  dplyr::ungroup() %>%
+  reactable::reactable(
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        header = function(value) snakecase::to_title_case(value)))
 ```
 
 
@@ -438,16 +481,18 @@ string.elevations <- qcStringSurveyElevations(conn = conn, path.to.data = raw_da
 string.elevations$MeanFinalElevation_ft <- round(string.elevations$MeanFinalElevation_ft, 4)
 string.elevations$StDevFinalElevation_ft <- round(string.elevations$StDevFinalElevation_ft, 4)
 
-if (params$isAccessible == "yes") {
-  string.elevations %>%
-    dplyr::select(-c(Park, SiteShort, VisitType)) %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
-} else {
-  string.elevations %>%
-    dplyr::select(-c(Park, SiteShort, VisitType)) %>%
-    reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
-}
+string.elevations %>%
+  dplyr::select(-c(Park, SiteShort, VisitType)) %>%
+  reactable::reactable(
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        header = function(value) snakecase::to_title_case(value)))
 ```
 
 ### Benchmark elevation plots
@@ -459,29 +504,33 @@ benchmark.plots <- PlotBenchmarkElevation(conn = conn, path.to.data = raw_data_p
 if (params$isAccessible == "yes") {
   benchmark.plots
 } else {
-  ggplotly(benchmark.plots, tooltip = "text")
+  plotly::ggplotly(benchmark.plots, tooltip = "text")
 }
 ```
 
 ### Lake surface elevations
 These are the final calculated water surface elevations for each lake across recent field seasons. Digital level readings began in 2018. Prior years used the string survey method.
 
-``` {r lake.elevations, fig.cap = capTab("Calcuated lake water surface elevations.")}
+``` {r lake.elevations, warning = FALSE, fig.cap = capTab("Calcuated lake water surface elevations.")}
 lake.elevations <- LakeSurfaceElevation(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 lake.elevations$ClosureError_ft <- round(lake.elevations$ClosureError_ft, 4)
 lake.elevations$FinalElevation_ft <- round(lake.elevations$FinalElevation_ft, 3)
+lake.elevations$ClosureError_m <- round(lake.elevations$ClosureError_m, 4)
+lake.elevations$FinalElevation_m <- round(lake.elevations$FinalElevation_m, 3)
 
-if (params$isAccessible == "yes") {
   lake.elevations %>%
     dplyr::select(-c(Park, SiteShort, VisitType)) %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
-} else {
-  lake.elevations %>%
-    dplyr::select(-c(Park, SiteShort, VisitType)) %>%
-    reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
-}
+    reactable(
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        header = function(value) snakecase::to_title_case(value)))
 ```
 
 ### Lake surface elevation plots
@@ -504,7 +553,7 @@ if (params$isAccessible == "yes") {
 }
 ```
 
-`r if(params$isAccessible == "yes") {"## Lake water clarity (Secchi depth)"} else {"## Lake water clarity (Secchi depth) {.tabset}"}`
+## Lake water clarity (Secchi depth) {.tabset .tabset-pills}
 
 ### Depths exceed lake
 This is a list of records where Secchi depth measurements are greater than the lake depth entered during the visit.
@@ -515,14 +564,17 @@ depths.exceed.lake <- qcSecchiGTDepth(conn = conn, path.to.data = raw_data_path,
 depths.exceed.lake %<>%
   dplyr::select(-c(Park, SiteShort, VisitType, DPL))
 
-if (params$isAccessible == "yes") {
   depths.exceed.lake %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
-} else {
-  depths.exceed.lake %>%
-    reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
-}
+    reactable::reactable(
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        header = function(value) snakecase::to_title_case(value)))
 ```
 There are `r nrow(depths.exceed.lake)` records with this inconsistency.
 
@@ -535,14 +587,17 @@ lake.dry.depths.exist <- qcLakeDryMeasurementsExist(conn = conn, path.to.data = 
 lake.dry.depths.exist %<>%
   dplyr::select(-c(Park, SiteShort, VisitType, DPL))  
 
-if (params$isAccessible == "yes") {
-  lake.dry.depths.exist %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
-} else {
-  lake.dry.depths.exist %>%
-    reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
-}
+lake.dry.depths.exist %>%
+  reactable::reactable(
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        header = function(value) snakecase::to_title_case(value)))
 ```
 There are `r nrow(lake.dry.depths.exist)` records with this inconsistency.
 
@@ -555,14 +610,17 @@ lake.not.dry.no.clarity <- qcLakeNotDryMeasurementsMissing(conn = conn, path.to.
 lake.not.dry.no.clarity %<>%
   dplyr::select(-c(Park, SiteShort, VisitType, DPL))
 
-if (params$isAccessible == "yes") {
-  lake.not.dry.no.clarity %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
-} else {
-  lake.not.dry.no.clarity %>%
-    reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
-}
+lake.not.dry.no.clarity %>%
+  reactable::reactable(
+    sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        header = function(value) snakecase::to_title_case(value)))
 ```
 There are `r nrow(lake.not.dry.no.clarity)` records with missing data. For both records, lake depth (depth to bottom) was inadvertently not measured when Secchi depth was measured.
 
@@ -575,18 +633,21 @@ lake.not.dry.no.depths <- qcSecchiDepthMissing(conn = conn, path.to.data = raw_d
 lake.not.dry.no.depths %<>%
   dplyr::select(-c(Park, SiteShort, VisitType, DPL))
 
-if (params$isAccessible == "yes") {
-  lake.not.dry.no.depths %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")
-} else {
-  lake.not.dry.no.depths %>%
-    reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
-}
+lake.not.dry.no.depths %>%
+  reactable::reactable(
+    sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        header = function(value) snakecase::to_title_case(value)))
 ```
 There are `r nrow(lake.not.dry.no.depths)` records with missing data.
 
-`r if(params$isAccessible == "yes") {"## Discrete water quality"} else {"## Discrete water quality {.tabset}"}`
+## Discrete water quality {.tabset .tabset-pills}
 
 ### Stream sanity check
 These are stream water quality values that fall above or below the ranges that we typically see in subalpine lake and stream systems. These data are not necessarily incorrect, but they are outliers that should be evaluated using data quality flags and field notes. Wildly impossible values may be the result of instrument malfunction, improper calibration, or typos during data entry. The following records are included in the list below: temperature values greater than 20 C, pH values greater than 10 and less than 6, specific conductance values greater than 1000 uS/cm, dissolved oxygen percent values greater than 110%, and dissolved oxygen concentration values greater than 12 mg/L.
@@ -598,14 +659,8 @@ wq.stream.sanity %<>%
   dplyr::select(-c(Park, SampleFrame, VisitType)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-if (params$isAccessible == "yes") {
-  wq.stream.sanity %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left") 
-} else {
-  reactable(dplyr::select(wq.stream.sanity, -FlagNote),
+reactable::reactable(dplyr::select(wq.stream.sanity, -FlagNote),
             searchable = TRUE,
-            defaultColDef = colDef(minWidth = 50),
             details = colDef(
               name = "Notes",
               details = function(index) {
@@ -615,10 +670,16 @@ if (params$isAccessible == "yes") {
                 }
               }
             ),
-            resizable = TRUE,
-            compact = TRUE,
-            striped = TRUE)
-}
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        minWidth = 100,
+        header = function(value) snakecase::to_title_case(value)))
 ```
 There are `r nrow(wq.stream.sanity)` measurements outside of expected ranges.
 
@@ -633,13 +694,7 @@ wq.lake.sanity %<>%
   dplyr::relocate(MeasurementDepth_m, .after = VisitDate) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-if (params$isAccessible == "yes") {
-  wq.lake.sanity %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left") 
-} else {
-  reactable(dplyr::select(wq.lake.sanity, -FlagNote),
-            defaultColDef = colDef(minWidth = 50),
+reactable::reactable(dplyr::select(wq.lake.sanity, -FlagNote),
             searchable = TRUE,
             details = colDef(
               name = "Notes",
@@ -650,10 +705,16 @@ if (params$isAccessible == "yes") {
                 }
               }
             ),
-            resizable = TRUE,
-            compact = TRUE,
-            striped = TRUE)
-}
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        minWidth = 100,
+        header = function(value) snakecase::to_title_case(value)))
 ```
 There are `r nrow(wq.lake.sanity)` measurements outside of expected ranges.
 
@@ -667,13 +728,7 @@ wq.stream.flags %<>%
   dplyr::select(-c(Park, SampleFrame, VisitType)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-if (params$isAccessible == "yes") {
-  wq.stream.flags %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left") 
-} else {
-  reactable(dplyr::select(wq.stream.flags, -FlagNote),
-            defaultColDef = colDef(minWidth = 50),
+reactable::reactable(dplyr::select(wq.stream.flags, -FlagNote),
             searchable = TRUE,
             details = colDef(
               name = "Notes",
@@ -684,10 +739,16 @@ if (params$isAccessible == "yes") {
                 }
               }
             ),
-            resizable = TRUE,
-            compact = TRUE,
-            striped = TRUE)
-}
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        minWidth = 100,
+        header = function(value) snakecase::to_title_case(value)))
 ```
 There are `r nrow(wq.stream.flags)` flagged measurements.
 
@@ -702,13 +763,7 @@ wq.lake.flags %<>%
   dplyr::relocate(MeasurementDepth_m, .after = VisitDate) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-if (params$isAccessible == "yes") {
-  wq.lake.flags %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left") 
-} else {
-  reactable(dplyr::select(wq.lake.flags, -FlagNote),
-            defaultColDef = colDef(minWidth = 50),
+reactable::reactable(dplyr::select(wq.lake.flags, -FlagNote),
             searchable = TRUE,
             details = colDef(
               name = "Notes",
@@ -719,15 +774,21 @@ if (params$isAccessible == "yes") {
                 }
               }
             ),
-            resizable = TRUE,
-            compact = TRUE,
-            striped = TRUE)
-}
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        minWidth = 100,
+        header = function(value) snakecase::to_title_case(value)))
 ```
 There are `r nrow(wq.lake.flags)` flagged measurements.
 
 ### Lake temperature depth profiles
-This is a plot of temperature depth profiles in units of degrees C for each lake across recent field seasons. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Dead Lake was dry in 2021.
+This is a plot of temperature depth profiles in units of degrees C for each lake across recent field seasons. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Dead Lake was dry in 2021 and 2022.
 
 ``` {r temp.dp.plot, warning = FALSE, fig.cap = capFig("Lake water temperature values by depth."), fig.alt = "Plots of lake water temperature values by depth, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates water temperature in degrees Celsius. Panel for each lake."}
 temp.dp.plot <- WqPlotTemperatureDepthProfile(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
@@ -742,7 +803,7 @@ if (params$isAccessible == "yes") {
 ```
 
 ### Lake pH depth profiles
-This is a plot of pH depth profiles for each lake across recent field seasons. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Dead Lake was dry in 2021.
+This is a plot of pH depth profiles for each lake across recent field seasons. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Dead Lake was dry in 2021 and 2022.
 
 ``` {r ph.dp.plot, warning = FALSE, fig.cap = capFig("Lake pH values by depth."), fig.alt = "Plots of lake pH values by depth, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates pH. Panel for each lake."}
 ph.dp.plot <- WqPlotPHDepthProfile(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
@@ -757,7 +818,7 @@ if (params$isAccessible == "yes") {
 ```
 
 ### Lake specific conductance depth profiles
-This is a plot of specific conductance depth profiles in units of uS/cm for each lake across recent field seasons. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Dead Lake was dry in 2021.
+This is a plot of specific conductance depth profiles in units of uS/cm for each lake across recent field seasons. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Dead Lake was dry in 2021 and 2022.
 
 ``` {r sc.dp.plot, warning = FALSE, fig.cap = capFig("Lake specific conductance values by depth."), fig.alt = "Plots of lake specific conductance values, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates specific conductance in micro-Siemens per centimeter. Panel for each lake."}
 sc.dp.plot <- WqPlotSpCondDepthProfile(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
@@ -772,7 +833,7 @@ if (params$isAccessible == "yes") {
 ```
 
 ### Lake dissolved oxygen depth profiles
-This is a plot of dissolved oxygen depth profiles in units of mg/L for each lake across recent field seasons. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Dead Lake was dry in 2021.
+This is a plot of dissolved oxygen depth profiles in units of mg/L for each lake across recent field seasons. Depth profiles extend from the lake surface to the lake bottom at approximately the deepest part. Data flagged as "Warning" or "Critical" are not included. Dead Lake was dry in 2021 and 2022.
 
 ``` {r do.dp.plot, warning = FALSE, fig.cap = capFig("Lake dissolved oxygen values by depth."), fig.alt = "Plots of lake dissolved oxygen values, with field season on the x-axis and measurement depth in meters on the y-axis. Marker color indicates dissolved oxygen in milligrams per liter. Panel for each lake."}
 do.dp.plot <- WqPlotDODepthProfile(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
@@ -786,7 +847,7 @@ if (params$isAccessible == "yes") {
 }
 ```
 
-`r if(params$isAccessible == "yes") {"## Water chemistry"} else {"## Water chemistry {.tabset}"}`
+## Water chemistry {.tabset .tabset-pills}
 
 ### Data quality flags
 These are water chemistry values that have data quality flags. I = Information: These data do not have any suspected problems, but there may be information regarding the equipment or conditions in which they were collected that could inform their interpretation. W = Warning: These data are suspected to have problems and should only be used after careful assessment of instrument and environmental factors. C = Critical: These data are suspected to have serious problems and are likely unusable.
@@ -798,13 +859,7 @@ chem.flags %<>%
   dplyr::select(-c(SampleFrame)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-if (params$isAccessible == "yes") {
-  chem.flags %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")   
-} else {
-  reactable(dplyr::select(chem.flags, -FlagNote),
-            defaultColDef = colDef(minWidth = 50),
+reactable::reactable(dplyr::select(chem.flags, -FlagNote),
             searchable = TRUE,
             details = colDef(
               name = "Notes",
@@ -812,10 +867,16 @@ if (params$isAccessible == "yes") {
                 chem.flags$FlagNote[index]
               }
             ),
-            resizable = TRUE,
-            compact = TRUE,
-            striped = TRUE)
-}
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        minWidth = 100,
+        header = function(value) snakecase::to_title_case(value)))
 ```
 There are `r nrow(chem.flags)` flagged analytes.
 
@@ -829,13 +890,7 @@ lab.dupes %<>%
   dplyr::select(-c(SampleFrame)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-if (params$isAccessible == "yes") {
-  lab.dupes %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")   
-} else {
-  reactable(dplyr::select(lab.dupes, -RPDFlag),
-            defaultColDef = colDef(minWidth = 50),
+reactable::reactable(dplyr::select(lab.dupes, -RPDFlag),
             searchable = TRUE,
             details = colDef(
               name = "Notes",
@@ -846,10 +901,20 @@ if (params$isAccessible == "yes") {
                 }
               }
             ),
-            resizable = TRUE,
-            compact = TRUE,
-            striped = TRUE)
-}
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        minWidth = 100,
+        header = function(value) if (value %in% c("RPD", "RPD2")) {
+          value
+        } else {
+          snakecase::to_title_case(value)
+      }))
 ```
 Of the `r nrow(lab.dupes)` total lab duplicates, there are `r nrow(lab.dupes %>% filter(RPD > 30))` duplicates with RPD values above the 30% MQO threshold.
 
@@ -863,13 +928,7 @@ field.dupes %<>%
   dplyr::select(-c(SampleFrame)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-if (params$isAccessible == "yes") {
-  field.dupes %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")   
-} else {
-  reactable(dplyr::select(field.dupes, -RPDFlag),
-            defaultColDef = colDef(minWidth = 50),
+reactable::reactable(dplyr::select(field.dupes, -RPDFlag),
             searchable = TRUE,
             details = colDef(
               name = "Notes",
@@ -880,10 +939,20 @@ if (params$isAccessible == "yes") {
                 }
               }
             ),
-            resizable = TRUE,
-            compact = TRUE,
-            striped = TRUE)
-}
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        minWidth = 100,
+        header = function(value) if (value %in% c("RPD")) {
+          value
+        } else {
+          snakecase::to_title_case(value)
+      }))
 ```
 Of the `r nrow(field.dupes)` total field duplicates, there are `r nrow(field.dupes %>% filter(RPD > 30))` duplicates with RPD values above the 30% MQO threshold.
 
@@ -897,16 +966,22 @@ field.blanks %<>%
   dplyr::select(-c(SampleFrame)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-if (params$isAccessible == "yes") {
   field.blanks %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
-} else {
-  field.blanks %>%
-    reactable(searchable = TRUE,
-              compact = TRUE,
-              striped = TRUE)
-}
+    reactable(      
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        minWidth = 100,
+        header = function(value) if (value %in% c("MDL")) {
+          value
+        } else {
+          snakecase::to_title_case(value)
+      }))
 ```
 There are `r nrow(field.blanks)` analytes from blanks with concentrations greater than the MDL for that analyte.
 
@@ -917,16 +992,10 @@ These are the records where the concentration of total dissolved nitrogen (TDN) 
 chem.TDN <- qcChemTDN(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
 
 chem.TDN %<>%
-  dplyr::select(-c(SampleFrame)) %>%
+  dplyr::select(-c("SampleFrame", "NO3NO2")) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-if (params$isAccessible == "yes") {
-  chem.TDN %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
-} else {
-    reactable(dplyr::select(chem.TDN, -TDNFlag),
-              defaultColDef = colDef(minWidth = 50),
+reactable::reactable(dplyr::select(chem.TDN, -TDNFlag),
               searchable = TRUE,
               details = colDef(
                 name = "Notes",
@@ -937,10 +1006,22 @@ if (params$isAccessible == "yes") {
                   }
                 }
               ),
-              resizable = TRUE,
-              compact = TRUE,
-              striped = TRUE)
-}
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        minWidth = 100,
+        header = function(value) if (value %in% c("TDN", "UTN")) {
+          value
+        } else if (value %in% c("TDNvUTN")) {
+          "Difference"
+        } else {
+          snakecase::to_title_case(value)
+      }))
 ```
 Of the `r nrow(chem.TDN)` records where the concentration of dissolved nitrogen is greater than the concentration of total nitrogen, there are `r nrow(chem.TDN %>% filter(TDNvUTN >= 0.02))` records where the difference is outside the normal limits of variability.
 
@@ -954,13 +1035,7 @@ chem.NO3NO2 %<>%
   dplyr::select(-c(SampleFrame)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-if (params$isAccessible == "yes") {
-  chem.NO3NO2 %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
-} else {
-    reactable(dplyr::select(chem.NO3NO2, -NO3NO2Flag),
-              defaultColDef = colDef(minWidth = 50),
+reactable::reactable(dplyr::select(chem.NO3NO2, -NO3NO2Flag),
               searchable = TRUE,
               details = colDef(
                 name = "Notes",
@@ -971,10 +1046,24 @@ if (params$isAccessible == "yes") {
                   }
                 }
               ),
-              resizable = TRUE,
-              compact = TRUE,
-              striped = TRUE)
-}
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        minWidth = 100,
+        header = function(value) if (value %in% c("TDN", "UTN", "NO3NO2")) {
+          value
+        } else if (value %in% c("NO3NO2vUTN")) {
+          "UTN Difference"
+        } else if (value %in% c("NO3NO2vTDN")) {
+          "TDN Difference"
+        } else {
+          snakecase::to_title_case(value)
+      }))
 ```
 There are `r nrow(chem.NO3NO2)` records where the concentration of nitrate and nitrite is greater than the concentration of either total nitrogen or total dissolved nitrogen.
 
@@ -988,13 +1077,7 @@ chem.TDP %<>%
   dplyr::select(-c(SampleFrame)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-if (params$isAccessible == "yes") {
-  chem.TDP %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
-} else {
-    reactable(dplyr::select(chem.TDP, -TDPFlag),
-              defaultColDef = colDef(minWidth = 50),
+reactable::reactable(dplyr::select(chem.TDP, -TDPFlag),
               searchable = TRUE,
               details = colDef(
                 name = "Notes",
@@ -1005,10 +1088,22 @@ if (params$isAccessible == "yes") {
                   }
                 }
               ),
-              resizable = TRUE,
-              compact = TRUE,
-              striped = TRUE)
-}
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        minWidth = 100,
+        header = function(value) if (value %in% c("TDP", "UTP")) {
+          value
+        } else if (value %in% c("TDPvUTP")) {
+          "Difference"
+        } else {
+          snakecase::to_title_case(value)
+      }))
 ```
 Of the `r nrow(chem.TDP)` records where the concentration of dissolved phosphorous is greater than the concentration of total phosphorous, there are `r nrow(chem.TDP %>% filter(TDPvUTP >= 0.003))` records where the difference is outside the normal limits of variability.
 
@@ -1023,13 +1118,7 @@ chem.MDL %<>%
   dplyr::select(-c(SampleFrame)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-if (params$isAccessible == "yes") {
-  chem.MDL %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
-} else {
-    reactable(dplyr::select(chem.MDL, -MDLFlag),
-              defaultColDef = colDef(minWidth = 50),
+reactable::reactable(dplyr::select(chem.MDL, -MDLFlag),
               searchable = TRUE,
               details = colDef(
                 name = "Notes",
@@ -1040,10 +1129,20 @@ if (params$isAccessible == "yes") {
                   }
                 }
               ),
-              resizable = TRUE,
-              compact = TRUE,
-              striped = TRUE)
-}
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        minWidth = 100,
+        header = function(value) if (value %in% c("MDL")) {
+          value
+        } else {
+          snakecase::to_title_case(value)
+      }))
 ```
 There are `r nrow(chem.MDL)` analytes with concentrations less than or equal to the MDL.
 
@@ -1058,13 +1157,7 @@ chem.ML %<>%
   dplyr::select(-c(SampleFrame)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-if (params$isAccessible == "yes") {
-  chem.ML %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=F, position = "left")  
-} else {
-    reactable(dplyr::select(chem.ML, -MLFlag),
-              defaultColDef = colDef(minWidth = 50),
+reactable::reactable(dplyr::select(chem.ML, -MLFlag),
               searchable = TRUE,
               details = colDef(
                 name = "Notes",
@@ -1075,10 +1168,20 @@ if (params$isAccessible == "yes") {
                   }
                 }
               ),
-              resizable = TRUE,
-              compact = TRUE,
-              striped = TRUE)
-}
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        minWidth = 100,
+        header = function(value) if (value %in% c("ML")) {
+          value
+        } else {
+          snakecase::to_title_case(value)
+      }))
 ```
 There are `r nrow(chem.ML)` analytes with concentrations less than or equal to the ML.
 
@@ -1130,7 +1233,7 @@ if (params$isAccessible == "yes") {
 ```
 
 ### Lake nutrients plot
-This is a plot of nutrient concentrations for each lake across recent field seasons. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Dissolved organic carbon (DOC) is analyzed occasionally as funding allows.
+This is a plot of nutrient concentrations for each lake across recent field seasons. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Dissolved organic carbon (DOC) is analyzed occasionally as funding allows. Dead Lake was dry in 2021 and 2022.
 
 ``` {r chem.lake.nutrient.plot, fig.width = 8, warning = FALSE, fig.cap = capFig("Lake nutrient concentrations."), fig.alt = "Line graphs of lake nutrient concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the six lakes has a vertical panel, and each of the six nutrient analytes has a horizontal panel."}
 chem.lake.nutrient.plot <- ChemLakeNutrientPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
@@ -1145,7 +1248,7 @@ if (params$isAccessible == "yes") {
 ```
 
 ### Lake nutrients bar plot
-This is a bar plot of nutrient concentrations for each lake across recent field seasons. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Total and dissolved concentrations are plotted on the same graph to show the relative contributions from each form.
+This is a bar plot of nutrient concentrations for each lake across recent field seasons. Nutrient concentrations include total nitrogen (UTN), total dissolved nitrogen (TDN), nitrate and nitrite as nitrogen (NO3NO2-N), total phosphorus (UTP), and total dissolved phosphorus (TDP). Total and dissolved concentrations are plotted on the same graph to show the relative contributions from each form. Dead Lake was dry in 2021 and 2022.
 
 ``` {r chem.lake.nutrient.bar.plot, fig.width = 8, warning = FALSE, fig.cap = capFig("Contribution of dissolved and particulate forms to lake nutrient concentrations."), fig.alt = "Bar graphs of lake nutrient concentrations, with field season on the x-axis and concentration in milligrams per liter on the y-axis. Each of the six lakes has a vertical panel, and nitrogen and phosphorus each have a horizontal panel. Dissolved and total concentrations are overlain to show the proportional contribution of dissolved and particulate forms to each nutrient."}
 chem.lake.nutrient.bar.plot <- ChemLakeNutrientBarPlot(conn = conn, path.to.data = raw_data_path, data.source = params$dataSource, field.season = year.range)
@@ -1160,7 +1263,7 @@ if (params$isAccessible == "yes") {
 ```
 
 ### Lake ions plot
-This is a plot of ion concentrations for each lake across recent field seasons. Ion concentrations include sodium (Na), magnesium (Mg), potassium (K), calcium (Ca), sulfate as sulfur (SO4-S), and chloride (Cl). Alkalinity (ALK2) is also analyzed.
+This is a plot of ion concentrations for each lake across recent field seasons. Ion concentrations include sodium (Na), magnesium (Mg), potassium (K), calcium (Ca), sulfate as sulfur (SO4-S), and chloride (Cl). Alkalinity (ALK2) is also analyzed. Dead Lake was dry in 2021 and 2022.
 
 Alkalinity is a property of water defined by the USGS as "the buffering capacity of a water body; a measure of the ability of the water body to neutralize acids and bases and thus maintain a fairly stable pH level." As alkalinity decreases, the sensitivity of a water body to acidification increases. Alkalinity is expressed as mg-CaCO3/L. In 2009, the laboratory measured alkalinity as HCO3. From 2010 to the present, the laboratory measured alkalinity as CaCO3. The alkalinity values from 2009 were recalculated to match the method from 2010 onward. Due to an error in laboratory software programming, ALK2 values analyzed in 2014 and earlier that are less than 20 mg/L may be overestimated (typically 1.5 to 2.5 mg/L, up to 35% difference), with the discrepancy increasing closer to 0 mg/L.
 
@@ -1176,7 +1279,7 @@ if (params$isAccessible == "yes") {
 }
 ```
 
-`r if(params$isAccessible == "yes") {"## Benthic macroinvertebrates"} else {"## Benthic macroinvertebrates {.tabset}"}`
+## Benthic macroinvertebrates {.tabset .tabset-pills}
 
 ### Discrepancies
 These are stream BMI records with discrepancies between taxa group richness (number of taxa within a group) and taxa group density (number of individuals per m2 within a group). Discrepancies include situations where the taxa richness is non-zero but density is zero and where density is non-zero and taxa richness is zero. These situations may arise from the standardization of richness-based metrics to Operational Taxonomic Units (OTUs), while density-based metrics are based on the raw taxa list.
@@ -1188,14 +1291,18 @@ bmi.discrepancies %<>%
   dplyr::select(-c(Park, SiteShort, VisitType, SampleType, SampleCollectionMethod, BMIMethod, LabNotes)) %>%
   dplyr::relocate(FieldSeason, .after = VisitDate)
 
-if (params$isAccessible == "yes") {
   bmi.discrepancies %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = FALSE, position = "left")  
-} else {
-  bmi.discrepancies %>%
-    reactable(searchable = TRUE, compact = TRUE, striped = TRUE)
-}
+    reactable(      
+      sortable = TRUE,
+      filterable = TRUE,
+      compact = TRUE,
+      striped = TRUE,
+      bordered = TRUE,
+      highlight = TRUE,
+      resizable = TRUE,
+      defaultColDef = reactable::colDef(
+        header = function(value) snakecase::to_title_case(value)))
+
 ```
 There are `r nrow(bmi.discrepancies)` metrics with discrepancies between taxa group richness and taxa group density.
 
@@ -1298,7 +1405,7 @@ if (params$isAccessible == "yes") {
 A MOJN Streams and Lakes R Package that is designed to work with the datasets in their published format is available on GitHub: https://github.com/nationalparkservice/mojn-stlk-rpackage/releases/tag/1.0.0 . This package was used to implement the quality checks that are included in this report and to generate the three calculated datasets that are included in this data package.
 
 # Acknowledgements
-The authors would like to acknowledge Geoff Moret, who developed the Streams and Lakes protocol and set in motion over a decade of surface water resource monitoring in Great Basin National Park. We would also like to thank Lise Grace for providing review and editing assistance on this data release report.
+The authors would like to acknowledge Geoff Moret, who developed the Streams and Lakes protocol and set in motion over a decade of surface water resource monitoring in Great Basin National Park. We would also like to thank Lise Grace for providing review and editing assistance on this data QC report.
 
 # References
 Caudill CC, Moret G, Chung-MacCoubrey A, Baker G, Tallent N, Hughson D, Burke J, Starcevich LH, Steinhorst R. 2012. Mojave Desert Network Inventory and Monitoring streams and lakes monitoring protocol: Protocol narrative version 1.0. Natural Resource Report. NPS/MOJN/NRR—2012/593. National Park Service. Fort Collins, Colorado. Available at: https://irma.nps.gov/DataStore/Reference/Profile/2190889
