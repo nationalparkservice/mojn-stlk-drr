@@ -1,0 +1,337 @@
+tableName	attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation	LegacyName	DataType	DataSize	Sort
+Site	Park	Four letter park code	character						Text	5	2
+Site	Subunit	Section of the park where site is located	character						Text	100	3
+Site	SiteShort	Site code without the Park and Site Type prefix	character						Text	20	4
+Site	SiteCode	Unique alphanumeric site code	character					Site	Text	24	5
+Site	SiteName	Descriptive name of the site	character						Text	50	6
+Site	SiteLabel	Combination of [SiteShort] and [SiteName] for visualization purposes	character						Text	75	7
+Site	SampleFrame	"Type of hydrologic feature (e.g., lake, stream)"	character					SiteType	Text	25	8
+Site	SiteProtectedStatus	Level of protection for sensitive resources	character						Text	25	9
+Site	Lat_WGS84	Latitude in WGS84 coordinate system	numeric	degree					Decimal	6	10
+Site	Lon_WGS84	Longitude in WGS84 coordinate system	numeric	degree					Decimal	6	11
+Site	X_UTM_NAD83_11N	X UTM value in NAD83 coordinate system	numeric	meter					Decimal	2	12
+Site	Y_UTM_NAD83_11N	Y UTM value in NAD83 coordinate system	numeric	meter					Decimal	2	13
+Visit	Park	Four letter park code	character						Text	5	14
+Visit	Subunit	Section of the park where site is located	character						Text	100	15
+Visit	SiteShort	Site code without the Park and Site Type prefix	character					Site	Text	20	16
+Visit	SiteCode	Unique alphanumeric site code	character						Text	24	17
+Visit	SiteName	Descriptive name of the site	character						Text	50	18
+Visit	VisitDate	Date that the monitoring occured	Date		YYYY-MM-DD				Date		19
+Visit	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character					WaterYear	Text	8	20
+Visit	VisitType	"Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown"	character						Text	25	21
+Visit	MonitoringStatus	Result of monitoring visit: Sampled or reason unable to sample	character						Text	35	22
+Visit	SampleFrame	"Type of hydrologic feature (e.g., lake, stream)"	character					SiteType	Text	25	23
+Visit	IsLakeDry	Was lake dry during this site visit	character						Bit		24
+Visit	SiteProtectedStatus	Is the location of this site protected	character						Text	25	25
+Visit	CloudCover	"Cloud cover during visit [Sunny, Partly Cloudy, Mostly Cloudy, Overcast]"	character						Text	30	26
+Visit	Precipitation	"Precipitation during visit [Heavy, Moderate, Light, None]"	character						Text	30	27
+Visit	Temperature	"Temperature (F) during visit [<35, 36-50,51-65,66-80,>80]"	character						Text	30	28
+Visit	WindSpeed	"Wind during visit [Calm, Light Breeze, Moderate Wind, Gusty]"	character						Text	30	29
+Visit	Protocol	Protocol package used for this visit	character						Text	200	30
+Visit	DataStoreReferenceCode	Datastore reference number for protocol package	numeric	dimensionless					Integer	2	31
+Visit	Notes	Notes about this visit	character						Text	500	32
+Visit	DataProcessingLevel	"Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]"	character						Text	20	33
+BMI	Park	Four letter park code	character						Text	5	34
+BMI	SiteShort	Site code without the Park and Site Type prefix	character					Site	Text	20	36
+BMI	SiteCode	Unique alphanumeric site code	character						Text	24	35
+BMI	SiteName	Descriptive name of the site	character						Text	50	37
+BMI	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character					WaterYear	Text	8	38
+BMI	VisitDate	Date that the monitoring occured	Date		YYYY-MM-DD				Date/Time	8	39
+BMI	VisitType	"Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown"	character						Text	25	40
+BMI	SampleType	"Type of sample: Routine, Field Blank, Field Replicate, Lab Duplicate"	character						Text	50	41
+BMI	SampleCollectionMethod	"Sample collection method: Kicknet, Dipnet, Other, Unknown"	character						Text	50	42
+BMI	DPL	Data Processing Level: Raw - entered into database; Provisional - data have undergone the first review; Accepted - provisional data have gone through the data certification process	character						Text	20	43
+BMI	BMIMethod	"BMI Sample collection method: EMAP, Channel, Shallow Pool, Large Pool, Multi-Pool Grab, Unkown"	character						Text	25	44
+BMI	LabSampleNumber	Sample number assigned by the lab	character						Text	16	45
+BMI	DateCollected	Date and time of the sample collection	Date		YYYY-MM-DD				Date/Time	8	46
+BMI	FieldSplit	% sample submitted for processing	numeric	percent					Integer	2	47
+BMI	LabSplit	% sample processed to obtain 600 random individuals (if present)	numeric	percent					Decimal	16	48
+BMI	SampleArea_m2	Total area sampled in square meters	numeric	meterSquared					Decimal	16	49
+BMI	Abundance	Estimated # of individuals per square meter for quantitative samples	numeric	numberPerMeterSquared					Long Integer	4	50
+BMI	Richness	"# of unique taxa, standardized to operational taxonomic unit (OTU)"	numeric	number					Long Integer	4	51
+BMI	DominantTaxaPercent	([DominantTaxaAbundance]/[Abundance])*100	numeric	percent					Double	8	52
+BMI	LabNotes	Notes from the lab	character						Memo	-	53
+BMI	FieldNotes	Notes from the field	character						Memo	-	54
+BMI	SplitCount	# of organisms randomly subsampled from [LabSplit] for identification	numeric	number					Integer	2	55
+BMI	FixedCount	# of computationally resampled organisms	numeric	number					Integer	2	56
+BMI	BigRareCount	"# of """"""""big and rare"""""""" organisms selected non-randomly for identification from the sample"	numeric	number					Integer	2	57
+BMI	ShannonsDiversity	Measure of richness and evenness (based on relative abundance of each species); weighted toward rare species	numeric	dimensionless					Decimal	16	58
+BMI	SimpsonsDiversity	Measure of richness and evenness (based on relative abundance of each species); weighted toward common species	numeric	dimensionless					Decimal	16	59
+BMI	Evenness	Measure of relative abundance indicative of taxa dominance [Shannon's Diversity]/ln([Richness])	numeric	dimensionless					Decimal	16	60
+BMI	EPTTaxaCount	"Richness of Ephemeroptera, Plecoptera, and Trichoptera taxa"	numeric	number					Integer	2	61
+BMI	EPTTaxaAbundance	"Abundance of Ephemeroptera, Plecoptera, and Trichoptera taxa"	numeric	number					Long Integer	4	62
+BMI	DominantFamilyAbundance	Abundance of the dominant family	numeric	number					Long Integer	4	63
+BMI	DominantFamily	Taxonomic family with the highest abundance	character						Text	100	64
+BMI	DominantTaxa	Taxon with the highest abundance	character						Text	100	65
+BMI	DominantTaxaAbundance	Abundance of dominant taxon	numeric	number					Long Integer	4	66
+BMI	Hilsenhoff	Abundance-weighted average of family-level pollution tolerances	numeric	number					Decimal	16	67
+BMI	IntolerantTaxaCount	# of taxa with a Hilsenhoff Biotic Index score of <= 2	numeric	number					Integer	2	68
+BMI	IntolerantTaxaAbundance	Abundance of taxa with a Hilsenhoff Biotic Index score of <= 2	numeric	number					Long Integer	4	69
+BMI	TolerantTaxaCount	# of taxa with a Hilsenhoff Biotic Index score of >=8	numeric	number					Integer	2	70
+BMI	TolerantTaxaAbundance	Abundance of taxa with a Hilsenhoff Biotic Index score of >=8	numeric	number					Long Integer	4	71
+BMI	USFSCommunityToleranceQuo	Dominance weighted community tolerance quotient	numeric	number					Integer	2	72
+BMI	ShredderTaxaCount	# of taxa utilizing living or decomposing vascular plant tissue and coarse particulate organic matter (CPOM)	numeric	number					Integer	2	73
+BMI	ShredderAbundance	Abundance of taxa utilizing valsular plant tissue and coarse particulate organic matter (CPOM)	numeric	number					Long Integer	4	74
+BMI	ScraperTaxaCount	"# of taxa utilizing periphyton, particularly algae and diatoms"	numeric	number					Integer	2	75
+BMI	ScraperAbundance	"Abundance of taxa utilizing periphyton, particularly algae and diatoms"	numeric	number					Long Integer	4	76
+BMI	CollectorFiltererCount	# of taxa utilizing fine particulate organic matter in the water column	numeric	number					Integer	2	77
+BMI	CollectorFiltererAbundance	Abundance of taxa utilizing fine particulate organic matter in the water column	numeric	number					Long Integer	4	78
+BMI	CollectorGathererCount	# of taxa utilizing fine particulate organic matter from benthic deposits	numeric	number					Integer	2	79
+BMI	CollectorGathererAbundance	Abundance of taxa utilizing fine particulate organic matter from benthic deposits	numeric	number					Long Integer	4	80
+BMI	PredatorTaxaCount	# of taxa utilizing living animal tissue	numeric	number					Integer	2	81
+BMI	PredatorTaxaAbundance	Abundance of taxa utilizing living animal tissue	numeric	number					Long Integer	4	82
+BMI	ClingerTaxaCount	# of taxa with fixed retreats or other strategies for clinging to rocks	numeric	number					Integer	2	83
+BMI	LongLivedTaxa	# of taxa with 2 to 3 year life cycles	numeric	number					Integer	2	84
+BMI	EphemeropteraTaxaCount	# of Ephemeroptera taxa in the sample	numeric	number					Integer	2	85
+BMI	EphemeropteraTaxaAbundance	Abundance of Ephemeroptera	numeric	number					Long Integer	4	86
+BMI	PlecopteraTaxa	# of Plecoptera taxa in the sample	numeric	number					Integer	2	87
+BMI	PlecopteraTaxaAbundance	Abundance of Plecoptera	numeric	number					Long Integer	4	88
+BMI	TrichopteraTaxaCount	# of Tricoptera taxa in the sample	numeric	number					Integer	2	89
+BMI	TrichopteraAbundance	Abundance of Tricoptera	numeric	number					Long Integer	4	90
+BMI	ColeopteraTaxaCount	# of Coleoptera taxa in the sample	numeric	number					Integer	2	91
+BMI	ColeopteraAbundance	Abundance of Coleoptera	numeric	number					Long Integer	4	92
+BMI	ElmidaeTaxaCount	# of Elmidae taxa in the sample	numeric	number					Integer	2	93
+BMI	ElmidaeAbundance	Abundance of Elmidae	numeric	number					Long Integer	4	94
+BMI	MegalopteraTaxaCount	# of Megaloptera taxa in the sample	numeric	number					Integer	2	95
+BMI	MegalopteraAbundance	Abundance of Megaloptera	numeric	number					Long Integer	4	96
+BMI	DipteraTaxaCount	# of Diptera taxa in the sample	numeric	number					Integer	2	97
+BMI	DipteraAbundance	Abundance of Diptera	numeric	number					Long Integer	4	98
+BMI	ChironomidaeTaxaCount	# of Chironomidae taxa in the sample	numeric	number					Integer	2	99
+BMI	ChironomidaeAbundance	Abundance of Chironomidae	numeric	number					Long Integer	4	100
+BMI	CrustaceaTaxaCount	# of Crustacea taxa in the sample	numeric	number					Integer	2	101
+BMI	CrustaceaAbundance	Abundance of Crustacea	numeric	number					Long Integer	4	102
+BMI	OligochaeteTaxaCount	# of Oligochaete taxa in the sample	numeric	number					Integer	2	103
+BMI	OligochaeteAbundance	Abundance of Oligochaete	numeric	number					Long Integer	4	104
+BMI	MolluscaTaxaCount	# of Mollusca taxa in the sample	numeric	number					Integer	2	105
+BMI	MolluscaAbundance	Abundance of Mollusca	numeric	number					Long Integer	4	106
+BMI	InsectTaxaCount	# of insect taxa in the sample	numeric	number					Integer	2	107
+BMI	InsectAbundance	Abundance of insects	numeric	number					Long Integer	4	108
+BMI	NonInsectTaxaCount	# of non-insect taxa in the sample	numeric	number					Integer	2	109
+BMI	NonInsectAbundance	Abundance of non-insects	numeric	number					Long Integer	4	110
+BMI	LabName	Name of lab analyzing samples	character						Text	255	111
+Channel	Park	Four letter park code	character						Text	5	112
+Channel	SiteShort	Site code without the Park and Site Type prefix	character					Site	Text	20	113
+Channel	SiteCode	Unique alphanumeric site code	character						Text	24	114
+Channel	SiteName	Descriptive name of the site	character						Text	50	115
+Channel	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character					WaterYear	Text	8	116
+Channel	VisitDate	Date of visit	Date		YYYY-MM-DD				Date/Time	8	117
+Channel	DPL	"Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]"	character						Text	20	118
+Channel	Transect	Transect where channel characteristics were observed; ordered alphabetically from downstream to upstream	character						Text	10	119
+Channel	TransectSide	"Right, center, or left side of channel, or unknown or not applicable"	character						Text	50	120
+Channel	ChannelType	"Flow characteristic at the sample location: Pool, Glide, Riffle, Rapid"	character						Text	50	121
+Channel	Substrate	"Material along the bottom of the channel at the sample location: Fine/Sand, Gravel, Coarse, Other"	character						Text	50	122
+Channel	Notes	Notes about the channel data	character						Memo	-	123
+Chemistry	Park	Four letter park code	character						Text	5	124
+Chemistry	SiteShort	Site code without the Park and Site Type prefix	character					Site	Text	20	125
+Chemistry	SiteCode	Unique alphanumeric site code	character						Text	24	126
+Chemistry	SiteName	Descriptive name of the site	character						Text	50	127
+Chemistry	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character					WaterYear	Text	8	128
+Chemistry	SampleFrame	"Type of hydrologic feature (e.g., lake, stream)"	character					SiteType	Text	25	129
+Chemistry	VisitDate	Date that the monitoring occured	Date		YYYY-MM-DD				Date/Time	8	130
+Chemistry	VisitType	"Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown"	character						Text	25	131
+Chemistry	SampleCollectionMethod	"Sample Collection Method: Grab, Bottle, Composite, Other, Unknown"	character						Text	50	132
+Chemistry	Characteristic	"Water chemistry parameter code; e.g., UTP, SO42-"	character						Text	8	133
+Chemistry	CharacteristicLabel	"Water chemistry parameter description; e.g., total phosphorus, sulfate"	character						Text	50	134
+Chemistry	LabValue	Measured value of water quality parameter	numeric	number					Double	8	135
+Chemistry	ReportingGroup	"Water chemistry parameter reporting group: Nutrient, Ion, NA"	character						Text	10	136
+Chemistry	SampleType	"The type of sample: R - routine, FB - field blank, FR - field replicate, LD - lab duplicate"	character						Text	50	137
+Chemistry	Flag	"Data quality flag: No Flag, Information, Warning, Critical"	character					DQF	Text	5	138
+Chemistry	FlagNote	Notes about the water chemistry parameter DQF	character					DQFNote	Memo	-	139
+Chemistry	DPL	"Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]"	character						Text	20	140
+Chemistry	Unit	"Water chemistry parameter unit; e.g., mg/L"	character						Text	15	141
+Clarity	Park	Four letter park code	character						Text	5	142
+Clarity	SiteShort	Site code without the Park and Site Type prefix	character					Site	Text	20	143
+Clarity	SiteCode	Unique alphanumeric site code	character						Text	24	144
+Clarity	SiteName	Descriptive name of the site	character						Text	50	145
+Clarity	VisitDate	Date that the monitoring occured	Date		YYYY-MM-DD				Date/Time	8	146
+Clarity	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character					WaterYear	Text	8	147
+Clarity	IsLakeDry	Binary observation of water presence/absence	character						Bit	1	148
+Clarity	SurfaceCalm	"Is the surface calm - Yes, No, or NoData"	character						Text	5	149
+Clarity	OnBottom	"Is Secchi disk visible on the bottom? Y - yes, N- no"	character						Text	5	150
+Clarity	DepthToBottom_m	Depth to the bottom of the lake (if applicable)	numeric	meter					Decimal	16	151
+Clarity	SecchiDepth_m	Depth where the Secchi disk becomes visible/invisible when ascending/descending (if applicable)	character	meter					Text	38	152
+Clarity	VisitType	"Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown"	character						Text	25	153
+Clarity	DPL	"Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]"	character						Text	20	154
+LakeLevelString	Park	Four letter park code	character						Text	5	155
+LakeLevelString	SiteShort	Site code without the Park and Site Type prefix	character					Site	Text	20	156
+LakeLevelString	SiteCode	Unique alphanumeric site code	character						Text	24	157
+LakeLevelString	SiteName	Descriptive name of the site	character						Text	50	158
+LakeLevelString	VisitDate	Date that the monitoring occured	Date		YYYY-MM-DD				Date		159
+LakeLevelString	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character					WaterYear	Text	8	160
+LakeLevelString	VisitType	"Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown"	character						Text	25	161
+LakeLevelString	DPL	"Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]"	character						Text	20	162
+LakeLevelString	Benchmark	Name of the benchmark used as reference mark 1	character						Text	50	163
+LakeLevelString	RM1_GivenElevation_m	Elevation of reference mark one on artifical scale	numeric	meter					Float		164
+LakeLevelString	IsLakeDry	Binary observation of water presence/absence	character						Bit	1	165
+LakeLevelString	Height_ft	Lake level in feet	numeric	foot					Decimal	2	166
+LakeLevelSurvey	Park	Four letter park code	character						Text	5	167
+LakeLevelSurvey	SiteShort	Site code without the Park and Site Type prefix	character					Site	Text	20	168
+LakeLevelSurvey	SiteCode	Unique alphanumeric site code	character						Text	24	169
+LakeLevelSurvey	SiteName	Descriptive name of the site	character						Text	50	170
+LakeLevelSurvey	VisitDate	Date that the monitoring occured	Date		YYYY-MM-DD				Date		171
+LakeLevelSurvey	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character					WaterYear	Text	8	172
+LakeLevelSurvey	VisitType	"Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown"	character						Text	25	173
+LakeLevelSurvey	DPL	"Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]"	character						Text	20	174
+LakeLevelSurvey	Instrument	Identifier for the specific theodolite used for this survey	character						Text	50	175
+LakeLevelSurvey	RodMaterial	Primary material the rod is made of	character						Text	50	176
+LakeLevelSurvey	CTE	Coefficient of thermal expansion of the rod	numeric	dimensionless					Float		177
+LakeLevelSurvey	InstrumentOperator	Initals of the instrument operator	character						Text	4	178
+LakeLevelSurvey	RodOperator	Initials of the rod operator	character						Text	4	179
+LakeLevelSurvey	AdditionalCrew	Initials of any additional crew	character						Text	50	180
+LakeLevelSurvey	NumberOfInstrumentSetups	Number of instrument setups used during this survey	numeric	number					TinyInt		181
+LakeLevelSurvey	RodTemperatureSetup1_F	Temperature of rod at beginning of circuit	numeric	fahrenheit					Decimal	1	182
+LakeLevelSurvey	RodTemperatureSetup2_F	Temperature of rod in middle of circuit	numeric	fahrenheit					Decimal	1	183
+LakeLevelSurvey	RodTemperatureSetup3_F	Temperature of rod at end of circuit	numeric	fahrenheit					Decimal	1	184
+LakeLevelSurvey	NumberOfBenchmarksUsed	Number of benchmarks used in the survey	numeric	number					TinyInt		185
+LakeLevelSurvey	RM1_GivenElevation_m	Elevation of reference mark one on artifical scale	numeric	meter					Float		186
+LakeLevelSurvey	RM1	Name of benchmark used for this reference mark	character						Text	50	187
+LakeLevelSurvey	RM2	Name of benchmark used for this reference mark	character						Text	50	188
+LakeLevelSurvey	RM3	Name of benchmark used for this reference mark	character						Text	50	189
+LakeLevelSurvey	RM4	Name of benchmark used for this reference mark	character						Text	50	190
+LakeLevelSurvey	RM5	Name of benchmark used for this reference mark	character						Text	50	191
+LakeLevelSurvey	RM6	Name of benchmark used for this reference mark	character						Text	50	192
+LakeLevelSurvey	SurveyPointType	Description of what function this survey point served	character						Text	12	193
+LakeLevelSurvey	Height_ft	Lake level in feet	numeric	foot					Decimal	3	194
+LakeLevel_CALCULATED	Park	Four letter park code	character						Text	5	195
+LakeLevel_CALCULATED	SiteShort	Site code without the Park and Site Type prefix	character					Site	Text	20	196
+LakeLevel_CALCULATED	SiteCode	Unique alphanumeric site code	character						Text	24	197
+LakeLevel_CALCULATED	SiteName	Descriptive name of the site	character						Text	50	198
+LakeLevel_CALCULATED	VisitDate	Date that the monitoring occured	Date		YYYY-MM-DD				Date		199
+LakeLevel_CALCULATED	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character					WaterYear	Text	8	200
+LakeLevel_CALCULATED	VisitType	"Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown"	character						Text	25	201
+LakeLevel_CALCULATED	DPL	"Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]"	character						Text	20	202
+LakeLevel_CALCULATED	SurveyType	"Survey methodology [String, Theodolite]"	character						Text	20	203
+LakeLevel_CALCULATED	BenchmarkUsed	Benchmark that the final elevation is tied to	character						Text	50	204
+LakeLevel_CALCULATED	ClosureError_ft	Closure error of the circuit	numeric	foot					Decimal		205
+LakeLevel_CALCULATED	FinalElevation_ft	Final calculated lake surface elevation	numeric	foot					Decimal		206
+WaterQualityDO	Park	Four letter park code	character						Text	5	207
+WaterQualityDO	SiteShort	Site code without the Park and Site Type prefix	character					Site	Text	20	208
+WaterQualityDO	SiteCode	Unique alphanumeric site code	character						Text	24	209
+WaterQualityDO	SiteName	Descriptive name of the site	character						Text	50	210
+WaterQualityDO	VisitDate	Date that the monitoring occured	Date		YYYY-MM-DD				Date		211
+WaterQualityDO	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character					WaterYear	Text	8	212
+WaterQualityDO	WQDataCollected	Yes or reason for sampling failure	character						Text	25	213
+WaterQualityDO	MeasurementNum	Index of measurement	numeric	number					Integer		214
+WaterQualityDO	MeasurementDepth_m	Depth to measurement location	numeric	meter					Decimal	2	215
+WaterQualityDO	DissolvedOxygen_percent	Measured value of DO %	numeric	percent					Decimal	2	216
+WaterQualityDO	DissolvedOxygen_mg_per_L	Measured value of DO in mg/L	numeric	milligramPerLiter					Decimal	2	217
+WaterQualityDO	Flag	"Data quality flag: No Flag, Information, Warning, Critical"	character						Text	5	218
+WaterQualityDO	FlagNote	Description of data quality issue	character						Text	2000	219
+WaterQualityDO	DOInstrument	Identifier for instrument used to measure DO	character						Text	50	220
+WaterQualityDO	VisitType	"Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown"	character						Text	25	221
+WaterQualityDO	DPL	"Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]"	character						Text	20	222
+WaterQualityDO	MonitoringStatus	Result of monitoring visit: Sampled or reason unable to sample	character						Text	35	223
+WaterQualitypH	Park	Four letter park code	character						Text	5	224
+WaterQualitypH	SiteShort	Site code without the Park and Site Type prefix	character						Text	20	225
+WaterQualitypH	SiteCode	Unique alphanumeric site code	character						Text	24	226
+WaterQualitypH	SiteName	Descriptive name of the site	character						Text	50	227
+WaterQualitypH	VisitDate	Date that the monitoring occured	Date		YYYY-MM-DD				Date		228
+WaterQualitypH	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character					WaterYear	Text	8	229
+WaterQualitypH	WQDataCollected	Yes or reason for sampling failure	character						Text	25	230
+WaterQualitypH	MeasurementNum	Index of measurement	numeric	number					Integer		231
+WaterQualitypH	MeasurementDepth_m	Depth to measurement location	numeric	meter					Decimal	2	232
+WaterQualitypH	pH	Measured value of pH	numeric	dimensionless					Decimal	2	233
+WaterQualitypH	Flag	"Data quality flag: No Flag, Information, Warning, Critical"	character						Text	5	234
+WaterQualitypH	FlagNote	Description of data quality issue	character						Text	2000	235
+WaterQualitypH	pHInstrument	Identifier for instrument used to measure pH	character						Text	50	236
+WaterQualitypH	VisitType	"Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown"	character						Text	25	237
+WaterQualitypH	DPL	"Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]"	character						Text	20	238
+WaterQualitypH	MonitoringStatus	Result of monitoring visit: Sampled or reason unable to sample	character						Text	35	239
+WaterQualitySpCond	Park	Four letter park code	character						Text	5	240
+WaterQualitySpCond	SiteShort	Site code without the Park and Site Type prefix	character					Site	Text	20	241
+WaterQualitySpCond	SiteCode	Unique alphanumeric site code	character						Text	24	242
+WaterQualitySpCond	SiteName	Descriptive name of the site	character						Text	50	243
+WaterQualitySpCond	VisitDate	Date that the monitoring occured	Date		YYYY-MM-DD				Date		244
+WaterQualitySpCond	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character					WaterYear	Text	8	245
+WaterQualitySpCond	WQDataCollected	Yes or reason for sampling failure	character						Text	25	246
+WaterQualitySpCond	MeasurementNum	Index of measurement	numeric	number					Integer		247
+WaterQualitySpCond	MeasurementDepth_m	Depth to measurement location	numeric	meter					Decimal	2	248
+WaterQualitySpCond	SpecificConductance_microS_per_cm	Measured value of specific conductance in uS/cm	numeric	microsiemensPerCentimeter					Decimal	1	249
+WaterQualitySpCond	Flag	"Data quality flag: No Flag, Information, Warning, Critical"	character						Text	5	250
+WaterQualitySpCond	FlagNote	Description of data quality issue	character						Text	2000	251
+WaterQualitySpCond	SpCondInstrument	Identifier for instrument used to measure specific conductance	character						Text	50	252
+WaterQualitySpCond	VisitType	"Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown"	character						Text	25	253
+WaterQualitySpCond	DPL	"Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]"	character						Text	20	254
+WaterQualitySpCond	MonitoringStatus	Result of monitoring visit: Sampled or reason unable to sample	character						Text	35	255
+WaterQualityTemperature	Park	Four letter park code	character						Text	5	256
+WaterQualityTemperature	SiteShort	Site code without the Park and Site Type prefix	character					Site	Text	20	257
+WaterQualityTemperature	SiteCode	Unique alphanumeric site code	character						Text	24	258
+WaterQualityTemperature	SiteName	Descriptive name of the site	character						Text	50	259
+WaterQualityTemperature	VisitDate	Date that the monitoring occured	Date		YYYY-MM-DD				Date		260
+WaterQualityTemperature	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character					WaterYear	Text	8	261
+WaterQualityTemperature	WQDataCollected	Yes or reason for sampling failure	character						Text	25	262
+WaterQualityTemperature	MeasurementNum	Index of measurement	numeric	number					Integer		263
+WaterQualityTemperature	MeasurementDepth_m	Depth to measurement location	numeric	meter					Decimal	2	264
+WaterQualityTemperature	WaterTemperature_C	Measured value of temperatue in celcius degrees	numeric	celsius					Decimal	2	265
+WaterQualityTemperature	Flag	"Data quality flag: No Flag, Information, Warning, Critical"	character						Text	5	266
+WaterQualityTemperature	FlagNote	Description of data quality issue	character						Text	2000	267
+WaterQualityTemperature	TempInstrument	Identifier for instrument used to measure temperature	character						Text	50	268
+WaterQualityTemperature	VisitType	"Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown"	character						Text	25	269
+WaterQualityTemperature	DPL	"Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]"	character						Text	20	270
+WaterQualityTemperature	MonitoringStatus	Result of monitoring visit: Sampled or reason unable to sample	character						Text	35	271
+WaterQuality_CALCULATED	Park	Four letter park code	character						Text	5	272
+WaterQuality_CALCULATED	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character						Text	8	273
+WaterQuality_CALCULATED	SiteCode	Unique alphanumeric site code	character						Text	24	274
+WaterQuality_CALCULATED	VisitDate	Date that the monitoring occured	Date		YYYY-MM-DD				Date		275
+WaterQuality_CALCULATED	VisitType	"Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown"	character						Text	25	276
+WaterQuality_CALCULATED	SampleFrame	"Type of hydrologic feature (e.g., lake, stream)"	character					SiteType	Text	25	277
+WaterQuality_CALCULATED	MeasurementDepth_m	Depth to measurement location	numeric	meter					Decimal	2	278
+WaterQuality_CALCULATED	TemperatureFlag	"Data quality flag: No Flag, Information, Warning, Critical"	character						Text	5	279
+WaterQuality_CALCULATED	FlagNote	Description of data quality issue	character						Text	2000	280
+WaterQuality_CALCULATED	DPL	"Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]"	character						Text	20	281
+WaterQuality_CALCULATED	TemperatureMedian_C	Median measured value of temperatue in celcius degrees	numeric	celsius					Decimal	2	282
+WaterQuality_CALCULATED	TemperatureCount	Number of measurements taken	numeric	number					Integer		283
+WaterQuality_CALCULATED	SpCondFlag	"Data quality flag: No Flag, Information, Warning, Critical"	character						Text	5	284
+WaterQuality_CALCULATED	SpCondMedian_microS_per_cm	Median measured value of specific conductance in uS/cm	numeric	microsiemensPerCentimeter					Decimal	1	285
+WaterQuality_CALCULATED	SpCondCount	Number of measurements taken	numeric	number					Integer		286
+WaterQuality_CALCULATED	pHFlag	"Data quality flag: No Flag, Information, Warning, Critical"	character						Text	5	287
+WaterQuality_CALCULATED	pHMedian	Median measured value of pH	numeric	dimensionless					Decimal	2	288
+WaterQuality_CALCULATED	pHCount	Number of measurements taken	numeric	number					Integer		289
+WaterQuality_CALCULATED	DOFlag	"Data quality flag: No Flag, Information, Warning, Critical"	character						Text	5	290
+WaterQuality_CALCULATED	DOMedian_percent	Median measured value of DO %	numeric	percent					Decimal	2	291
+WaterQuality_CALCULATED	DOMedian_mg_per_L	Median measured value of DO in mg/L	numeric	milligramPerLiter					Decimal	2	292
+WaterQuality_CALCULATED	DOPercentCount	Number of measurements taken	numeric	number					Integer		293
+WaterQuality_CALCULATED	DOmgLCount	Number of measurements taken	numeric	number					Integer		294
+WQStreamXSection	Park	Four letter park code	character						Text	5	295
+WQStreamXSection	SiteShort	Site code without the Park and Site Type prefix	character					Site	Text	20	296
+WQStreamXSection	SiteCode	Unique alphanumeric site code	character						Text	24	297
+WQStreamXSection	SiteName	Descriptive name of the site	character						Text	50	298
+WQStreamXSection	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character					WaterYear	Text	8	299
+WQStreamXSection	VisitDate	Date that the monitoring occured	Date		YYYY-MM-DD				Date/Time	8	300
+WQStreamXSection	VisitType	"Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown"	character						Text	25	301
+WQStreamXSection	DPL	"Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]"	character						Text	20	302
+WQStreamXSection	Notes	Notes about the water quality cross section data	character						Memo	0	303
+WQStreamXSection	TransectSide	"Left, center, or right of the channel"	character						Text	50	304
+WQStreamXSection	pHInstrument	Name of instrument measuring  pH	character						Text	50	305
+WQStreamXSection	pH	Measured value of pH	numeric	dimensionless					Decimal	16	306
+WQStreamXSection	pHFlag	"pH data quality flag: No Flag, Information, Warning, Critical"	character					PH_DQF	Text	25	307
+WQStreamXSection	DOInstrument	Name of instrument measuring DO	character						Text	50	308
+WQStreamXSection	DissolvedOxygen_mg_per_L	Measured value of DO in mg/L	numeric	milligramPerLiter					Decimal	16	309
+WQStreamXSection	DOFlag	"Dissolved Oxygen data quality flag: No Flag, Information, Warning, Critical"	character					DO_DQF	Text	25	310
+WQStreamXSection	SpCondInstrument	Name of instrument measuring specific conductance	character						Text	50	311
+WQStreamXSection	SpecificConductance_microS_per_cm	Measured value of specific conductance in uS/cm	numeric	microsiemensPerCentimeter					Decimal	16	312
+WQStreamXSection	SpCondFlag	"Specific conductance data quality flag: No Flag, Information, Warning, Critical"	character					SpCond_DQF	Text	25	313
+WQStreamXSection	TemperatureInstrument	Name of instrument measuring water temperature	character						Text	50	314
+WQStreamXSection	WaterTemperature_C	Measured value of water temperature in C	numeric	celsius					Decimal	16	315
+WQStreamXSection	TemperatureFlag	"Temperature data quality flag: No Flag, Information, Warning, Critical"	character					Temperature_DQF	Text	25	316
+WQStreamXSection	FlagNote	Notes about the water quality cross section DQF	character					DataQualityFlagNote	Memo		317
+WQStreamXSection_CALCULATED	Park	Four letter park code	character						Text	5	318
+WQStreamXSection_CALCULATED	FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character						Text	8	319
+WQStreamXSection_CALCULATED	SiteCode	Unique alphanumeric site code	character						Text	24	320
+WQStreamXSection_CALCULATED	VisitDate	Date that the monitoring occured	Date		YYYY-MM-DD				Date		321
+WQStreamXSection_CALCULATED	VisitType	"Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown"	character						Text	25	322
+WQStreamXSection_CALCULATED	SampleFrame	"Type of hydrologic feature (e.g., lake, stream)"	character					SiteType	Text	25	323
+WQStreamXSection_CALCULATED	pHFlag	"Data quality flag: No Flag, Information, Warning, Critical"	character						Text	5	324
+WQStreamXSection_CALCULATED	DOFlag	"Data quality flag: No Flag, Information, Warning, Critical"	character						Text	5	325
+WQStreamXSection_CALCULATED	SpCondFlag	"Data quality flag: No Flag, Information, Warning, Critical"	character						Text	5	326
+WQStreamXSection_CALCULATED	TemperatureFlag	"Data quality flag: No Flag, Information, Warning, Critical"	character						Text	5	327
+WQStreamXSection_CALCULATED	FlagNote	Description of data quality issue	character						Text	2000	328
+WQStreamXSection_CALCULATED	DPL	"Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]"	character						Text	20	329
+WQStreamXSection_CALCULATED	TemperatureMedian_C	Median measured value of temperatue in celcius degrees	numeric	celsius					Decimal	2	330
+WQStreamXSection_CALCULATED	TemperatureCount	Number of measurements taken	numeric	number					Integer		331
+WQStreamXSection_CALCULATED	pHMedian	Median measured value of pH	numeric	dimensionless					Decimal	16	332
+WQStreamXSection_CALCULATED	pHCount	Number of measurements taken	numeric	number					Integer		333
+WQStreamXSection_CALCULATED	DOMedian_mg_per_L	Median measured value of DO in mg/L	numeric	milligramPerLiter					Decimal	16	334
+WQStreamXSection_CALCULATED	DOmgLCount	Number of measurements taken	numeric	number					Integer		335
+WQStreamXSection_CALCULATED	SpCondMedian_microS_per_cm	Median measured value of specific conductance in uS/cm	numeric	microsiemensPerCentimeter					Decimal	16	336
+WQStreamXSection_CALCULATED	SpCondCount	Number of measurements taken	numeric	number					Integer		337

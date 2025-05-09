@@ -1,0 +1,24 @@
+attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
+Park	Four letter park code	character	NA	NA	Empty string	Not applicable or data not collected
+SiteShort	Site code without the Park and Site Type prefix	character	NA	NA	Empty string	Not applicable or data not collected
+SiteCode	Unique alphanumeric site code	character	NA	NA	Empty string	Not applicable or data not collected
+SiteName	Descriptive name of the site	character	NA	NA	Empty string	Not applicable or data not collected
+FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character	NA	NA	Empty string	Not applicable or data not collected
+VisitDate	Date that the monitoring occured	Date	NA	YYYY-MM-DD	Empty string	Not applicable or data not collected
+VisitType	Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown	character	NA	NA	Empty string	Not applicable or data not collected
+DPL	Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]	character	NA	NA	Empty string	Not applicable or data not collected
+Notes	Notes about the water quality cross section data	character	NA	NA	Empty string	Not applicable or data not collected
+TransectSide	Left, center, or right of the channel	character	NA	NA	Empty string	Not applicable or data not collected
+pHInstrument	Name of instrument measuring  pH	character	NA	NA	Empty string	Not applicable or data not collected
+pH	Measured value of pH	numeric	dimensionless	NA	Empty string	Not applicable or data not collected
+pHFlag	pH data quality flag: No Flag, Information, Warning, Critical	character	NA	NA	Empty string	Not applicable or data not collected
+DOInstrument	Name of instrument measuring DO	character	NA	NA	Empty string	Not applicable or data not collected
+DissolvedOxygen_mg_per_L	Measured value of DO in mg/L	numeric	milligramPerLiter	NA	Empty string	Not applicable or data not collected
+DOFlag	Dissolved Oxygen data quality flag: No Flag, Information, Warning, Critical	character	NA	NA	Empty string	Not applicable or data not collected
+SpCondInstrument	Name of instrument measuring specific conductance	character	NA	NA	Empty string	Not applicable or data not collected
+SpecificConductance_microS_per_cm	Measured value of specific conductance in uS/cm	numeric	microsiemensPerCentimeter	NA	Empty string	Not applicable or data not collected
+SpCondFlag	Specific conductance data quality flag: No Flag, Information, Warning, Critical	character	NA	NA	Empty string	Not applicable or data not collected
+TemperatureInstrument	Name of instrument measuring water temperature	character	NA	NA	Empty string	Not applicable or data not collected
+WaterTemperature_C	Measured value of water temperature in C	numeric	celsius	NA	Empty string	Not applicable or data not collected
+TemperatureFlag	Temperature data quality flag: No Flag, Information, Warning, Critical	character	NA	NA	Empty string	Not applicable or data not collected
+FlagNote	Notes about the water quality cross section DQF	character	NA	NA	Empty string	Not applicable or data not collected

@@ -1,0 +1,6 @@
+givenName	middleInitial	surName	organizationName	electronicMailAddress	userId	role	projectTitle	fundingAgency	fundingNumber
+Jennifer		Bailard	National Park Service Inventory & Monitoring Program	jennifer_bailard@nps.gov		creator			
+Jennifer		Bailard	National Park Service Inventory & Monitoring Program	jennifer_bailard@nps.gov		PI	Streams and Lakes		
+Mark		Lehman	National Park Service Inventory & Monitoring Program	mark_lehman@nps.gov		contact			
+Sarah		Wright	National Park Service Inventory & Monitoring Program	sarah_wright@nps.gov		contact			
+National Park Service Inventory & Monitoring Program			National Park Service Inventory & Monitoring Program	irma@nps.gov		contact			

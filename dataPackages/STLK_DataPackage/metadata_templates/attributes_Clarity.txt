@@ -1,0 +1,14 @@
+attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
+Park	Four letter park code	character	NA	NA	Empty string	Not applicable or data not collected
+SiteShort	Site code without the Park and Site Type prefix	character	NA	NA	Empty string	Not applicable or data not collected
+SiteCode	Unique alphanumeric site code	character	NA	NA	Empty string	Not applicable or data not collected
+SiteName	Descriptive name of the site	character	NA	NA	Empty string	Not applicable or data not collected
+VisitDate	Date that the monitoring occured	Date	NA	YYYY-MM-DD	Empty string	Not applicable or data not collected
+FieldSeason	Field Season is typically the Water Year defined as Oct. 1st - Sept. 30th	character	NA	NA	Empty string	Not applicable or data not collected
+IsLakeDry	Binary observation of water presence/absence	character	NA	NA	Empty string	Not applicable or data not collected
+SurfaceCalm	Is the surface calm - Yes, No, or NoData	character	NA	NA	Empty string	Not applicable or data not collected
+OnBottom	Is Secchi disk visible on the bottom? Y - yes, N- no	character	NA	NA	Empty string	Not applicable or data not collected
+DepthToBottom_m	Depth to the bottom of the lake (if applicable)	numeric	meter	NA	Empty string	Not applicable or data not collected
+SecchiDepth_m	Depth where the Secchi disk becomes visible/invisible when ascending/descending (if applicable)	numeric	meter	NA	Empty string	Not applicable or data not collected
+VisitType	Purpose of visit: Primary, Replicate, Training, Calibration, Auxilliary, Unknown	character	NA	NA	Empty string	Not applicable or data not collected
+DPL	Level of data processing applied to this data [Raw, Provisional, Accepted, Certified]	character	NA	NA	Empty string	Not applicable or data not collected
